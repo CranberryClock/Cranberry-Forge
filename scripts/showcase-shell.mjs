@@ -59,7 +59,7 @@ for (let [path, id] of pages) {
     }
     const result = header.outerHTML;
     dom.window.close();
-    return result;
+    return result.replace(/[\t ]+$/gm, "");
   });
   html = html.replace(/<nav class="collection-nav"[\s\S]*?<\/nav>/g, "");
   html = html
