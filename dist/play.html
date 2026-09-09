@@ -1,16 +1,11 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="theme-color" content="#16252b" />
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#101817">
     <title>Game kits / Cranberry Forge</title>
-    <meta
-      name="description"
-      content="Playable inventory, dialogue and adventure kits for Three.js. Independent packages with complete source."
-    />
-    <link rel="stylesheet" href="/style.css" />
-    <link rel="stylesheet" href="/play.css" />
+    <meta name="description" content="Playable inventory, dialogue and adventure kits for Three.js. Independent packages with complete source.">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/play.css">
     <script type="importmap">
       {
         "imports": {
@@ -22,96 +17,42 @@
         }
       }
     </script>
-<link data-forge-shell rel="stylesheet" href="./showcase-shell.css" />
-<script data-forge-shell src="./showcase-shell.js" defer></script>
-</head>
-  <body class="game-kits" data-forge-tool="satchel">
-    <header class="kit-header">
-      <a class="brand" href="/"><span class="brand-symbol">✳</span> Cranberry<span class="brand-sub">/ FORGE</span></a>
 
 
-    </header>
-<!-- forge-shell:start -->
-<nav class="forge-explorer" aria-label="Cranberry Forge collection">
-  <a class="forge-home" href="./catalog.html">ALL SHOWCASES <span>15 tools · 2 games</span></a>
-  <details class="forge-picker"><summary><span data-forge-current>Satchel</span><span class="forge-switch-label">Explore every system</span><span aria-hidden="true">⌄</span></summary>
-    <div class="forge-menu"><div class="forge-menu-heading">ONE COLLECTION. MANY POSSIBILITIES.</div><div class="forge-options"><a href="./index.html#biome" data-forge-link="biome" style="--swatch:#dcf68b"><span class="forge-dot" aria-hidden="true"></span><span><strong>Biome</strong><small>Terrain & placement</small></span><span class="forge-number">01</span></a>
-<a href="./index.html#flux" data-forge-link="flux" style="--swatch:#91e8de"><span class="forge-dot" aria-hidden="true"></span><span><strong>Flux</strong><small>Motion trails</small></span><span class="forge-number">02</span></a>
-<a href="./signal.html" data-forge-link="signal" style="--swatch:#ffb99c"><span class="forge-dot" aria-hidden="true"></span><span><strong>Signal</strong><small>Combat telegraphs</small></span><span class="forge-number">03</span></a>
-<a href="./latch.html" data-forge-link="latch" style="--swatch:#efd29a"><span class="forge-dot" aria-hidden="true"></span><span><strong>Latch</strong><small>Contextual interactions</small></span><span class="forge-number">04</span></a>
-<a href="./loom.html" data-forge-link="loom" style="--swatch:#95d8ed"><span class="forge-dot" aria-hidden="true"></span><span><strong>Loom</strong><small>Splines & geometry</small></span><span class="forge-number">05</span></a>
-<a href="./play.html?kit=satchel" data-forge-link="satchel" style="--swatch:#e7c18a" aria-current="page"><span class="forge-dot" aria-hidden="true"></span><span><strong>Satchel</strong><small>Inventory & crafting</small></span><span class="forge-number">06</span></a>
-<a href="./play.html?kit=chatter" data-forge-link="chatter" style="--swatch:#edafd6"><span class="forge-dot" aria-hidden="true"></span><span><strong>Chatter</strong><small>Branching dialogue</small></span><span class="forge-number">07</span></a>
-<a href="./trailmark.html" data-forge-link="trailmark" style="--swatch:#b9e5bb"><span class="forge-dot" aria-hidden="true"></span><span><strong>Trailmark</strong><small>Quests & objectives</small></span><span class="forge-number">08</span></a>
-<a href="./wayfinder.html" data-forge-link="wayfinder" style="--swatch:#c6bce9"><span class="forge-dot" aria-hidden="true"></span><span><strong>Wayfinder</strong><small>Grid pathfinding</small></span><span class="forge-number">09</span></a>
-<a href="./spring.html" data-forge-link="spring" style="--swatch:#99543d"><span class="forge-dot" aria-hidden="true"></span><span><strong>Spring</strong><small>Responsive motion</small></span><span class="forge-number">10</span></a>
-<a href="./parcel.html" data-forge-link="parcel" style="--swatch:#f1c674"><span class="forge-dot" aria-hidden="true"></span><span><strong>Parcel</strong><small>Loot & probability</small></span><span class="forge-number">11</span></a>
-<a href="./tempo.html" data-forge-link="tempo" style="--swatch:#bfc6f1"><span class="forge-dot" aria-hidden="true"></span><span><strong>Tempo</strong><small>Charges & cooldowns</small></span><span class="forge-number">12</span></a>
-<a href="./ledger.html" data-forge-link="ledger" style="--swatch:#e8b579"><span class="forge-dot" aria-hidden="true"></span><span><strong>Ledger</strong><small>Stats & loadouts</small></span><span class="forge-number">13</span></a>
-<a href="./keepsake.html" data-forge-link="keepsake" style="--swatch:#beadf3"><span class="forge-dot" aria-hidden="true"></span><span><strong>Keepsake</strong><small>Save migration</small></span><span class="forge-number">14</span></a>
-<a href="./sift.html" data-forge-link="sift" style="--swatch:#b7ed87"><span class="forge-dot" aria-hidden="true"></span><span><strong>Sift</strong><small>Asset validation</small></span><span class="forge-number">15</span></a>
-<a href="./templates/mothlight/" data-forge-link="mothlight" style="--swatch:#eed997"><span class="forge-dot" aria-hidden="true"></span><span><strong>Mothlight</strong><small>Playable adventure</small></span><span class="forge-number">16</span></a>
-<a href="./templates/afterglow/" data-forge-link="afterglow" style="--swatch:#a7e9d7"><span class="forge-dot" aria-hidden="true"></span><span><strong>Afterglow</strong><small>Playable combat</small></span><span class="forge-number">17</span></a></div></div>
-  </details>
-</nav>
-<!-- forge-shell:end --><main class="kit-main">
-      <div class="kit-heading">
-        <div>
-          <span class="eyebrow" id="kit-eyebrow">GAMEPLAY KIT 04</span>
-          <h1 id="kit-title">
-            Satchel <span>Every little thing, in its place.</span>
-          </h1>
-        </div>
-        <button id="kit-guide" class="text-button">Integration guide ↗</button>
-      </div>
-      <div class="kit-layout">
+<link rel="icon" type="image/svg+xml" href="./assets/branding/forge-mark.svg"><link data-forge-shell="" rel="stylesheet" href="./showcase-shell.css"><script data-forge-shell="" src="./showcase-shell.js" defer=""></script></head>
+  <body class="game-kits" data-forge-tool="satchel"><header class="forge-site-header"><a class="forge-source-brand" href="./catalog.html"><img src="./assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="forge-explorer" aria-label="Cranberry Forge collection"><a class="forge-home" href="./catalog.html"><img src="./assets/branding/forge-mark.svg" width="26" height="26" alt="">FORGE <span>15 tools · 2 games</span></a><details class="forge-picker"><summary><span data-forge-current="">Satchel</span><span class="forge-switch-label">Explore every system</span><span aria-hidden="true">⌄</span></summary><div class="forge-menu"><div class="forge-menu-heading">ONE COLLECTION. MANY POSSIBILITIES.</div><div class="forge-options"><a href="./index.html#biome" data-forge-link="biome" style="--swatch:#dcf68b"><span class="forge-dot" aria-hidden="true"></span><span><strong>Biome</strong><small>Terrain &amp; placement</small></span><span class="forge-number">01</span></a><a href="./index.html#flux" data-forge-link="flux" style="--swatch:#91e8de"><span class="forge-dot" aria-hidden="true"></span><span><strong>Flux</strong><small>Motion trails</small></span><span class="forge-number">02</span></a><a href="./signal.html" data-forge-link="signal" style="--swatch:#ffb99c"><span class="forge-dot" aria-hidden="true"></span><span><strong>Signal</strong><small>Combat telegraphs</small></span><span class="forge-number">03</span></a><a href="./latch.html" data-forge-link="latch" style="--swatch:#efd29a"><span class="forge-dot" aria-hidden="true"></span><span><strong>Latch</strong><small>Contextual interactions</small></span><span class="forge-number">04</span></a><a href="./loom.html" data-forge-link="loom" style="--swatch:#95d8ed"><span class="forge-dot" aria-hidden="true"></span><span><strong>Loom</strong><small>Splines &amp; geometry</small></span><span class="forge-number">05</span></a><a href="./play.html?kit=satchel" data-forge-link="satchel" style="--swatch:#e7c18a" aria-current="page"><span class="forge-dot" aria-hidden="true"></span><span><strong>Satchel</strong><small>Inventory &amp; crafting</small></span><span class="forge-number">06</span></a><a href="./play.html?kit=chatter" data-forge-link="chatter" style="--swatch:#edafd6"><span class="forge-dot" aria-hidden="true"></span><span><strong>Chatter</strong><small>Branching dialogue</small></span><span class="forge-number">07</span></a><a href="./trailmark.html" data-forge-link="trailmark" style="--swatch:#b9e5bb"><span class="forge-dot" aria-hidden="true"></span><span><strong>Trailmark</strong><small>Quests &amp; objectives</small></span><span class="forge-number">08</span></a><a href="./wayfinder.html" data-forge-link="wayfinder" style="--swatch:#c6bce9"><span class="forge-dot" aria-hidden="true"></span><span><strong>Wayfinder</strong><small>Grid pathfinding</small></span><span class="forge-number">09</span></a><a href="./spring.html" data-forge-link="spring" style="--swatch:#98cfb1"><span class="forge-dot" aria-hidden="true"></span><span><strong>Spring</strong><small>Responsive motion</small></span><span class="forge-number">10</span></a><a href="./parcel.html" data-forge-link="parcel" style="--swatch:#f1c674"><span class="forge-dot" aria-hidden="true"></span><span><strong>Parcel</strong><small>Loot &amp; probability</small></span><span class="forge-number">11</span></a><a href="./tempo.html" data-forge-link="tempo" style="--swatch:#bfc6f1"><span class="forge-dot" aria-hidden="true"></span><span><strong>Tempo</strong><small>Charges &amp; cooldowns</small></span><span class="forge-number">12</span></a><a href="./ledger.html" data-forge-link="ledger" style="--swatch:#e8b579"><span class="forge-dot" aria-hidden="true"></span><span><strong>Ledger</strong><small>Stats &amp; loadouts</small></span><span class="forge-number">13</span></a><a href="./keepsake.html" data-forge-link="keepsake" style="--swatch:#beadf3"><span class="forge-dot" aria-hidden="true"></span><span><strong>Keepsake</strong><small>Save migration</small></span><span class="forge-number">14</span></a><a href="./sift.html" data-forge-link="sift" style="--swatch:#b7ed87"><span class="forge-dot" aria-hidden="true"></span><span><strong>Sift</strong><small>Asset validation</small></span><span class="forge-number">15</span></a><a href="./templates/mothlight/" data-forge-link="mothlight" style="--swatch:#eed997"><span class="forge-dot" aria-hidden="true"></span><span><strong>Mothlight</strong><small>Playable adventure</small></span><span class="forge-number">16</span></a><a href="./templates/afterglow/" data-forge-link="afterglow" style="--swatch:#a7e9d7"><span class="forge-dot" aria-hidden="true"></span><span><strong>Afterglow</strong><small>Playable combat</small></span><span class="forge-number">17</span></a></div></div></details></nav>
+    <main class="kit-main" id="main-content"><section class="forge-product-hero" aria-labelledby="forge-product-name"><div class="forge-product-copy"><p class="forge-product-eyebrow"><span data-product-kind="">INDEPENDENT TOOL</span><span aria-hidden="true">/</span><span data-product-category="">Inventory &amp; crafting</span></p><h1 id="forge-product-name" data-product-name="">Satchel</h1><p class="forge-product-tagline" data-product-title="">Every little thing, in its place.</p><p class="forge-product-pitch" data-product-pitch="">A thoughtful home for the things players find, carry, trade, and make.</p><div class="forge-product-actions"><a class="forge-action-primary" href="#forge-demo">Try the system ↓</a><a data-product-download="" href="./downloads/cranberry-forge-satchel-0.1.0.tgz" download="">Download package ↗</a><a data-product-docs="" href="./packages/satchel/README.md">Documentation ↗</a><button id="kit-guide" class="forge-guide-control">Integration guide ↗</button></div><div class="forge-product-facts"><span>MIT LICENSE</span><span>v<span data-product-version="">0.1.0</span></span><span>MODULAR BY DESIGN</span></div></div><div class="forge-product-emblem"><img data-product-mark="" src="./assets/identities/satchel.svg" width="240" height="240" alt="COURIER SUPPLY CO. — Satchel showcase identity"></div></section>
+
+      <div class="kit-layout" data-forge-demo="" id="forge-demo">
         <section class="kit-stage" aria-label="Interactive Three.js camp">
-          <canvas
-            id="kit-canvas"
-            aria-label="3D camp. Drag to orbit, click objects to interact."
-            tabindex="0"
-          ></canvas>
+          <canvas id="kit-canvas" aria-label="3D camp. Drag to orbit, click objects to interact." tabindex="0"></canvas>
           <div class="kit-scene-caption">
             <span id="kit-scene-label">THE COURIER'S CAMP</span>
             <p id="kit-instruction">Click a treasure to put it in your pack.</p>
           </div>
           <div class="kit-stage-tools">
-            <button id="kit-reset-view">Reset view</button
-            ><button id="kit-capture">Save PNG ↓</button>
+            <button id="kit-reset-view">Reset view</button><button id="kit-capture">Save PNG ↓</button>
           </div>
-          <div id="error" class="scene-error" role="alert" hidden></div>
+          <div id="error" class="scene-error" role="alert" hidden=""></div>
         </section>
-        <aside
-          class="kit-panel"
-          id="kit-panel"
-          aria-label="Gameplay controls"
-        ></aside>
+        <aside class="kit-panel" id="kit-panel" aria-label="Gameplay controls"></aside>
       </div>
       <section class="kit-integration">
         <div>
           <span class="eyebrow">TAKE THE SYSTEM WITH YOU</span>
           <h2 id="integration-title">A backpack for your next world.</h2>
           <p id="integration-description"></p>
-          <a id="kit-download" class="primary-button" download
-            >Download package ↓</a
-          ><a id="kit-api" class="text-button" target="_blank" rel="noopener"
-            >Complete API & tutorial ↗</a
-          >
+          <a id="kit-download" class="primary-button" download="">Download package ↓</a><a id="kit-api" class="text-button" target="_blank" rel="noopener">Complete API &amp; tutorial ↗</a>
         </div>
         <div class="code-card">
           <div>
-            <span id="code-filename">inventory.js</span
-            ><button id="copy-kit-code">Copy</button>
+            <span id="code-filename">inventory.js</span><button id="copy-kit-code">Copy</button>
           </div>
           <pre><code id="kit-code"></code></pre>
         </div>
       </section>
       <section class="template-invitation">
-        <img
-          src="/assets/previews/mothlight-sample.png"
-          alt="Mothlight's procedural island, keeper and little courier. Offline geometry illustration."
-          loading="lazy"
-        />
+        <img src="/assets/previews/mothlight-sample.png" alt="Mothlight's procedural island, keeper and little courier. Offline geometry illustration." loading="lazy">
         <div>
           <span class="eyebrow">A COMPLETE LITTLE ADVENTURE</span>
           <h2>Take Mothlight home.</h2>
@@ -120,32 +61,23 @@
             skyships. A playable template using Satchel and Chatter, with
             original Three.js scenery and a complete save loop.
           </p>
-          <a class="primary-button" href="/templates/mothlight/"
-            >Play the adventure ↗</a
-          ><a
-            class="text-button"
-            href="/downloads/mothlight-template-0.1.0.tgz"
-            download
-            >Download complete template ↓</a
-          >
+          <a class="primary-button" href="/templates/mothlight/">Play the adventure ↗</a><a class="text-button" href="/downloads/mothlight-template-0.1.0.tgz" download="">Download complete template ↓</a>
         </div>
       </section>
-    </main>
-    <footer>
-      <a class="brand" href="/">✳ CRANBERRY FORGE</a>
-      <p>Small systems. Whole new possibilities.</p>
-      <a href="https://github.com/CranberryClock/Cranberry-Forge"
-        >Source on GitHub ↗</a
-      >
-    </footer>
+    <section class="forge-use-product"><div><p class="forge-product-eyebrow">FROM SHOWCASE TO YOUR PROJECT</p><h2>Take the good parts with you.</h2><p data-product-use="">Try stacking, arranging, and crafting. Bring the inventory rules into your game with your own interface.</p></div><div class="forge-install"><p>Download the archive, then install locally.</p><code data-product-command="">npm install ./cranberry-forge-satchel-0.1.0.tgz</code><div><a data-product-download="" href="./downloads/cranberry-forge-satchel-0.1.0.tgz" download="">Download archive ↓</a><a data-product-docs="" href="./packages/satchel/README.md">Read the integration guide ↗</a></div></div></section></main>
+
     <dialog id="kit-docs">
       <div class="dialog-heading">
-        <span class="eyebrow">CRANBERRY FORGE / FIELD GUIDE</span
-        ><button id="close-kit-docs" aria-label="Close guide">✕</button>
+        <span class="eyebrow">CRANBERRY FORGE / FIELD GUIDE</span><button id="close-kit-docs" aria-label="Close guide">✕</button>
       </div>
       <div id="kit-docs-content"></div>
     </dialog>
     <div id="toast" role="status" aria-live="polite"></div>
     <script type="module" src="/play-app.js"></script>
-  </body>
-</html>
+
+
+
+
+
+
+<script type="application/json" id="forge-product-data">{"satchel":{"title":"Every little thing, in its place.","pitch":"A thoughtful home for the things players find, carry, trade, and make.","studio":"COURIER SUPPLY CO.","glyph":"M14 23h36v30H14ZM23 23v-7h18v7M14 32h36M28 30h8v8h-8","use":"Try stacking, arranging, and crafting. Bring the inventory rules into your game with your own interface.","name":"Satchel","category":"Inventory & crafting","version":"0.1.0","mark":"./assets/identities/satchel.svg","download":"./downloads/cranberry-forge-satchel-0.1.0.tgz","docs":"./packages/satchel/README.md","command":"npm install ./cranberry-forge-satchel-0.1.0.tgz","kind":"INDEPENDENT TOOL"},"chatter":{"title":"Give your world someone to talk to.","pitch":"Conversations with memory, choices with consequences, and a light left on.","studio":"FIRESIDE STORY CO.","glyph":"M10 13h44v30H30L18 53V43h-8ZM20 24h24M20 32h16","use":"Meet Mira, change a conversation, and inspect the conditions and effects behind each reply.","name":"Chatter","category":"Branching dialogue","version":"0.1.0","mark":"./assets/identities/chatter.svg","download":"./downloads/cranberry-forge-chatter-0.1.0.tgz","docs":"./packages/chatter/README.md","command":"npm install ./cranberry-forge-chatter-0.1.0.tgz","kind":"INDEPENDENT TOOL"}}</script><footer class="forge-site-footer"><a class="forge-source-brand" href="./catalog.html"><img src="./assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="./catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a><a href="https://cranberryclock.com/about/">The story behind Forge ↗</a></nav></footer></body></html>

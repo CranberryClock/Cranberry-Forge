@@ -1,7 +1,9 @@
-// Presentation only: package APIs and scene colors remain independent.
 (() => {
   const picker = document.querySelector(".forge-picker");
   if (!picker) return;
+  const products = JSON.parse(
+    document.querySelector("#forge-product-data")?.textContent || "{}",
+  );
   const update = () => {
     let id = document.body.dataset.forgeTool;
     if (
@@ -22,6 +24,28 @@
           link.querySelector("strong").textContent;
       } else link.removeAttribute("aria-current");
     }
+    const p = products[id];
+    if (!p) return;
+    for (const key of [
+      "name",
+      "title",
+      "pitch",
+      "category",
+      "kind",
+      "version",
+      "use",
+      "command",
+    ])
+      for (const el of document.querySelectorAll(`[data-product-${key}]`))
+        el.textContent = p[key];
+    for (const key of ["download", "docs"])
+      for (const el of document.querySelectorAll(`[data-product-${key}]`))
+        el.href = p[key];
+    for (const img of document.querySelectorAll("[data-product-mark]")) {
+      img.src = p.mark;
+      img.alt = `${p.studio} — ${p.name} showcase identity`;
+    }
+    document.title = `${p.name} — Cranberry Forge`;
   };
   update();
   addEventListener("hashchange", update);
@@ -35,16 +59,4 @@
       picker.querySelector("summary").focus();
     }
   });
-  const resize = () => {
-    const shell = document.querySelector("#world, #game-shell");
-    if (!shell) return;
-    const top = document
-      .querySelector(".forge-explorer")
-      .getBoundingClientRect().bottom;
-    document.body.style.setProperty("--forge-shell-offset", `${top}px`);
-  };
-  if (typeof ResizeObserver !== "undefined")
-    new ResizeObserver(resize).observe(document.body);
-  addEventListener("resize", resize);
-  resize();
 })();

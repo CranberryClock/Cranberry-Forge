@@ -206,12 +206,6 @@ function switchTool(next) {
       : createFluxScene(stage, flux, stats);
   stage.setActive(active);
   stage.reset(mode);
-  $("#tool-category").textContent =
-    mode === "biome" ? "ENVIRONMENT TOOLKIT" : "MOTION TOOLKIT";
-  $("#tool-title").innerHTML =
-    mode === "biome"
-      ? "Biome <span>Terrain-aware scattering</span>"
-      : "Flux <span>World-space motion trails</span>";
   $("#metric-label").textContent =
     mode === "biome" ? "PLACED OBJECTS" : "ACTIVE SAMPLES";
   $("#paint").hidden = mode === "flux";

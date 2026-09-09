@@ -1,15 +1,10 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#121d29" />
-    <meta
-      name="description"
-      content="Equip a little machine. See exactly where its power comes from. Independent headless tooling with a Three.js showcase."
-    />
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#101817">
+    <meta name="description" content="Equip a little machine. See exactly where its power comes from. Independent headless tooling with a Three.js showcase.">
     <title>Ledger · Cranberry Forge</title>
-    <link rel="stylesheet" href="./pipeline.css" />
+    <link rel="stylesheet" href="./pipeline.css">
     <script type="importmap">
       {
         "imports": {
@@ -18,96 +13,40 @@
         }
       }
     </script>
-<link data-forge-shell rel="stylesheet" href="./showcase-shell.css" />
-<script data-forge-shell src="./showcase-shell.js" defer></script>
-</head>
-  <body data-tool="ledger" data-forge-tool="ledger">
-    <header class="masthead">
-      <a class="brand" href="./catalog.html">CRANBERRY <b>FORGE</b></a>
 
 
-    </header>
-<!-- forge-shell:start -->
-<nav class="forge-explorer" aria-label="Cranberry Forge collection">
-  <a class="forge-home" href="./catalog.html">ALL SHOWCASES <span>15 tools · 2 games</span></a>
-  <details class="forge-picker"><summary><span data-forge-current>Ledger</span><span class="forge-switch-label">Explore every system</span><span aria-hidden="true">⌄</span></summary>
-    <div class="forge-menu"><div class="forge-menu-heading">ONE COLLECTION. MANY POSSIBILITIES.</div><div class="forge-options"><a href="./index.html#biome" data-forge-link="biome" style="--swatch:#dcf68b"><span class="forge-dot" aria-hidden="true"></span><span><strong>Biome</strong><small>Terrain & placement</small></span><span class="forge-number">01</span></a>
-<a href="./index.html#flux" data-forge-link="flux" style="--swatch:#91e8de"><span class="forge-dot" aria-hidden="true"></span><span><strong>Flux</strong><small>Motion trails</small></span><span class="forge-number">02</span></a>
-<a href="./signal.html" data-forge-link="signal" style="--swatch:#ffb99c"><span class="forge-dot" aria-hidden="true"></span><span><strong>Signal</strong><small>Combat telegraphs</small></span><span class="forge-number">03</span></a>
-<a href="./latch.html" data-forge-link="latch" style="--swatch:#efd29a"><span class="forge-dot" aria-hidden="true"></span><span><strong>Latch</strong><small>Contextual interactions</small></span><span class="forge-number">04</span></a>
-<a href="./loom.html" data-forge-link="loom" style="--swatch:#95d8ed"><span class="forge-dot" aria-hidden="true"></span><span><strong>Loom</strong><small>Splines & geometry</small></span><span class="forge-number">05</span></a>
-<a href="./play.html?kit=satchel" data-forge-link="satchel" style="--swatch:#e7c18a"><span class="forge-dot" aria-hidden="true"></span><span><strong>Satchel</strong><small>Inventory & crafting</small></span><span class="forge-number">06</span></a>
-<a href="./play.html?kit=chatter" data-forge-link="chatter" style="--swatch:#edafd6"><span class="forge-dot" aria-hidden="true"></span><span><strong>Chatter</strong><small>Branching dialogue</small></span><span class="forge-number">07</span></a>
-<a href="./trailmark.html" data-forge-link="trailmark" style="--swatch:#b9e5bb"><span class="forge-dot" aria-hidden="true"></span><span><strong>Trailmark</strong><small>Quests & objectives</small></span><span class="forge-number">08</span></a>
-<a href="./wayfinder.html" data-forge-link="wayfinder" style="--swatch:#c6bce9"><span class="forge-dot" aria-hidden="true"></span><span><strong>Wayfinder</strong><small>Grid pathfinding</small></span><span class="forge-number">09</span></a>
-<a href="./spring.html" data-forge-link="spring" style="--swatch:#99543d"><span class="forge-dot" aria-hidden="true"></span><span><strong>Spring</strong><small>Responsive motion</small></span><span class="forge-number">10</span></a>
-<a href="./parcel.html" data-forge-link="parcel" style="--swatch:#f1c674"><span class="forge-dot" aria-hidden="true"></span><span><strong>Parcel</strong><small>Loot & probability</small></span><span class="forge-number">11</span></a>
-<a href="./tempo.html" data-forge-link="tempo" style="--swatch:#bfc6f1"><span class="forge-dot" aria-hidden="true"></span><span><strong>Tempo</strong><small>Charges & cooldowns</small></span><span class="forge-number">12</span></a>
-<a href="./ledger.html" data-forge-link="ledger" style="--swatch:#e8b579" aria-current="page"><span class="forge-dot" aria-hidden="true"></span><span><strong>Ledger</strong><small>Stats & loadouts</small></span><span class="forge-number">13</span></a>
-<a href="./keepsake.html" data-forge-link="keepsake" style="--swatch:#beadf3"><span class="forge-dot" aria-hidden="true"></span><span><strong>Keepsake</strong><small>Save migration</small></span><span class="forge-number">14</span></a>
-<a href="./sift.html" data-forge-link="sift" style="--swatch:#b7ed87"><span class="forge-dot" aria-hidden="true"></span><span><strong>Sift</strong><small>Asset validation</small></span><span class="forge-number">15</span></a>
-<a href="./templates/mothlight/" data-forge-link="mothlight" style="--swatch:#eed997"><span class="forge-dot" aria-hidden="true"></span><span><strong>Mothlight</strong><small>Playable adventure</small></span><span class="forge-number">16</span></a>
-<a href="./templates/afterglow/" data-forge-link="afterglow" style="--swatch:#a7e9d7"><span class="forge-dot" aria-hidden="true"></span><span><strong>Afterglow</strong><small>Playable combat</small></span><span class="forge-number">17</span></a></div></div>
-  </details>
-</nav>
-<!-- forge-shell:end --><main>
-      <section class="heading">
-        <div>
-          <p class="eyebrow">LEDGER / STATS & LOADOUTS</p>
-          <h1>The Clockwork<br /><em>Proving Ground.</em></h1>
-        </div>
-        <p class="intro">
-          Equip a little machine. See exactly where its power comes from.
-        </p>
-      </section>
-      <section class="workbench" aria-label="ledger interactive workbench">
+<link rel="icon" type="image/svg+xml" href="./assets/branding/forge-mark.svg"><link data-forge-shell="" rel="stylesheet" href="./showcase-shell.css"><script data-forge-shell="" src="./showcase-shell.js" defer=""></script></head>
+  <body data-tool="ledger" data-forge-tool="ledger"><header class="forge-site-header"><a class="forge-source-brand" href="./catalog.html"><img src="./assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="forge-explorer" aria-label="Cranberry Forge collection"><a class="forge-home" href="./catalog.html"><img src="./assets/branding/forge-mark.svg" width="26" height="26" alt="">FORGE <span>15 tools · 2 games</span></a><details class="forge-picker"><summary><span data-forge-current="">Ledger</span><span class="forge-switch-label">Explore every system</span><span aria-hidden="true">⌄</span></summary><div class="forge-menu"><div class="forge-menu-heading">ONE COLLECTION. MANY POSSIBILITIES.</div><div class="forge-options"><a href="./index.html#biome" data-forge-link="biome" style="--swatch:#dcf68b"><span class="forge-dot" aria-hidden="true"></span><span><strong>Biome</strong><small>Terrain &amp; placement</small></span><span class="forge-number">01</span></a><a href="./index.html#flux" data-forge-link="flux" style="--swatch:#91e8de"><span class="forge-dot" aria-hidden="true"></span><span><strong>Flux</strong><small>Motion trails</small></span><span class="forge-number">02</span></a><a href="./signal.html" data-forge-link="signal" style="--swatch:#ffb99c"><span class="forge-dot" aria-hidden="true"></span><span><strong>Signal</strong><small>Combat telegraphs</small></span><span class="forge-number">03</span></a><a href="./latch.html" data-forge-link="latch" style="--swatch:#efd29a"><span class="forge-dot" aria-hidden="true"></span><span><strong>Latch</strong><small>Contextual interactions</small></span><span class="forge-number">04</span></a><a href="./loom.html" data-forge-link="loom" style="--swatch:#95d8ed"><span class="forge-dot" aria-hidden="true"></span><span><strong>Loom</strong><small>Splines &amp; geometry</small></span><span class="forge-number">05</span></a><a href="./play.html?kit=satchel" data-forge-link="satchel" style="--swatch:#e7c18a"><span class="forge-dot" aria-hidden="true"></span><span><strong>Satchel</strong><small>Inventory &amp; crafting</small></span><span class="forge-number">06</span></a><a href="./play.html?kit=chatter" data-forge-link="chatter" style="--swatch:#edafd6"><span class="forge-dot" aria-hidden="true"></span><span><strong>Chatter</strong><small>Branching dialogue</small></span><span class="forge-number">07</span></a><a href="./trailmark.html" data-forge-link="trailmark" style="--swatch:#b9e5bb"><span class="forge-dot" aria-hidden="true"></span><span><strong>Trailmark</strong><small>Quests &amp; objectives</small></span><span class="forge-number">08</span></a><a href="./wayfinder.html" data-forge-link="wayfinder" style="--swatch:#c6bce9"><span class="forge-dot" aria-hidden="true"></span><span><strong>Wayfinder</strong><small>Grid pathfinding</small></span><span class="forge-number">09</span></a><a href="./spring.html" data-forge-link="spring" style="--swatch:#98cfb1"><span class="forge-dot" aria-hidden="true"></span><span><strong>Spring</strong><small>Responsive motion</small></span><span class="forge-number">10</span></a><a href="./parcel.html" data-forge-link="parcel" style="--swatch:#f1c674"><span class="forge-dot" aria-hidden="true"></span><span><strong>Parcel</strong><small>Loot &amp; probability</small></span><span class="forge-number">11</span></a><a href="./tempo.html" data-forge-link="tempo" style="--swatch:#bfc6f1"><span class="forge-dot" aria-hidden="true"></span><span><strong>Tempo</strong><small>Charges &amp; cooldowns</small></span><span class="forge-number">12</span></a><a href="./ledger.html" data-forge-link="ledger" style="--swatch:#e8b579" aria-current="page"><span class="forge-dot" aria-hidden="true"></span><span><strong>Ledger</strong><small>Stats &amp; loadouts</small></span><span class="forge-number">13</span></a><a href="./keepsake.html" data-forge-link="keepsake" style="--swatch:#beadf3"><span class="forge-dot" aria-hidden="true"></span><span><strong>Keepsake</strong><small>Save migration</small></span><span class="forge-number">14</span></a><a href="./sift.html" data-forge-link="sift" style="--swatch:#b7ed87"><span class="forge-dot" aria-hidden="true"></span><span><strong>Sift</strong><small>Asset validation</small></span><span class="forge-number">15</span></a><a href="./templates/mothlight/" data-forge-link="mothlight" style="--swatch:#eed997"><span class="forge-dot" aria-hidden="true"></span><span><strong>Mothlight</strong><small>Playable adventure</small></span><span class="forge-number">16</span></a><a href="./templates/afterglow/" data-forge-link="afterglow" style="--swatch:#a7e9d7"><span class="forge-dot" aria-hidden="true"></span><span><strong>Afterglow</strong><small>Playable combat</small></span><span class="forge-number">17</span></a></div></div></details></nav>
+    <main id="main-content"><section class="forge-product-hero" aria-labelledby="forge-product-name"><div class="forge-product-copy"><p class="forge-product-eyebrow"><span data-product-kind="">INDEPENDENT TOOL</span><span aria-hidden="true">/</span><span data-product-category="">Stats &amp; loadouts</span></p><h1 id="forge-product-name" data-product-name="">Ledger</h1><p class="forge-product-tagline" data-product-title="">Every bonus leaves a receipt.</p><p class="forge-product-pitch" data-product-pitch="">Equip a little machine. See exactly where its power comes from.</p><div class="forge-product-actions"><a class="forge-action-primary" href="#forge-demo">Try the system ↓</a><a data-product-download="" href="./downloads/cranberry-forge-ledger-0.1.0.tgz" download="">Download package ↗</a><a data-product-docs="" href="./packages/ledger/README.md">Documentation ↗</a></div><div class="forge-product-facts"><span>MIT LICENSE</span><span>v<span data-product-version="">0.1.0</span></span><span>MODULAR BY DESIGN</span></div></div><div class="forge-product-emblem"><img data-product-mark="" src="./assets/identities/ledger.svg" width="240" height="240" alt="CLOCKWORK PROVING CO. — Ledger showcase identity"></div></section>
+
+      <section class="workbench" aria-label="ledger interactive workbench" data-forge-demo="" id="forge-demo">
         <div class="viewport">
-          <canvas
-            id="scene"
-            tabindex="0"
-            aria-label="Three.js ledger demonstration. Drag to orbit and scroll to zoom; all tool controls are available beside the scene."
-          ></canvas>
+          <canvas id="scene" tabindex="0" aria-label="Three.js ledger demonstration. Drag to orbit and scroll to zoom; all tool controls are available beside the scene."></canvas>
           <div class="scene-note">
             <span>CRANBERRY FORGE / STUDY 013</span>
             <h2>Every bonus leaves a receipt.</h2>
           </div>
           <div class="scene-tools">
-            <button id="pause" aria-pressed="false">Pause motion</button
-            ><button id="camera">Reset view</button>
+            <button id="pause" aria-pressed="false">Pause motion</button><button id="camera">Reset view</button>
           </div>
-          <div id="error" role="alert" hidden></div>
+          <div id="error" role="alert" hidden=""></div>
         </div>
         <aside class="desk" aria-label="Tool controls">
           <div class="desk-title">
             <h2>Tune the machine</h2>
             <span>HEADLESS CORE</span>
           </div>
-          <label
-            >Equipment recipe<select id="preset">
+          <label>Equipment recipe<select id="preset">
               <option value="scout">Courier · light and quick</option>
               <option value="knight">Sentinel · heavy hitter</option>
               <option value="mage">Arcanist · extended reach</option>
-            </select></label
-          ><label
-            >Rally bonus <output id="buff-label">0%</output
-            ><input
-              id="buff"
-              type="range"
-              min="0"
-              max="75"
-              step="5"
-              value="0" /></label
-          ><label>Remove equipment source<select id="source"></select></label
-          ><button id="remove-source">Unequip source</button
-          ><button id="reset-loadout">Restore recipe</button>
+            </select></label><label>Rally bonus <output id="buff-label">0%</output><input id="buff" type="range" min="0" max="75" step="5" value="0"></label><label>Remove equipment source<select id="source"></select></label><button id="remove-source">Unequip source</button><button id="reset-loadout">Restore recipe</button>
           <div id="metrics" class="metrics"></div>
-          <label
-            >Explain a stat<select id="stat">
+          <label>Explain a stat<select id="stat">
               <option value="attack">Attack</option>
               <option value="speed">Speed</option>
               <option value="reach">Reach</option>
-            </select></label
-          >
+            </select></label>
           <div id="receipt" class="receipt"></div>
           <p id="notice" role="status" aria-live="polite"></p>
           <button id="download">Download result JSON</button>
@@ -143,10 +82,7 @@
 player.speed = stats.values.speed;
 console.log(stats.explanations.attack);</code></pre>
           <div class="links">
-            <a href="./downloads/cranberry-forge-ledger-0.1.0.tgz" download
-              >Download package ↗</a
-            ><a href="./packages/ledger/TUTORIAL.md">Integration tutorial ↗</a
-            ><a href="./packages/ledger/README.md">API reference ↗</a>
+            <a href="./downloads/cranberry-forge-ledger-0.1.0.tgz" download="">Download package ↗</a><a href="./packages/ledger/TUTORIAL.md">Integration tutorial ↗</a><a href="./packages/ledger/README.md">API reference ↗</a>
           </div>
           <details>
             <summary>Live JSON output</summary>
@@ -154,13 +90,13 @@ console.log(stats.explanations.attack);</code></pre>
           </details>
         </div>
       </section>
-      <footer>
-        Independent JavaScript. Real Three.js. A little CranberryClock.<a
-          href="./catalog.html"
-          >Explore the collection ↗</a
-        >
-      </footer>
-    </main>
+
+    <section class="forge-use-product"><div><p class="forge-product-eyebrow">FROM SHOWCASE TO YOUR PROJECT</p><h2>Take the good parts with you.</h2><p data-product-use="">Compare loadouts and inspect the contribution of every modifier before connecting the results to gameplay.</p></div><div class="forge-install"><p>Download the archive, then install locally.</p><code data-product-command="">npm install ./cranberry-forge-ledger-0.1.0.tgz</code><div><a data-product-download="" href="./downloads/cranberry-forge-ledger-0.1.0.tgz" download="">Download archive ↓</a><a data-product-docs="" href="./packages/ledger/README.md">Read the integration guide ↗</a></div></div></section></main>
     <script type="module" src="./pipeline-app.js"></script>
-  </body>
-</html>
+
+
+
+
+
+
+<script type="application/json" id="forge-product-data">{"ledger":{"title":"Every bonus leaves a receipt.","pitch":"Equip a little machine. See exactly where its power comes from.","studio":"CLOCKWORK PROVING CO.","glyph":"M15 10h34v44H15ZM23 19h18M23 28h18M23 37h6m6 0h6M23 46h18","use":"Compare loadouts and inspect the contribution of every modifier before connecting the results to gameplay.","name":"Ledger","category":"Stats & loadouts","version":"0.1.0","mark":"./assets/identities/ledger.svg","download":"./downloads/cranberry-forge-ledger-0.1.0.tgz","docs":"./packages/ledger/README.md","command":"npm install ./cranberry-forge-ledger-0.1.0.tgz","kind":"INDEPENDENT TOOL"}}</script><footer class="forge-site-footer"><a class="forge-source-brand" href="./catalog.html"><img src="./assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="./catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a><a href="https://cranberryclock.com/about/">The story behind Forge ↗</a></nav></footer></body></html>

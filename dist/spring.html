@@ -1,15 +1,10 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f3f3e9" />
-    <meta
-      name="description"
-      content="Jellyworks: a tactile motion lab for Spring. Tune damping, nudge three mechanical friends, and borrow analytic spring motion for your next game."
-    />
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#101817">
+    <meta name="description" content="Jellyworks: a tactile motion lab for Spring. Tune damping, nudge three mechanical friends, and borrow analytic spring motion for your next game.">
     <title>Spring · Jellyworks Motion Lab — Cranberry Forge</title>
-    <link rel="stylesheet" href="/spring.css" />
+    <link rel="stylesheet" href="/spring.css">
     <script type="importmap">
       {
         "imports": {
@@ -19,80 +14,30 @@
         }
       }
     </script>
-<link data-forge-shell rel="stylesheet" href="./showcase-shell.css" />
-<script data-forge-shell src="./showcase-shell.js" defer></script>
-</head>
-  <body data-forge-tool="spring">
-    <header class="topbar">
-      <a class="brand" href="/catalog.html"><span aria-hidden="true">✳</span> Cranberry <small>FORGE</small></a>
-      <nav aria-label="Showcase resources"><a href="/packages/spring/README.md">Spring docs</a></nav>
-    </header>
-<!-- forge-shell:start -->
-<nav class="forge-explorer" aria-label="Cranberry Forge collection">
-  <a class="forge-home" href="./catalog.html">ALL SHOWCASES <span>15 tools · 2 games</span></a>
-  <details class="forge-picker"><summary><span data-forge-current>Spring</span><span class="forge-switch-label">Explore every system</span><span aria-hidden="true">⌄</span></summary>
-    <div class="forge-menu"><div class="forge-menu-heading">ONE COLLECTION. MANY POSSIBILITIES.</div><div class="forge-options"><a href="./index.html#biome" data-forge-link="biome" style="--swatch:#dcf68b"><span class="forge-dot" aria-hidden="true"></span><span><strong>Biome</strong><small>Terrain & placement</small></span><span class="forge-number">01</span></a>
-<a href="./index.html#flux" data-forge-link="flux" style="--swatch:#91e8de"><span class="forge-dot" aria-hidden="true"></span><span><strong>Flux</strong><small>Motion trails</small></span><span class="forge-number">02</span></a>
-<a href="./signal.html" data-forge-link="signal" style="--swatch:#ffb99c"><span class="forge-dot" aria-hidden="true"></span><span><strong>Signal</strong><small>Combat telegraphs</small></span><span class="forge-number">03</span></a>
-<a href="./latch.html" data-forge-link="latch" style="--swatch:#efd29a"><span class="forge-dot" aria-hidden="true"></span><span><strong>Latch</strong><small>Contextual interactions</small></span><span class="forge-number">04</span></a>
-<a href="./loom.html" data-forge-link="loom" style="--swatch:#95d8ed"><span class="forge-dot" aria-hidden="true"></span><span><strong>Loom</strong><small>Splines & geometry</small></span><span class="forge-number">05</span></a>
-<a href="./play.html?kit=satchel" data-forge-link="satchel" style="--swatch:#e7c18a"><span class="forge-dot" aria-hidden="true"></span><span><strong>Satchel</strong><small>Inventory & crafting</small></span><span class="forge-number">06</span></a>
-<a href="./play.html?kit=chatter" data-forge-link="chatter" style="--swatch:#edafd6"><span class="forge-dot" aria-hidden="true"></span><span><strong>Chatter</strong><small>Branching dialogue</small></span><span class="forge-number">07</span></a>
-<a href="./trailmark.html" data-forge-link="trailmark" style="--swatch:#b9e5bb"><span class="forge-dot" aria-hidden="true"></span><span><strong>Trailmark</strong><small>Quests & objectives</small></span><span class="forge-number">08</span></a>
-<a href="./wayfinder.html" data-forge-link="wayfinder" style="--swatch:#c6bce9"><span class="forge-dot" aria-hidden="true"></span><span><strong>Wayfinder</strong><small>Grid pathfinding</small></span><span class="forge-number">09</span></a>
-<a href="./spring.html" data-forge-link="spring" style="--swatch:#99543d" aria-current="page"><span class="forge-dot" aria-hidden="true"></span><span><strong>Spring</strong><small>Responsive motion</small></span><span class="forge-number">10</span></a>
-<a href="./parcel.html" data-forge-link="parcel" style="--swatch:#f1c674"><span class="forge-dot" aria-hidden="true"></span><span><strong>Parcel</strong><small>Loot & probability</small></span><span class="forge-number">11</span></a>
-<a href="./tempo.html" data-forge-link="tempo" style="--swatch:#bfc6f1"><span class="forge-dot" aria-hidden="true"></span><span><strong>Tempo</strong><small>Charges & cooldowns</small></span><span class="forge-number">12</span></a>
-<a href="./ledger.html" data-forge-link="ledger" style="--swatch:#e8b579"><span class="forge-dot" aria-hidden="true"></span><span><strong>Ledger</strong><small>Stats & loadouts</small></span><span class="forge-number">13</span></a>
-<a href="./keepsake.html" data-forge-link="keepsake" style="--swatch:#beadf3"><span class="forge-dot" aria-hidden="true"></span><span><strong>Keepsake</strong><small>Save migration</small></span><span class="forge-number">14</span></a>
-<a href="./sift.html" data-forge-link="sift" style="--swatch:#b7ed87"><span class="forge-dot" aria-hidden="true"></span><span><strong>Sift</strong><small>Asset validation</small></span><span class="forge-number">15</span></a>
-<a href="./templates/mothlight/" data-forge-link="mothlight" style="--swatch:#eed997"><span class="forge-dot" aria-hidden="true"></span><span><strong>Mothlight</strong><small>Playable adventure</small></span><span class="forge-number">16</span></a>
-<a href="./templates/afterglow/" data-forge-link="afterglow" style="--swatch:#a7e9d7"><span class="forge-dot" aria-hidden="true"></span><span><strong>Afterglow</strong><small>Playable combat</small></span><span class="forge-number">17</span></a></div></div>
-  </details>
-</nav>
-<!-- forge-shell:end --><main>
-      <section class="intro">
-        <div>
-          <p class="eyebrow">SMALL FORCES. BIG PERSONALITY.</p>
-          <h1>Welcome to <em>Jellyworks.</em></h1>
-          <p class="lead">A little bounce makes a world feel alive.</p>
-        </div>
-        <p class="intro-note">
-          Three mechanical friends. One identical nudge.<br />Find the feeling
-          between wobbly and wonderfully calm.
-        </p>
-      </section>
-      <section
-        class="workbench"
-        aria-label="Interactive spring motion laboratory"
-      >
+
+
+<link rel="icon" type="image/svg+xml" href="./assets/branding/forge-mark.svg"><link data-forge-shell="" rel="stylesheet" href="./showcase-shell.css"><script data-forge-shell="" src="./showcase-shell.js" defer=""></script></head>
+  <body data-forge-tool="spring"><header class="forge-site-header"><a class="forge-source-brand" href="./catalog.html"><img src="./assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="forge-explorer" aria-label="Cranberry Forge collection"><a class="forge-home" href="./catalog.html"><img src="./assets/branding/forge-mark.svg" width="26" height="26" alt="">FORGE <span>15 tools · 2 games</span></a><details class="forge-picker"><summary><span data-forge-current="">Spring</span><span class="forge-switch-label">Explore every system</span><span aria-hidden="true">⌄</span></summary><div class="forge-menu"><div class="forge-menu-heading">ONE COLLECTION. MANY POSSIBILITIES.</div><div class="forge-options"><a href="./index.html#biome" data-forge-link="biome" style="--swatch:#dcf68b"><span class="forge-dot" aria-hidden="true"></span><span><strong>Biome</strong><small>Terrain &amp; placement</small></span><span class="forge-number">01</span></a><a href="./index.html#flux" data-forge-link="flux" style="--swatch:#91e8de"><span class="forge-dot" aria-hidden="true"></span><span><strong>Flux</strong><small>Motion trails</small></span><span class="forge-number">02</span></a><a href="./signal.html" data-forge-link="signal" style="--swatch:#ffb99c"><span class="forge-dot" aria-hidden="true"></span><span><strong>Signal</strong><small>Combat telegraphs</small></span><span class="forge-number">03</span></a><a href="./latch.html" data-forge-link="latch" style="--swatch:#efd29a"><span class="forge-dot" aria-hidden="true"></span><span><strong>Latch</strong><small>Contextual interactions</small></span><span class="forge-number">04</span></a><a href="./loom.html" data-forge-link="loom" style="--swatch:#95d8ed"><span class="forge-dot" aria-hidden="true"></span><span><strong>Loom</strong><small>Splines &amp; geometry</small></span><span class="forge-number">05</span></a><a href="./play.html?kit=satchel" data-forge-link="satchel" style="--swatch:#e7c18a"><span class="forge-dot" aria-hidden="true"></span><span><strong>Satchel</strong><small>Inventory &amp; crafting</small></span><span class="forge-number">06</span></a><a href="./play.html?kit=chatter" data-forge-link="chatter" style="--swatch:#edafd6"><span class="forge-dot" aria-hidden="true"></span><span><strong>Chatter</strong><small>Branching dialogue</small></span><span class="forge-number">07</span></a><a href="./trailmark.html" data-forge-link="trailmark" style="--swatch:#b9e5bb"><span class="forge-dot" aria-hidden="true"></span><span><strong>Trailmark</strong><small>Quests &amp; objectives</small></span><span class="forge-number">08</span></a><a href="./wayfinder.html" data-forge-link="wayfinder" style="--swatch:#c6bce9"><span class="forge-dot" aria-hidden="true"></span><span><strong>Wayfinder</strong><small>Grid pathfinding</small></span><span class="forge-number">09</span></a><a href="./spring.html" data-forge-link="spring" style="--swatch:#98cfb1" aria-current="page"><span class="forge-dot" aria-hidden="true"></span><span><strong>Spring</strong><small>Responsive motion</small></span><span class="forge-number">10</span></a><a href="./parcel.html" data-forge-link="parcel" style="--swatch:#f1c674"><span class="forge-dot" aria-hidden="true"></span><span><strong>Parcel</strong><small>Loot &amp; probability</small></span><span class="forge-number">11</span></a><a href="./tempo.html" data-forge-link="tempo" style="--swatch:#bfc6f1"><span class="forge-dot" aria-hidden="true"></span><span><strong>Tempo</strong><small>Charges &amp; cooldowns</small></span><span class="forge-number">12</span></a><a href="./ledger.html" data-forge-link="ledger" style="--swatch:#e8b579"><span class="forge-dot" aria-hidden="true"></span><span><strong>Ledger</strong><small>Stats &amp; loadouts</small></span><span class="forge-number">13</span></a><a href="./keepsake.html" data-forge-link="keepsake" style="--swatch:#beadf3"><span class="forge-dot" aria-hidden="true"></span><span><strong>Keepsake</strong><small>Save migration</small></span><span class="forge-number">14</span></a><a href="./sift.html" data-forge-link="sift" style="--swatch:#b7ed87"><span class="forge-dot" aria-hidden="true"></span><span><strong>Sift</strong><small>Asset validation</small></span><span class="forge-number">15</span></a><a href="./templates/mothlight/" data-forge-link="mothlight" style="--swatch:#eed997"><span class="forge-dot" aria-hidden="true"></span><span><strong>Mothlight</strong><small>Playable adventure</small></span><span class="forge-number">16</span></a><a href="./templates/afterglow/" data-forge-link="afterglow" style="--swatch:#a7e9d7"><span class="forge-dot" aria-hidden="true"></span><span><strong>Afterglow</strong><small>Playable combat</small></span><span class="forge-number">17</span></a></div></div></details></nav>
+    <main id="main-content"><section class="forge-product-hero" aria-labelledby="forge-product-name"><div class="forge-product-copy"><p class="forge-product-eyebrow"><span data-product-kind="">INDEPENDENT TOOL</span><span aria-hidden="true">/</span><span data-product-category="">Responsive motion</span></p><h1 id="forge-product-name" data-product-name="">Spring</h1><p class="forge-product-tagline" data-product-title="">A little bounce. A lot of life.</p><p class="forge-product-pitch" data-product-pitch="">Three mechanical friends. One identical nudge. Find the feeling between wobbly and wonderfully calm.</p><div class="forge-product-actions"><a class="forge-action-primary" href="#forge-demo">Try the system ↓</a><a data-product-download="" href="./downloads/cranberry-forge-spring-0.1.0.tgz" download="">Download package ↗</a><a data-product-docs="" href="./packages/spring/README.md">Documentation ↗</a></div><div class="forge-product-facts"><span>MIT LICENSE</span><span>v<span data-product-version="">0.1.0</span></span><span>MODULAR BY DESIGN</span></div></div><div class="forge-product-emblem"><img data-product-mark="" src="./assets/identities/spring.svg" width="240" height="240" alt="JELLYWORKS — Spring showcase identity"></div></section>
+
+      <section class="workbench" aria-label="Interactive spring motion laboratory" data-forge-demo="" id="forge-demo">
         <div class="scene-column">
           <div class="viewport" id="viewport">
-            <canvas
-              id="spring-canvas"
-              tabindex="0"
-              aria-label="Three colorful spring toys. Tap a toy to nudge it, or use the Nudge all button. Drag to orbit the view."
-            ></canvas>
+            <canvas id="spring-canvas" tabindex="0" aria-label="Three colorful spring toys. Tap a toy to nudge it, or use the Nudge all button. Drag to orbit the view."></canvas>
             <div class="scene-stamp">
-              <span class="live-dot"></span> JELLYWORKS / TEST BENCH 03<small
-                >ORIGINAL PROCEDURAL TOYS</small
-              >
+              <span class="live-dot"></span> JELLYWORKS / TEST BENCH 03<small>ORIGINAL PROCEDURAL TOYS</small>
             </div>
             <div class="scene-tools">
-              <button id="pause" aria-pressed="false">Ⅱ Pause</button
-              ><button id="reset" aria-label="Reset motion and targets">
+              <button id="pause" aria-pressed="false">Ⅱ Pause</button><button id="reset" aria-label="Reset motion and targets">
                 ↺ Reset
               </button>
             </div>
             <div class="scene-instruction">
               TAP A FRIEND TO SAY HELLO <span>·</span> DRAG TO LOOK AROUND
             </div>
-            <div id="error" class="error" role="alert" hidden></div>
+            <div id="error" class="error" role="alert" hidden=""></div>
           </div>
-          <div
-            class="specimens"
-            aria-label="Compare the three spring responses"
-          >
+          <div class="specimens" aria-label="Compare the three spring responses">
             <article class="specimen coral">
               <div>
                 <span class="specimen-number">01</span>
@@ -121,62 +66,30 @@
         </div>
         <aside class="panel" aria-label="Experiment controls">
           <div class="panel-heading">
-            <span class="eyebrow">THE FEELING MACHINE</span
-            ><span class="version">v0.1</span>
+            <span class="eyebrow">THE FEELING MACHINE</span><span class="version">v0.1</span>
           </div>
           <h2>Give it a nudge.</h2>
           <p class="panel-copy">
             Frequency sets the pace. Damping decides how long the wiggle stays.
           </p>
           <div class="control">
-            <label for="frequency"
-              >Frequency
-              <output id="frequency-value" for="frequency"
-                >1.60 Hz</output
-              ></label
-            ><input
-              id="frequency"
-              type="range"
-              min="0.7"
-              max="4"
-              value="1.6"
-              step="0.05"
-            />
+            <label for="frequency">Frequency
+              <output id="frequency-value" for="frequency">1.60 Hz</output></label><input id="frequency" type="range" min="0.7" max="4" value="1.6" step="0.05">
             <div class="range-ends"><span>LAZY</span><span>SNAPPY</span></div>
           </div>
           <div class="control">
-            <label for="damping"
-              >Mochi’s damping
-              <output id="damping-value" for="damping">0.28</output></label
-            ><input
-              id="damping"
-              type="range"
-              min="0"
-              max="2.5"
-              value="0.28"
-              step="0.01"
-            />
+            <label for="damping">Mochi’s damping
+              <output id="damping-value" for="damping">0.28</output></label><input id="damping" type="range" min="0" max="2.5" value="0.28" step="0.01">
             <div class="range-ends">
               <span>BOUNCY</span><span>SETTLED</span>
             </div>
           </div>
           <div class="presets" aria-label="Mochi damping presets">
-            <button data-damping="0.28" aria-pressed="true">Wobble</button
-            ><button data-damping="1" aria-pressed="false">Critical</button
-            ><button data-damping="1.8" aria-pressed="false">Soft</button>
+            <button data-damping="0.28" aria-pressed="true">Wobble</button><button data-damping="1" aria-pressed="false">Critical</button><button data-damping="1.8" aria-pressed="false">Soft</button>
           </div>
           <div class="control impulse-control">
-            <label for="impulse"
-              >Impulse strength
-              <output id="impulse-value" for="impulse">10.0</output></label
-            ><input
-              id="impulse"
-              type="range"
-              min="2"
-              max="16"
-              value="10"
-              step="0.5"
-            />
+            <label for="impulse">Impulse strength
+              <output id="impulse-value" for="impulse">10.0</output></label><input id="impulse" type="range" min="2" max="16" value="10" step="0.5">
           </div>
           <button id="nudge" class="primary">
             Nudge all three <span aria-hidden="true">↗</span>
@@ -184,18 +97,11 @@
           <button id="target" class="secondary" aria-pressed="false">
             Raise the target <span aria-hidden="true">↑</span>
           </button>
-          <div
-            class="experiment-status"
-            id="status"
-            role="status"
-            aria-live="polite"
-          >
+          <div class="experiment-status" id="status" role="status" aria-live="polite">
             Ready for a little motion.
           </div>
-          <label class="motion-option" for="calm"
-            ><input id="calm" type="checkbox" /> Calm motion
-            <small>Snap to targets; stop impulses.</small></label
-          >
+          <label class="motion-option" for="calm"><input id="calm" type="checkbox"> Calm motion
+            <small>Snap to targets; stop impulses.</small></label>
           <p class="footnote">
             * Critical damping avoids overshoot from rest. An impulse can still
             carry a spring past its target.
@@ -209,65 +115,46 @@
             <h2>Same force. Different feeling.</h2>
           </div>
           <div class="trace-legend">
-            <span class="coral">Mochi</span><span class="mint">Pip</span
-            ><span class="lilac">Orbit</span
-            ><span class="target-legend">Target</span>
+            <span class="coral">Mochi</span><span class="mint">Pip</span><span class="lilac">Orbit</span><span class="target-legend">Target</span>
           </div>
         </div>
-        <svg
-          id="trace"
-          viewBox="0 0 900 150"
-          role="img"
-          aria-labelledby="trace-title trace-description"
-        >
+        <svg id="trace" viewBox="0 0 900 150" role="img" aria-labelledby="trace-title trace-description">
           <title id="trace-title">Recent spring displacement</title>
           <desc id="trace-description">
             A live comparison of three scalar spring values over the last five
             seconds. Exact values are also shown below.
           </desc>
-          <g class="trace-grid"><path d="M0 25H900 M0 75H900 M0 125H900" /></g>
-          <path id="trace-target" class="trace-target" d="M0 75H900" />
-          <path id="trace-0" class="trace-line coral" />
-          <path id="trace-1" class="trace-line mint" />
-          <path id="trace-2" class="trace-line lilac" />
+          <g class="trace-grid"><path d="M0 25H900 M0 75H900 M0 125H900"></path></g>
+          <path id="trace-target" class="trace-target" d="M0 75H900"></path>
+          <path id="trace-0" class="trace-line coral"></path>
+          <path id="trace-1" class="trace-line mint"></path>
+          <path id="trace-2" class="trace-line lilac"></path>
         </svg>
         <div class="trace-readouts">
-          <span
-            >POSITION
-            <strong id="positions">0.000 / 0.000 / 0.000</strong></span
-          ><span
-            >VELOCITY
-            <strong id="velocities">0.000 / 0.000 / 0.000</strong></span
-          ><span id="trace-scale">±2.0 units · last 5 seconds</span>
+          <span>POSITION
+            <strong id="positions">0.000 / 0.000 / 0.000</strong></span><span>VELOCITY
+            <strong id="velocities">0.000 / 0.000 / 0.000</strong></span><span id="trace-scale">±2.0 units · last 5 seconds</span>
         </div>
       </section>
       <section class="integration">
         <div>
           <p class="eyebrow">BORROW A LITTLE FEELING</p>
-          <h2>Recoil. Follow-through.<br />The last 10% of alive.</h2>
+          <h2>Recoil. Follow-through.<br>The last 10% of alive.</h2>
           <p>
             Spring keeps value and velocity together when a target changes. Add
             it to a camera, a floating label, or a creature’s antenna. Your game
             owns the frame loop.
           </p>
           <div class="use-cases">
-            <span>Camera recoil</span><span>UI motion</span
-            ><span>Secondary animation</span>
+            <span>Camera recoil</span><span>UI motion</span><span>Secondary animation</span>
           </div>
           <div class="links">
-            <a
-              class="download"
-              href="/downloads/cranberry-forge-spring-0.1.0.tgz"
-              download
-              >Download Spring ↓</a
-            ><a href="/packages/spring/TUTORIAL.md">Tutorial ↗</a
-            ><a href="/packages/spring/API.md">API ↗</a>
+            <a class="download" href="/downloads/cranberry-forge-spring-0.1.0.tgz" download="">Download Spring ↓</a><a href="/packages/spring/TUTORIAL.md">Tutorial ↗</a><a href="/packages/spring/API.md">API ↗</a>
           </div>
         </div>
         <div class="code-card">
           <div>
-            <span>@cranberry-forge/spring</span
-            ><button id="copy-code">Copy</button>
+            <span>@cranberry-forge/spring</span><button id="copy-code">Copy</button>
           </div>
           <pre><code id="integration-code">import { Spring } from '@cranberry-forge/spring';
 
@@ -283,19 +170,18 @@ mesh.position.y = restY + recoil.step(dt);</code></pre>
           <p>ZERO DEPENDENCIES · ANALYTIC MOTION · MIT</p>
         </div>
       </section>
-    </main>
-    <footer>
-      <span>JELLYWORKS / CRANBERRY FORGE</span>
-      <p>Spring handles the motion. Three.js draws the friends.</p>
-      <a href="/catalog.html">Back to all tools ↗</a>
-    </footer>
-    <noscript
-      ><p>
+    <section class="forge-use-product"><div><p class="forge-product-eyebrow">FROM SHOWCASE TO YOUR PROJECT</p><h2>Take the good parts with you.</h2><p data-product-use="">Tune the motion with a real spring simulation, then apply that feeling to cameras, interfaces, or props.</p></div><div class="forge-install"><p>Download the archive, then install locally.</p><code data-product-command="">npm install ./cranberry-forge-spring-0.1.0.tgz</code><div><a data-product-download="" href="./downloads/cranberry-forge-spring-0.1.0.tgz" download="">Download archive ↓</a><a data-product-docs="" href="./packages/spring/README.md">Read the integration guide ↗</a></div></div></section></main>
+
+    <noscript><p>
         Enable JavaScript to try the toys. The
         <a href="/packages/spring/README.md">package documentation</a> works
         without it.
-      </p></noscript
-    >
+      </p></noscript>
     <script type="module" src="/spring-app.js"></script>
-  </body>
-</html>
+
+
+
+
+
+
+<script type="application/json" id="forge-product-data">{"spring":{"title":"A little bounce. A lot of life.","pitch":"Three mechanical friends. One identical nudge. Find the feeling between wobbly and wonderfully calm.","studio":"JELLYWORKS","glyph":"M32 8v6l-13 5 26 8-26 9 26 8-13 5v7","use":"Tune the motion with a real spring simulation, then apply that feeling to cameras, interfaces, or props.","name":"Spring","category":"Responsive motion","version":"0.1.0","mark":"./assets/identities/spring.svg","download":"./downloads/cranberry-forge-spring-0.1.0.tgz","docs":"./packages/spring/README.md","command":"npm install ./cranberry-forge-spring-0.1.0.tgz","kind":"INDEPENDENT TOOL"}}</script><footer class="forge-site-footer"><a class="forge-source-brand" href="./catalog.html"><img src="./assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="./catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a><a href="https://cranberryclock.com/about/">The story behind Forge ↗</a></nav></footer></body></html>

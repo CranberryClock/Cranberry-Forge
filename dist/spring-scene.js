@@ -32,8 +32,8 @@ export function createSpringScene(
   const root = new THREE.Group();
   root.name = "Jellyworks · motion testing bench";
   stage.scene.add(root);
-  stage.scene.background = new THREE.Color("#dce9e9");
-  stage.scene.fog = new THREE.Fog("#dce9e9", 28, 65);
+  stage.scene.background = new THREE.Color("#263734");
+  stage.scene.fog = new THREE.Fog("#263734", 28, 65);
   const cameraPosition = new THREE.Vector3(12.6, 11.4, 18.6),
     cameraTarget = new THREE.Vector3(0, 1.4, 0);
   stage.camera.position.copy(cameraPosition);
@@ -56,6 +56,8 @@ export function createSpringScene(
   };
   const cream = mat("#fff3d9"),
     white = mat("#f6f7e8"),
+    benchFrame = mat("#53685e", { roughness: 0.72 }),
+    benchSurface = mat("#3c5149", { roughness: 0.75 }),
     navy = mat("#243e4c"),
     steel = mat("#68848c", { roughness: 0.3, metalness: 0.65 });
   const yellow = mat("#e7be68"),
@@ -72,8 +74,8 @@ export function createSpringScene(
   const rounded = (w, h, d, radius = 0.2) =>
     new RoundedBoxGeometry(w, h, d, 3, radius);
   const cylinder = (r, h) => new THREE.CylinderGeometry(r, r, h, 48);
-  root.add(new THREE.HemisphereLight("#f0fffa", "#a0aaa5", 2.6));
-  const key = new THREE.DirectionalLight("#fff0d3", 3.1);
+  root.add(new THREE.HemisphereLight("#d6f0df", "#25362e", 1.8));
+  const key = new THREE.DirectionalLight("#fff0d3", 2.6);
   key.position.set(-7, 13, 10);
   key.castShadow = true;
   key.shadow.mapSize.set(2048, 2048);
@@ -87,15 +89,15 @@ export function createSpringScene(
   });
   key.shadow.normalBias = 0.035;
   root.add(key);
-  const rim = new THREE.DirectionalLight("#d5eeff", 1.5);
+  const rim = new THREE.DirectionalLight("#b8dece", 1.7);
   rim.position.set(10, 7, -8);
   root.add(rim);
 
-  mesh(rounded(15.8, 0.65, 8.1, 0.35), cream, [0, -0.12, 0.2]);
-  mesh(rounded(15.25, 0.08, 7.65, 0.18), white, [0, 0.25, 0.2]);
+  mesh(rounded(15.8, 0.65, 8.1, 0.35), benchFrame, [0, -0.12, 0.2]);
+  mesh(rounded(15.25, 0.08, 7.65, 0.18), benchSurface, [0, 0.25, 0.2]);
   mesh(
     new THREE.PlaneGeometry(160, 160),
-    mat("#dce9e9"),
+    mat("#263734", { roughness: 0.9 }),
     [0, -1.4, 0],
   ).rotation.x = -Math.PI / 2;
   for (const x of [-6.5, 6.5])

@@ -8,11 +8,6 @@ export function mountKit({ world, panel, stage }) {
     conversation,
     view,
     unsubscribe;
-  $("#kit-title").textContent = "Chatter";
-  const tagline = document.createElement("span");
-  tagline.textContent = "Give your world someone to talk to.";
-  $("#kit-title").append(tagline);
-  $("#kit-eyebrow").textContent = "GAMEPLAY KIT 05";
   $("#kit-instruction").textContent =
     "Meet Mira. Your choices change what she tells you.";
   $("#kit-scene-label").textContent = "A LIGHT LEFT ON";

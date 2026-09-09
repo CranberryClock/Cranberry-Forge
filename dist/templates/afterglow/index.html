@@ -1,15 +1,10 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#132b35" />
-    <meta
-      name="description"
-      content="Keep the last light alive. A complete Three.js survival game template built with Cranberry Forge Signal and Flux."
-    />
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#101817">
+    <meta name="description" content="Keep the last light alive. A complete Three.js survival game template built with Cranberry Forge Signal and Flux.">
     <title>Afterglow — keep the last light alive</title>
-    <link rel="stylesheet" href="./game.css" />
+    <link rel="stylesheet" href="./game.css">
     <script type="importmap">
       {
         "imports": {
@@ -20,17 +15,13 @@
         }
       }
     </script>
-<link data-forge-shell rel="stylesheet" href="./lib/showcase-shell.css" />
-<script data-forge-shell src="./lib/showcase-shell.js" defer></script>
-</head>
-  <body data-forge-tool="afterglow">
-    <main id="game-shell">
+
+
+<link rel="icon" type="image/svg+xml" href="./lib/assets/branding/forge-mark.svg"><link data-forge-shell="" rel="stylesheet" href="./lib/showcase-shell.css"><script data-forge-shell="" src="./lib/showcase-shell.js" defer=""></script></head>
+  <body data-forge-tool="afterglow" class="forge-portable"><header class="forge-site-header"><a class="forge-source-brand" href="https://cranberryclock.com/forge/showcase/catalog.html"><img src="./lib/assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="forge-explorer" aria-label="Cranberry Forge collection"><a class="forge-home" href="https://cranberryclock.com/forge/showcase/catalog.html"><img src="./lib/assets/branding/forge-mark.svg" width="26" height="26" alt="">FORGE <span>15 tools · 2 games</span></a><details class="forge-picker"><summary><span data-forge-current="">Afterglow</span><span class="forge-switch-label">Explore every system</span><span aria-hidden="true">⌄</span></summary><div class="forge-menu"><div class="forge-menu-heading">ONE COLLECTION. MANY POSSIBILITIES.</div><div class="forge-options"><a href="https://cranberryclock.com/forge/showcase/index.html#biome" data-forge-link="biome" style="--swatch:#dcf68b"><span class="forge-dot" aria-hidden="true"></span><span><strong>Biome</strong><small>Terrain &amp; placement</small></span><span class="forge-number">01</span></a><a href="https://cranberryclock.com/forge/showcase/index.html#flux" data-forge-link="flux" style="--swatch:#91e8de"><span class="forge-dot" aria-hidden="true"></span><span><strong>Flux</strong><small>Motion trails</small></span><span class="forge-number">02</span></a><a href="https://cranberryclock.com/forge/showcase/signal.html" data-forge-link="signal" style="--swatch:#ffb99c"><span class="forge-dot" aria-hidden="true"></span><span><strong>Signal</strong><small>Combat telegraphs</small></span><span class="forge-number">03</span></a><a href="https://cranberryclock.com/forge/showcase/latch.html" data-forge-link="latch" style="--swatch:#efd29a"><span class="forge-dot" aria-hidden="true"></span><span><strong>Latch</strong><small>Contextual interactions</small></span><span class="forge-number">04</span></a><a href="https://cranberryclock.com/forge/showcase/loom.html" data-forge-link="loom" style="--swatch:#95d8ed"><span class="forge-dot" aria-hidden="true"></span><span><strong>Loom</strong><small>Splines &amp; geometry</small></span><span class="forge-number">05</span></a><a href="https://cranberryclock.com/forge/showcase/play.html?kit=satchel" data-forge-link="satchel" style="--swatch:#e7c18a"><span class="forge-dot" aria-hidden="true"></span><span><strong>Satchel</strong><small>Inventory &amp; crafting</small></span><span class="forge-number">06</span></a><a href="https://cranberryclock.com/forge/showcase/play.html?kit=chatter" data-forge-link="chatter" style="--swatch:#edafd6"><span class="forge-dot" aria-hidden="true"></span><span><strong>Chatter</strong><small>Branching dialogue</small></span><span class="forge-number">07</span></a><a href="https://cranberryclock.com/forge/showcase/trailmark.html" data-forge-link="trailmark" style="--swatch:#b9e5bb"><span class="forge-dot" aria-hidden="true"></span><span><strong>Trailmark</strong><small>Quests &amp; objectives</small></span><span class="forge-number">08</span></a><a href="https://cranberryclock.com/forge/showcase/wayfinder.html" data-forge-link="wayfinder" style="--swatch:#c6bce9"><span class="forge-dot" aria-hidden="true"></span><span><strong>Wayfinder</strong><small>Grid pathfinding</small></span><span class="forge-number">09</span></a><a href="https://cranberryclock.com/forge/showcase/spring.html" data-forge-link="spring" style="--swatch:#98cfb1"><span class="forge-dot" aria-hidden="true"></span><span><strong>Spring</strong><small>Responsive motion</small></span><span class="forge-number">10</span></a><a href="https://cranberryclock.com/forge/showcase/parcel.html" data-forge-link="parcel" style="--swatch:#f1c674"><span class="forge-dot" aria-hidden="true"></span><span><strong>Parcel</strong><small>Loot &amp; probability</small></span><span class="forge-number">11</span></a><a href="https://cranberryclock.com/forge/showcase/tempo.html" data-forge-link="tempo" style="--swatch:#bfc6f1"><span class="forge-dot" aria-hidden="true"></span><span><strong>Tempo</strong><small>Charges &amp; cooldowns</small></span><span class="forge-number">12</span></a><a href="https://cranberryclock.com/forge/showcase/ledger.html" data-forge-link="ledger" style="--swatch:#e8b579"><span class="forge-dot" aria-hidden="true"></span><span><strong>Ledger</strong><small>Stats &amp; loadouts</small></span><span class="forge-number">13</span></a><a href="https://cranberryclock.com/forge/showcase/keepsake.html" data-forge-link="keepsake" style="--swatch:#beadf3"><span class="forge-dot" aria-hidden="true"></span><span><strong>Keepsake</strong><small>Save migration</small></span><span class="forge-number">14</span></a><a href="https://cranberryclock.com/forge/showcase/sift.html" data-forge-link="sift" style="--swatch:#b7ed87"><span class="forge-dot" aria-hidden="true"></span><span><strong>Sift</strong><small>Asset validation</small></span><span class="forge-number">15</span></a><a href="https://cranberryclock.com/forge/showcase/templates/mothlight/" data-forge-link="mothlight" style="--swatch:#eed997"><span class="forge-dot" aria-hidden="true"></span><span><strong>Mothlight</strong><small>Playable adventure</small></span><span class="forge-number">16</span></a><a href="https://cranberryclock.com/forge/showcase/templates/afterglow/" data-forge-link="afterglow" style="--swatch:#a7e9d7" aria-current="page"><span class="forge-dot" aria-hidden="true"></span><span><strong>Afterglow</strong><small>Playable combat</small></span><span class="forge-number">17</span></a></div></div></details></nav>
+    <section class="forge-product-hero" aria-labelledby="forge-product-name"><div class="forge-product-copy"><p class="forge-product-eyebrow"><span data-product-kind="">PLAYABLE TEMPLATE</span><span aria-hidden="true">/</span><span data-product-category="">Playable combat</span></p><h1 id="forge-product-name" data-product-name="">Afterglow</h1><p class="forge-product-tagline" data-product-title="">Outrun the last sun.</p><p class="forge-product-pitch" data-product-pitch="">Read the warning. Find your opening. Survive three rounds in a forgotten temple.</p><div class="forge-product-actions"><a class="forge-action-primary" href="#game-shell">Play the game ↓</a><a data-product-download="" href="https://cranberryclock.com/forge/showcase/downloads/afterglow-template-0.1.0.tgz" download="">Download template ↗</a><a data-product-docs="" href="https://cranberryclock.com/forge/showcase/templates/afterglow/README.md">Documentation ↗</a></div><div class="forge-product-facts"><span>MIT LICENSE</span><span>v<span data-product-version="">0.1.0</span></span><span>SELF-CONTAINED</span></div></div><div class="forge-product-emblem"><img data-product-mark="" src="./lib/assets/identities/afterglow.svg" width="240" height="240" alt="AFTERGLOW — Afterglow showcase identity"></div></section><main id="game-shell" data-forge-demo="">
       <div class="scene">
-        <canvas
-          id="game-canvas"
-          aria-label="Sun temple arena. Move with WASD or arrow keys, and dash with Space."
-          tabindex="0"
-        ></canvas>
+        <canvas id="game-canvas" aria-label="Sun temple arena. Move with WASD or arrow keys, and dash with Space." tabindex="0"></canvas>
       </div>
       <header class="topbar">
         <a class="brand" href="./index.html" aria-label="Afterglow home"><span class="sun-mark" aria-hidden="true">✳</span><span>AFTERGLOW<small>A CRANBERRY FORGE GAME</small></span></a>
@@ -40,57 +31,22 @@
             Pause <kbd>P</kbd>
           </button>
         </div>
-      </header>
-<!-- forge-shell:start -->
-<nav class="forge-explorer" aria-label="Cranberry Forge collection">
-  <a class="forge-home" href="https://cranberryclock.com/forge/showcase/catalog.html">ALL SHOWCASES <span>15 tools · 2 games</span></a>
-  <details class="forge-picker"><summary><span data-forge-current>Afterglow</span><span class="forge-switch-label">Explore every system</span><span aria-hidden="true">⌄</span></summary>
-    <div class="forge-menu"><div class="forge-menu-heading">ONE COLLECTION. MANY POSSIBILITIES.</div><div class="forge-options"><a href="https://cranberryclock.com/forge/showcase/index.html#biome" data-forge-link="biome" style="--swatch:#dcf68b"><span class="forge-dot" aria-hidden="true"></span><span><strong>Biome</strong><small>Terrain & placement</small></span><span class="forge-number">01</span></a>
-<a href="https://cranberryclock.com/forge/showcase/index.html#flux" data-forge-link="flux" style="--swatch:#91e8de"><span class="forge-dot" aria-hidden="true"></span><span><strong>Flux</strong><small>Motion trails</small></span><span class="forge-number">02</span></a>
-<a href="https://cranberryclock.com/forge/showcase/signal.html" data-forge-link="signal" style="--swatch:#ffb99c"><span class="forge-dot" aria-hidden="true"></span><span><strong>Signal</strong><small>Combat telegraphs</small></span><span class="forge-number">03</span></a>
-<a href="https://cranberryclock.com/forge/showcase/latch.html" data-forge-link="latch" style="--swatch:#efd29a"><span class="forge-dot" aria-hidden="true"></span><span><strong>Latch</strong><small>Contextual interactions</small></span><span class="forge-number">04</span></a>
-<a href="https://cranberryclock.com/forge/showcase/loom.html" data-forge-link="loom" style="--swatch:#95d8ed"><span class="forge-dot" aria-hidden="true"></span><span><strong>Loom</strong><small>Splines & geometry</small></span><span class="forge-number">05</span></a>
-<a href="https://cranberryclock.com/forge/showcase/play.html?kit=satchel" data-forge-link="satchel" style="--swatch:#e7c18a"><span class="forge-dot" aria-hidden="true"></span><span><strong>Satchel</strong><small>Inventory & crafting</small></span><span class="forge-number">06</span></a>
-<a href="https://cranberryclock.com/forge/showcase/play.html?kit=chatter" data-forge-link="chatter" style="--swatch:#edafd6"><span class="forge-dot" aria-hidden="true"></span><span><strong>Chatter</strong><small>Branching dialogue</small></span><span class="forge-number">07</span></a>
-<a href="https://cranberryclock.com/forge/showcase/trailmark.html" data-forge-link="trailmark" style="--swatch:#b9e5bb"><span class="forge-dot" aria-hidden="true"></span><span><strong>Trailmark</strong><small>Quests & objectives</small></span><span class="forge-number">08</span></a>
-<a href="https://cranberryclock.com/forge/showcase/wayfinder.html" data-forge-link="wayfinder" style="--swatch:#c6bce9"><span class="forge-dot" aria-hidden="true"></span><span><strong>Wayfinder</strong><small>Grid pathfinding</small></span><span class="forge-number">09</span></a>
-<a href="https://cranberryclock.com/forge/showcase/spring.html" data-forge-link="spring" style="--swatch:#99543d"><span class="forge-dot" aria-hidden="true"></span><span><strong>Spring</strong><small>Responsive motion</small></span><span class="forge-number">10</span></a>
-<a href="https://cranberryclock.com/forge/showcase/parcel.html" data-forge-link="parcel" style="--swatch:#f1c674"><span class="forge-dot" aria-hidden="true"></span><span><strong>Parcel</strong><small>Loot & probability</small></span><span class="forge-number">11</span></a>
-<a href="https://cranberryclock.com/forge/showcase/tempo.html" data-forge-link="tempo" style="--swatch:#bfc6f1"><span class="forge-dot" aria-hidden="true"></span><span><strong>Tempo</strong><small>Charges & cooldowns</small></span><span class="forge-number">12</span></a>
-<a href="https://cranberryclock.com/forge/showcase/ledger.html" data-forge-link="ledger" style="--swatch:#e8b579"><span class="forge-dot" aria-hidden="true"></span><span><strong>Ledger</strong><small>Stats & loadouts</small></span><span class="forge-number">13</span></a>
-<a href="https://cranberryclock.com/forge/showcase/keepsake.html" data-forge-link="keepsake" style="--swatch:#beadf3"><span class="forge-dot" aria-hidden="true"></span><span><strong>Keepsake</strong><small>Save migration</small></span><span class="forge-number">14</span></a>
-<a href="https://cranberryclock.com/forge/showcase/sift.html" data-forge-link="sift" style="--swatch:#b7ed87"><span class="forge-dot" aria-hidden="true"></span><span><strong>Sift</strong><small>Asset validation</small></span><span class="forge-number">15</span></a>
-<a href="https://cranberryclock.com/forge/showcase/templates/mothlight/" data-forge-link="mothlight" style="--swatch:#eed997"><span class="forge-dot" aria-hidden="true"></span><span><strong>Mothlight</strong><small>Playable adventure</small></span><span class="forge-number">16</span></a>
-<a href="https://cranberryclock.com/forge/showcase/templates/afterglow/" data-forge-link="afterglow" style="--swatch:#a7e9d7" aria-current="page"><span class="forge-dot" aria-hidden="true"></span><span><strong>Afterglow</strong><small>Playable combat</small></span><span class="forge-number">17</span></a></div></div>
-  </details>
-</nav>
-<!-- forge-shell:end --><section class="hud" aria-label="Run status">
+      </header><section class="hud" aria-label="Run status">
         <div class="vitality">
           <span class="eyebrow">KEEPER’S LIGHT</span>
-          <div
-            id="health"
-            class="health"
-            aria-label="3 of 3 light remaining"
-          ></div>
+          <div id="health" class="health" aria-label="3 of 3 light remaining"></div>
         </div>
         <div class="round-state">
-          <span id="round-name" class="eyebrow">THE FIRST LIGHT</span
-          ><strong id="timer">54<span>s</span></strong>
+          <span id="round-name" class="eyebrow">THE FIRST LIGHT</span><strong id="timer">54<span>s</span></strong>
           <div class="round-dots" id="round-dots" aria-label="Round 1 of 3">
             <i class="active"></i><i></i><i></i>
           </div>
         </div>
         <div class="score-state">
-          <span class="eyebrow">SCORE</span><strong id="score">0000</strong
-          ><span id="best">PERSONAL BEST —</span>
+          <span class="eyebrow">SCORE</span><strong id="score">0000</strong><span id="best">PERSONAL BEST —</span>
         </div>
       </section>
-      <div
-        id="announcement"
-        class="announcement"
-        role="status"
-        aria-live="polite"
-      ></div>
+      <div id="announcement" class="announcement" role="status" aria-live="polite"></div>
       <aside class="attack-readout" aria-label="Charging attacks">
         <span class="eyebrow">READ THE LIGHT</span>
         <div id="attack-list">
@@ -98,45 +54,35 @@
         </div>
       </aside>
       <div class="controls-hint">
-        <span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> Move</span
-        ><span><kbd>SPACE</kbd> Dash through danger</span>
+        <span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> Move</span><span><kbd>SPACE</kbd> Dash through danger</span>
       </div>
       <div class="dash-control">
-        <button id="dash-button" disabled>
-          <span class="dash-icon" aria-hidden="true">↗</span
-          ><span>DASH<small id="dash-label">READY</small></span
-          ><span class="dash-meter"><i id="dash-fill"></i></span>
+        <button id="dash-button" disabled="">
+          <span class="dash-icon" aria-hidden="true">↗</span><span>DASH<small id="dash-label">READY</small></span><span class="dash-meter"><i id="dash-fill"></i></span>
         </button>
       </div>
       <nav class="touch-pad" aria-label="Movement controls">
-        <button data-move="forward" aria-label="Move forward">↑</button
-        ><button data-move="left" aria-label="Move left">←</button
-        ><button data-move="back" aria-label="Move backward">↓</button
-        ><button data-move="right" aria-label="Move right">→</button>
+        <button data-move="forward" aria-label="Move forward">↑</button><button data-move="left" aria-label="Move left">←</button><button data-move="back" aria-label="Move backward">↓</button><button data-move="right" aria-label="Move right">→</button>
       </nav>
-      <footer class="build-note">
-        SIGNAL <span>×</span> FLUX <span>·</span> THREE.JS
-      </footer>
-      <div id="error" class="error" role="alert" hidden></div>
-    </main>
+
+      <div id="error" class="error" role="alert" hidden=""></div>
+    </main><section class="forge-use-product"><div><p class="forge-product-eyebrow">FROM SHOWCASE TO YOUR PROJECT</p><h2>Take the good parts with you.</h2><p data-product-use="">Play the encounter, then explore how Signal and Flux connect combat warnings, dodges, and movement trails.</p></div><div class="forge-install"><p>A complete starting point</p><code data-product-command="">Extract the archive and serve the folder.</code><div><a data-product-download="" href="https://cranberryclock.com/forge/showcase/downloads/afterglow-template-0.1.0.tgz" download="">Download template ↓</a><a data-product-docs="" href="https://cranberryclock.com/forge/showcase/templates/afterglow/README.md">Read the integration guide ↗</a></div></div></section>
 
     <dialog id="intro-dialog" class="intro-card">
       <span class="eyebrow coral">A SMALL GAME ABOUT STAYING IN THE LIGHT</span>
-      <h1>The sun has<br />one keeper left.</h1>
+      <h1>The sun has<br>one keeper left.</h1>
       <p>
         The temple is waking. Read its warnings, slip between its rays, and
         carry your light through three rounds.
       </p>
       <div class="intro-facts">
-        <span><strong>54</strong> seconds</span
-        ><span><strong>3</strong> rounds</span
-        ><span><strong>1</strong> last light</span>
+        <span><strong>54</strong> seconds</span><span><strong>3</strong> rounds</span><span><strong>1</strong> last light</span>
       </div>
       <button id="start-button" class="primary">
         Enter the afterglow <span aria-hidden="true">↗</span>
       </button>
       <p class="fine-print">
-        Move: WASD / arrows · Dash: Space<br />Touch controls appear on touch
+        Move: WASD / arrows · Dash: Space<br>Touch controls appear on touch
         devices.
       </p>
     </dialog>
@@ -144,8 +90,7 @@
       <span class="eyebrow coral">TAKE YOUR TIME</span>
       <h2>A moment of quiet.</h2>
       <p>The temple waits while the game is paused.</p>
-      <button id="resume-button" class="primary">Return to the light</button
-      ><button id="restart-paused" class="secondary">Start a fresh run</button>
+      <button id="resume-button" class="primary">Return to the light</button><button id="restart-paused" class="secondary">Start a fresh run</button>
     </dialog>
     <dialog id="help-dialog" class="menu-card help-card">
       <span class="eyebrow coral">THE KEEPER’S FIELD NOTES</span>
@@ -175,15 +120,10 @@
         pauses. Losing focus also pauses. Calm visuals disables blinking,
         decorative motion, and dash ribbons.
       </p>
-      <button id="close-help" class="primary">Got it</button
-      ><a class="source-link" href="./README.md" target="_blank" rel="noopener"
-        >Read the template tutorial ↗</a
-      >
+      <button id="close-help" class="primary">Got it</button><a class="source-link" href="./README.md" target="_blank" rel="noopener">Read the template tutorial ↗</a>
     </dialog>
     <dialog id="finish-dialog" class="menu-card finish-card">
-      <span id="finish-eyebrow" class="eyebrow coral"
-        >THE TEMPLE REMEMBERS</span
-      >
+      <span id="finish-eyebrow" class="eyebrow coral">THE TEMPLE REMEMBERS</span>
       <h2 id="finish-title">You kept the light.</h2>
       <p id="finish-copy"></p>
       <div class="finish-score">
@@ -196,12 +136,15 @@
         One more sunrise <span aria-hidden="true">↗</span>
       </button>
       <p class="fine-print">
-        A complete, portable Three.js game.<br />Build your own encounter in
-        <a href="./README.md" target="_blank" rel="noopener"
-          >the template guide</a
-        >.
+        A complete, portable Three.js game.<br>Build your own encounter in
+        <a href="./README.md" target="_blank" rel="noopener">the template guide</a>.
       </p>
     </dialog>
     <script type="module" src="./app.js"></script>
-  </body>
-</html>
+
+
+
+
+
+
+<script type="application/json" id="forge-product-data">{"afterglow":{"title":"Outrun the last sun.","pitch":"Read the warning. Find your opening. Survive three rounds in a forgotten temple.","studio":"AFTERGLOW","glyph":"M32 16a16 16 0 1 0 16 16M32 8v6m0 36v6M8 32h6m36 0h6M18 18l4 4m20 20 4 4M42 9l-8 21h14L26 55l9-22H23Z","use":"Play the encounter, then explore how Signal and Flux connect combat warnings, dodges, and movement trails.","name":"Afterglow","category":"Playable combat","version":"0.1.0","mark":"./lib/assets/identities/afterglow.svg","download":"https://cranberryclock.com/forge/showcase/downloads/afterglow-template-0.1.0.tgz","docs":"https://cranberryclock.com/forge/showcase/templates/afterglow/README.md","command":"Extract the archive and serve the folder.","kind":"PLAYABLE TEMPLATE"}}</script><footer class="forge-site-footer"><a class="forge-source-brand" href="https://cranberryclock.com/forge/showcase/catalog.html"><img src="./lib/assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="https://cranberryclock.com/forge/showcase/catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a><a href="https://cranberryclock.com/about/">The story behind Forge ↗</a></nav></footer></body></html>

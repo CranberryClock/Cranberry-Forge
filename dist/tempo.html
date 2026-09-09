@@ -1,16 +1,11 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#17242f" />
-    <meta
-      name="description"
-      content="The Spellgarden: a native Three.js practice garden demonstrating Tempo's independent charge, recharge and global cooldown clocks."
-    />
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#101817">
+    <meta name="description" content="The Spellgarden: a native Three.js practice garden demonstrating Tempo's independent charge, recharge and global cooldown clocks.">
     <title>Tempo — The Spellgarden · Cranberry Forge</title>
-    <link rel="stylesheet" href="/style.css" />
-    <link rel="stylesheet" href="/tempo.css" />
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/tempo.css">
     <script type="importmap">
       {
         "imports": {
@@ -20,130 +15,43 @@
         }
       }
     </script>
-<link data-forge-shell rel="stylesheet" href="./showcase-shell.css" />
-<script data-forge-shell src="./showcase-shell.js" defer></script>
-</head>
-  <body class="tempo-page" data-forge-tool="tempo">
-    <header class="tempo-header">
-      <a class="tempo-brand" href="/index.html"><span aria-hidden="true">✳</span> CRANBERRY FORGE
-        <small>TOOLS FOR WORLDS WORTH MAKING</small></a>
 
-    </header>
-<!-- forge-shell:start -->
-<nav class="forge-explorer" aria-label="Cranberry Forge collection">
-  <a class="forge-home" href="./catalog.html">ALL SHOWCASES <span>15 tools · 2 games</span></a>
-  <details class="forge-picker"><summary><span data-forge-current>Tempo</span><span class="forge-switch-label">Explore every system</span><span aria-hidden="true">⌄</span></summary>
-    <div class="forge-menu"><div class="forge-menu-heading">ONE COLLECTION. MANY POSSIBILITIES.</div><div class="forge-options"><a href="./index.html#biome" data-forge-link="biome" style="--swatch:#dcf68b"><span class="forge-dot" aria-hidden="true"></span><span><strong>Biome</strong><small>Terrain & placement</small></span><span class="forge-number">01</span></a>
-<a href="./index.html#flux" data-forge-link="flux" style="--swatch:#91e8de"><span class="forge-dot" aria-hidden="true"></span><span><strong>Flux</strong><small>Motion trails</small></span><span class="forge-number">02</span></a>
-<a href="./signal.html" data-forge-link="signal" style="--swatch:#ffb99c"><span class="forge-dot" aria-hidden="true"></span><span><strong>Signal</strong><small>Combat telegraphs</small></span><span class="forge-number">03</span></a>
-<a href="./latch.html" data-forge-link="latch" style="--swatch:#efd29a"><span class="forge-dot" aria-hidden="true"></span><span><strong>Latch</strong><small>Contextual interactions</small></span><span class="forge-number">04</span></a>
-<a href="./loom.html" data-forge-link="loom" style="--swatch:#95d8ed"><span class="forge-dot" aria-hidden="true"></span><span><strong>Loom</strong><small>Splines & geometry</small></span><span class="forge-number">05</span></a>
-<a href="./play.html?kit=satchel" data-forge-link="satchel" style="--swatch:#e7c18a"><span class="forge-dot" aria-hidden="true"></span><span><strong>Satchel</strong><small>Inventory & crafting</small></span><span class="forge-number">06</span></a>
-<a href="./play.html?kit=chatter" data-forge-link="chatter" style="--swatch:#edafd6"><span class="forge-dot" aria-hidden="true"></span><span><strong>Chatter</strong><small>Branching dialogue</small></span><span class="forge-number">07</span></a>
-<a href="./trailmark.html" data-forge-link="trailmark" style="--swatch:#b9e5bb"><span class="forge-dot" aria-hidden="true"></span><span><strong>Trailmark</strong><small>Quests & objectives</small></span><span class="forge-number">08</span></a>
-<a href="./wayfinder.html" data-forge-link="wayfinder" style="--swatch:#c6bce9"><span class="forge-dot" aria-hidden="true"></span><span><strong>Wayfinder</strong><small>Grid pathfinding</small></span><span class="forge-number">09</span></a>
-<a href="./spring.html" data-forge-link="spring" style="--swatch:#99543d"><span class="forge-dot" aria-hidden="true"></span><span><strong>Spring</strong><small>Responsive motion</small></span><span class="forge-number">10</span></a>
-<a href="./parcel.html" data-forge-link="parcel" style="--swatch:#f1c674"><span class="forge-dot" aria-hidden="true"></span><span><strong>Parcel</strong><small>Loot & probability</small></span><span class="forge-number">11</span></a>
-<a href="./tempo.html" data-forge-link="tempo" style="--swatch:#bfc6f1" aria-current="page"><span class="forge-dot" aria-hidden="true"></span><span><strong>Tempo</strong><small>Charges & cooldowns</small></span><span class="forge-number">12</span></a>
-<a href="./ledger.html" data-forge-link="ledger" style="--swatch:#e8b579"><span class="forge-dot" aria-hidden="true"></span><span><strong>Ledger</strong><small>Stats & loadouts</small></span><span class="forge-number">13</span></a>
-<a href="./keepsake.html" data-forge-link="keepsake" style="--swatch:#beadf3"><span class="forge-dot" aria-hidden="true"></span><span><strong>Keepsake</strong><small>Save migration</small></span><span class="forge-number">14</span></a>
-<a href="./sift.html" data-forge-link="sift" style="--swatch:#b7ed87"><span class="forge-dot" aria-hidden="true"></span><span><strong>Sift</strong><small>Asset validation</small></span><span class="forge-number">15</span></a>
-<a href="./templates/mothlight/" data-forge-link="mothlight" style="--swatch:#eed997"><span class="forge-dot" aria-hidden="true"></span><span><strong>Mothlight</strong><small>Playable adventure</small></span><span class="forge-number">16</span></a>
-<a href="./templates/afterglow/" data-forge-link="afterglow" style="--swatch:#a7e9d7"><span class="forge-dot" aria-hidden="true"></span><span><strong>Afterglow</strong><small>Playable combat</small></span><span class="forge-number">17</span></a></div></div>
-  </details>
-</nav>
-<!-- forge-shell:end --><main class="tempo-main">
-      <section class="tempo-heading">
-        <div>
-          <p class="tempo-eyebrow">TEMPO / ABILITY CLOCKS</p>
-          <h1>A little patience.<br /><em>A little magic.</em></h1>
-        </div>
-        <p>
-          Charges, cooldowns, and the space between spells. One small clock for
-          the abilities in your Three.js world.
-        </p>
-      </section>
-      <section class="tempo-lab" aria-label="Tempo interactive laboratory">
+
+<link rel="icon" type="image/svg+xml" href="./assets/branding/forge-mark.svg"><link data-forge-shell="" rel="stylesheet" href="./showcase-shell.css"><script data-forge-shell="" src="./showcase-shell.js" defer=""></script></head>
+  <body class="tempo-page" data-forge-tool="tempo"><header class="forge-site-header"><a class="forge-source-brand" href="./catalog.html"><img src="./assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="forge-explorer" aria-label="Cranberry Forge collection"><a class="forge-home" href="./catalog.html"><img src="./assets/branding/forge-mark.svg" width="26" height="26" alt="">FORGE <span>15 tools · 2 games</span></a><details class="forge-picker"><summary><span data-forge-current="">Tempo</span><span class="forge-switch-label">Explore every system</span><span aria-hidden="true">⌄</span></summary><div class="forge-menu"><div class="forge-menu-heading">ONE COLLECTION. MANY POSSIBILITIES.</div><div class="forge-options"><a href="./index.html#biome" data-forge-link="biome" style="--swatch:#dcf68b"><span class="forge-dot" aria-hidden="true"></span><span><strong>Biome</strong><small>Terrain &amp; placement</small></span><span class="forge-number">01</span></a><a href="./index.html#flux" data-forge-link="flux" style="--swatch:#91e8de"><span class="forge-dot" aria-hidden="true"></span><span><strong>Flux</strong><small>Motion trails</small></span><span class="forge-number">02</span></a><a href="./signal.html" data-forge-link="signal" style="--swatch:#ffb99c"><span class="forge-dot" aria-hidden="true"></span><span><strong>Signal</strong><small>Combat telegraphs</small></span><span class="forge-number">03</span></a><a href="./latch.html" data-forge-link="latch" style="--swatch:#efd29a"><span class="forge-dot" aria-hidden="true"></span><span><strong>Latch</strong><small>Contextual interactions</small></span><span class="forge-number">04</span></a><a href="./loom.html" data-forge-link="loom" style="--swatch:#95d8ed"><span class="forge-dot" aria-hidden="true"></span><span><strong>Loom</strong><small>Splines &amp; geometry</small></span><span class="forge-number">05</span></a><a href="./play.html?kit=satchel" data-forge-link="satchel" style="--swatch:#e7c18a"><span class="forge-dot" aria-hidden="true"></span><span><strong>Satchel</strong><small>Inventory &amp; crafting</small></span><span class="forge-number">06</span></a><a href="./play.html?kit=chatter" data-forge-link="chatter" style="--swatch:#edafd6"><span class="forge-dot" aria-hidden="true"></span><span><strong>Chatter</strong><small>Branching dialogue</small></span><span class="forge-number">07</span></a><a href="./trailmark.html" data-forge-link="trailmark" style="--swatch:#b9e5bb"><span class="forge-dot" aria-hidden="true"></span><span><strong>Trailmark</strong><small>Quests &amp; objectives</small></span><span class="forge-number">08</span></a><a href="./wayfinder.html" data-forge-link="wayfinder" style="--swatch:#c6bce9"><span class="forge-dot" aria-hidden="true"></span><span><strong>Wayfinder</strong><small>Grid pathfinding</small></span><span class="forge-number">09</span></a><a href="./spring.html" data-forge-link="spring" style="--swatch:#98cfb1"><span class="forge-dot" aria-hidden="true"></span><span><strong>Spring</strong><small>Responsive motion</small></span><span class="forge-number">10</span></a><a href="./parcel.html" data-forge-link="parcel" style="--swatch:#f1c674"><span class="forge-dot" aria-hidden="true"></span><span><strong>Parcel</strong><small>Loot &amp; probability</small></span><span class="forge-number">11</span></a><a href="./tempo.html" data-forge-link="tempo" style="--swatch:#bfc6f1" aria-current="page"><span class="forge-dot" aria-hidden="true"></span><span><strong>Tempo</strong><small>Charges &amp; cooldowns</small></span><span class="forge-number">12</span></a><a href="./ledger.html" data-forge-link="ledger" style="--swatch:#e8b579"><span class="forge-dot" aria-hidden="true"></span><span><strong>Ledger</strong><small>Stats &amp; loadouts</small></span><span class="forge-number">13</span></a><a href="./keepsake.html" data-forge-link="keepsake" style="--swatch:#beadf3"><span class="forge-dot" aria-hidden="true"></span><span><strong>Keepsake</strong><small>Save migration</small></span><span class="forge-number">14</span></a><a href="./sift.html" data-forge-link="sift" style="--swatch:#b7ed87"><span class="forge-dot" aria-hidden="true"></span><span><strong>Sift</strong><small>Asset validation</small></span><span class="forge-number">15</span></a><a href="./templates/mothlight/" data-forge-link="mothlight" style="--swatch:#eed997"><span class="forge-dot" aria-hidden="true"></span><span><strong>Mothlight</strong><small>Playable adventure</small></span><span class="forge-number">16</span></a><a href="./templates/afterglow/" data-forge-link="afterglow" style="--swatch:#a7e9d7"><span class="forge-dot" aria-hidden="true"></span><span><strong>Afterglow</strong><small>Playable combat</small></span><span class="forge-number">17</span></a></div></div></details></nav>
+    <main class="tempo-main" id="main-content"><section class="forge-product-hero" aria-labelledby="forge-product-name"><div class="forge-product-copy"><p class="forge-product-eyebrow"><span data-product-kind="">INDEPENDENT TOOL</span><span aria-hidden="true">/</span><span data-product-category="">Charges &amp; cooldowns</span></p><h1 id="forge-product-name" data-product-name="">Tempo</h1><p class="forge-product-tagline" data-product-title="">A little patience. A little magic.</p><p class="forge-product-pitch" data-product-pitch="">Charges, cooldowns, and the space between spells. Make every moment feel intentional.</p><div class="forge-product-actions"><a class="forge-action-primary" href="#forge-demo">Try the system ↓</a><a data-product-download="" href="./downloads/cranberry-forge-tempo-0.1.0.tgz" download="">Download package ↗</a><a data-product-docs="" href="./packages/tempo/README.md">Documentation ↗</a></div><div class="forge-product-facts"><span>MIT LICENSE</span><span>v<span data-product-version="">0.1.0</span></span><span>MODULAR BY DESIGN</span></div></div><div class="forge-product-emblem"><img data-product-mark="" src="./assets/identities/tempo.svg" width="240" height="240" alt="THE SPELLGARDEN — Tempo showcase identity"></div></section>
+
+      <section class="tempo-lab" aria-label="Tempo interactive laboratory" data-forge-demo="" id="forge-demo">
         <div class="tempo-viewport">
-          <canvas
-            id="scene"
-            aria-label="Interactive Three.js spell practice garden. Cast with buttons or number keys 1, 2 and 3."
-            tabindex="0"
-          ></canvas>
+          <canvas id="scene" aria-label="Interactive Three.js spell practice garden. Cast with buttons or number keys 1, 2 and 3." tabindex="0"></canvas>
           <div class="tempo-scene-caption">
             <span class="tempo-eyebrow">AN INTERACTIVE STUDY</span>
             <h2>The Spellgarden</h2>
             <p>
-              Three spells. Six little crystals.<br />Make something luminous.
+              Three spells. Six little crystals.<br>Make something luminous.
             </p>
           </div>
           <div class="tempo-scene-tools">
-            <button id="calm" aria-pressed="false">Calm visuals</button
-            ><button id="reset-camera">Frame garden</button>
+            <button id="calm" aria-pressed="false">Calm visuals</button><button id="reset-camera">Frame garden</button>
           </div>
           <div class="tempo-garden-status">
-            <span id="garden-status-dot"></span
-            ><span id="garden-status">PRACTICE CLOCK RUNNING</span>
+            <span id="garden-status-dot"></span><span id="garden-status">PRACTICE CLOCK RUNNING</span>
           </div>
-          <div
-            class="tempo-cast-message"
-            id="cast-message"
-            role="status"
-            aria-live="polite"
-          >
+          <div class="tempo-cast-message" id="cast-message" role="status" aria-live="polite">
             Press 1, 2, or 3. Every crystal is a charge.
           </div>
           <div class="tempo-spells" aria-label="Practice spells">
-            <button
-              class="tempo-spell"
-              data-cast="blink"
-              style="--spell: #b1b8ff"
-              aria-label="Cast Comet step, key 1"
-            >
-              <span class="spell-top"
-                ><span class="spell-icon" aria-hidden="true">↗</span
-                ><kbd>1</kbd></span
-              ><strong>Comet step</strong
-              ><span class="spell-description">A little fold in the sky.</span
-              ><span class="spell-charges" aria-hidden="true"></span
-              ><span class="spell-ready">3 / 3 charges · ready</span
-              ><span class="spell-track"><i></i></span
-              ><span class="spell-recharge">Fully charged</span>
+            <button class="tempo-spell" data-cast="blink" style="--spell: #b1b8ff" aria-label="Cast Comet step, key 1">
+              <span class="spell-top"><span class="spell-icon" aria-hidden="true">↗</span><kbd>1</kbd></span><strong>Comet step</strong><span class="spell-description">A little fold in the sky.</span><span class="spell-charges" aria-hidden="true"></span><span class="spell-ready">3 / 3 charges · ready</span><span class="spell-track"><i></i></span><span class="spell-recharge">Fully charged</span>
             </button>
-            <button
-              class="tempo-spell"
-              data-cast="bloom"
-              style="--spell: #a2edc8"
-              aria-label="Cast Verdant pulse, key 2"
-            >
-              <span class="spell-top"
-                ><span class="spell-icon" aria-hidden="true">✳</span
-                ><kbd>2</kbd></span
-              ><strong>Verdant pulse</strong
-              ><span class="spell-description">A garden in one breath.</span
-              ><span class="spell-charges" aria-hidden="true"></span
-              ><span class="spell-ready">2 / 2 charges · ready</span
-              ><span class="spell-track"><i></i></span
-              ><span class="spell-recharge">Fully charged</span>
+            <button class="tempo-spell" data-cast="bloom" style="--spell: #a2edc8" aria-label="Cast Verdant pulse, key 2">
+              <span class="spell-top"><span class="spell-icon" aria-hidden="true">✳</span><kbd>2</kbd></span><strong>Verdant pulse</strong><span class="spell-description">A garden in one breath.</span><span class="spell-charges" aria-hidden="true"></span><span class="spell-ready">2 / 2 charges · ready</span><span class="spell-track"><i></i></span><span class="spell-recharge">Fully charged</span>
             </button>
-            <button
-              class="tempo-spell"
-              data-cast="meteor"
-              style="--spell: #ffc788"
-              aria-label="Cast Starfall, key 3"
-            >
-              <span class="spell-top"
-                ><span class="spell-icon" aria-hidden="true">✦</span
-                ><kbd>3</kbd></span
-              ><strong>Starfall</strong
-              ><span class="spell-description">Borrow a falling star.</span
-              ><span class="spell-charges" aria-hidden="true"></span
-              ><span class="spell-ready">1 / 1 charge · ready</span
-              ><span class="spell-track"><i></i></span
-              ><span class="spell-recharge">Fully charged</span>
+            <button class="tempo-spell" data-cast="meteor" style="--spell: #ffc788" aria-label="Cast Starfall, key 3">
+              <span class="spell-top"><span class="spell-icon" aria-hidden="true">✦</span><kbd>3</kbd></span><strong>Starfall</strong><span class="spell-description">Borrow a falling star.</span><span class="spell-charges" aria-hidden="true"></span><span class="spell-ready">1 / 1 charge · ready</span><span class="spell-track"><i></i></span><span class="spell-recharge">Fully charged</span>
             </button>
           </div>
-          <div id="error" class="tempo-error" role="alert" hidden></div>
+          <div id="error" class="tempo-error" role="alert" hidden=""></div>
         </div>
         <aside class="tempo-desk" aria-label="Clock controls">
           <div class="desk-title">
@@ -155,31 +63,19 @@
           </div>
           <div class="tempo-metrics">
             <div>
-              <span>SIMULATION</span
-              ><strong id="sim-time">0.00<small>s</small></strong>
+              <span>SIMULATION</span><strong id="sim-time">0.00<small>s</small></strong>
             </div>
             <div>
               <span>SUCCESSFUL CASTS</span><strong id="cast-count">00</strong>
             </div>
           </div>
           <div class="tempo-run-controls">
-            <button id="pause" aria-pressed="false">Pause clock</button
-            ><button id="reset">Reset garden</button>
+            <button id="pause" aria-pressed="false">Pause clock</button><button id="reset">Reset garden</button>
           </div>
-          <label class="tempo-control"
-            >Time scale <output id="time-scale-value">1×</output
-            ><input
-              id="time-scale"
-              type="range"
-              min="0.25"
-              max="2"
-              step="0.25"
-              value="1"
-          /></label>
+          <label class="tempo-control">Time scale <output id="time-scale-value">1×</output><input id="time-scale" type="range" min="0.25" max="2" step="0.25" value="1"></label>
           <div class="tempo-global">
             <div>
-              <span>SHARED GLOBAL COOLDOWN</span
-              ><strong id="global-status">Ready</strong>
+              <span>SHARED GLOBAL COOLDOWN</span><strong id="global-status">Ready</strong>
             </div>
             <div class="tempo-global-track"><i id="global-fill"></i></div>
             <p>
@@ -187,77 +83,40 @@
               charge clocks keep moving.
             </p>
           </div>
-          <details class="tempo-tuning" open>
+          <details class="tempo-tuning" open="">
             <summary>Tune the rhythm <span aria-hidden="true">+</span></summary>
             <div class="tuning-content">
               <p>
                 Applying a new recipe starts a fresh clock and refills all
                 charges.
               </p>
-              <label
-                >Spell recharge <output id="recharge-value">1×</output
-                ><input
-                  id="recharge-scale"
-                  type="range"
-                  min="0.5"
-                  max="2"
-                  step="0.25"
-                  value="1" /></label
-              ><label
-                >Global cooldown <output id="global-value">0.45s</output
-                ><input
-                  id="global-duration"
-                  type="range"
-                  min="0"
-                  max="1.5"
-                  step="0.05"
-                  value="0.45" /></label
-              ><label class="tempo-check"
-                ><input id="bloom-bypass" type="checkbox" /> Let Verdant pulse
-                bypass the global clock</label
-              ><button id="apply" class="tempo-primary">
-                Apply recipe & refill
+              <label>Spell recharge <output id="recharge-value">1×</output><input id="recharge-scale" type="range" min="0.5" max="2" step="0.25" value="1"></label><label>Global cooldown <output id="global-value">0.45s</output><input id="global-duration" type="range" min="0" max="1.5" step="0.05" value="0.45"></label><label class="tempo-check"><input id="bloom-bypass" type="checkbox"> Let Verdant pulse
+                bypass the global clock</label><button id="apply" class="tempo-primary">
+                Apply recipe &amp; refill
               </button>
             </div>
           </details>
           <details class="tempo-trace">
             <summary>
-              Public state & event trace <span aria-hidden="true">+</span>
+              Public state &amp; event trace <span aria-hidden="true">+</span>
             </summary>
-            <pre
-              id="state-trace"
-              tabindex="0"
-              aria-label="Tempo public state as JSON"
-            ></pre>
+            <pre id="state-trace" tabindex="0" aria-label="Tempo public state as JSON"></pre>
             <ol id="event-trace" aria-label="Recent clock events">
               <li>Waiting for the first spell.</li>
             </ol>
             <div class="tempo-save-buttons">
-              <button id="save">Download snapshot</button
-              ><button id="load">Restore snapshot</button
-              ><input
-                id="load-file"
-                type="file"
-                accept=".json,application/json"
-                hidden
-              />
+              <button id="save">Download snapshot</button><button id="load">Restore snapshot</button><input id="load-file" type="file" accept=".json,application/json" hidden="">
             </div>
           </details>
           <div class="tempo-downloads">
-            <a href="/downloads/cranberry-forge-tempo-0.1.0.tgz" download
-              >Get Tempo <span>↗</span></a
-            ><a href="/packages/tempo/TUTORIAL.md"
-              >Integration tutorial <span>↗</span></a
-            ><a href="/packages/tempo/README.md"
-              >Complete API <span>↗</span></a
-            >
+            <a href="/downloads/cranberry-forge-tempo-0.1.0.tgz" download="">Get Tempo <span>↗</span></a><a href="/packages/tempo/TUTORIAL.md">Integration tutorial <span>↗</span></a><a href="/packages/tempo/README.md">Complete API <span>↗</span></a>
           </div>
         </aside>
       </section>
       <section class="tempo-explainer">
         <div>
           <span class="tempo-eyebrow">THE RULE IS THE PRODUCT</span>
-          <h2>Spend three charges.<br />Get them back one at a time.</h2>
+          <h2>Spend three charges.<br>Get them back one at a time.</h2>
         </div>
         <div>
           <p>
@@ -276,13 +135,13 @@ if (cast.ok) world.cast('blink');
 const events = tempo.tick(dt);</code></pre>
         </div>
       </section>
-      <footer class="tempo-footer">
-        <p>
-          Native Three.js scenery. Independent JavaScript clocks. MIT licensed.
-        </p>
-        <a href="/index.html">Explore the whole collection ↗</a>
-      </footer>
-    </main>
+
+    <section class="forge-use-product"><div><p class="forge-product-eyebrow">FROM SHOWCASE TO YOUR PROJECT</p><h2>Take the good parts with you.</h2><p data-product-use="">Spend charges, watch them return, and separate global cooldowns from each ability’s own clock.</p></div><div class="forge-install"><p>Download the archive, then install locally.</p><code data-product-command="">npm install ./cranberry-forge-tempo-0.1.0.tgz</code><div><a data-product-download="" href="./downloads/cranberry-forge-tempo-0.1.0.tgz" download="">Download archive ↓</a><a data-product-docs="" href="./packages/tempo/README.md">Read the integration guide ↗</a></div></div></section></main>
     <script type="module" src="/tempo-app.js"></script>
-  </body>
-</html>
+
+
+
+
+
+
+<script type="application/json" id="forge-product-data">{"tempo":{"title":"A little patience. A little magic.","pitch":"Charges, cooldowns, and the space between spells. Make every moment feel intentional.","studio":"THE SPELLGARDEN","glyph":"M19 10h26M19 54h26M21 10v11l22 22v11M43 10v11L21 43v11M25 19h14M25 47h14","use":"Spend charges, watch them return, and separate global cooldowns from each ability’s own clock.","name":"Tempo","category":"Charges & cooldowns","version":"0.1.0","mark":"./assets/identities/tempo.svg","download":"./downloads/cranberry-forge-tempo-0.1.0.tgz","docs":"./packages/tempo/README.md","command":"npm install ./cranberry-forge-tempo-0.1.0.tgz","kind":"INDEPENDENT TOOL"}}</script><footer class="forge-site-footer"><a class="forge-source-brand" href="./catalog.html"><img src="./assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="./catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a><a href="https://cranberryclock.com/about/">The story behind Forge ↗</a></nav></footer></body></html>

@@ -86,9 +86,9 @@ export const systems = [
     "Spring",
     "Responsive motion",
     "spring.html",
-    "#99543d",
-    "#f3f3e9",
-    "#e8e9df",
+    "#98cfb1",
+    "#111a1a",
+    "#1a2726",
   ],
   [
     "parcel",

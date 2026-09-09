@@ -1,16 +1,11 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="theme-color" content="#22212e" />
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#101817">
     <title>Wayfinder — Moonpost Dispatch · Cranberry Forge</title>
-    <meta
-      name="description"
-      content="A moonlit courier garden powered by Wayfinder: bounded weighted grid A*, editable terrain, and deterministic routes."
-    />
-    <link rel="stylesheet" href="/style.css" />
-    <link rel="stylesheet" href="/wayfinder.css" />
+    <meta name="description" content="A moonlit courier garden powered by Wayfinder: bounded weighted grid A*, editable terrain, and deterministic routes.">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/wayfinder.css">
     <script type="importmap">
       {
         "imports": {
@@ -19,78 +14,30 @@
         }
       }
     </script>
-<link data-forge-shell rel="stylesheet" href="./showcase-shell.css" />
-<script data-forge-shell src="./showcase-shell.js" defer></script>
-</head>
-  <body data-forge-tool="wayfinder">
-    <header class="wf-header">
-      <a class="wf-brand" href="/index.html"><span>✳</span>Cranberry Forge</a>
-      <nav aria-label="Showcase resources"><a class="wf-download" href="/downloads/cranberry-forge-wayfinder-0.1.0.tgz" download="">Download package ↓</a></nav>
-    </header>
-<!-- forge-shell:start -->
-<nav class="forge-explorer" aria-label="Cranberry Forge collection">
-  <a class="forge-home" href="./catalog.html">ALL SHOWCASES <span>15 tools · 2 games</span></a>
-  <details class="forge-picker"><summary><span data-forge-current>Wayfinder</span><span class="forge-switch-label">Explore every system</span><span aria-hidden="true">⌄</span></summary>
-    <div class="forge-menu"><div class="forge-menu-heading">ONE COLLECTION. MANY POSSIBILITIES.</div><div class="forge-options"><a href="./index.html#biome" data-forge-link="biome" style="--swatch:#dcf68b"><span class="forge-dot" aria-hidden="true"></span><span><strong>Biome</strong><small>Terrain & placement</small></span><span class="forge-number">01</span></a>
-<a href="./index.html#flux" data-forge-link="flux" style="--swatch:#91e8de"><span class="forge-dot" aria-hidden="true"></span><span><strong>Flux</strong><small>Motion trails</small></span><span class="forge-number">02</span></a>
-<a href="./signal.html" data-forge-link="signal" style="--swatch:#ffb99c"><span class="forge-dot" aria-hidden="true"></span><span><strong>Signal</strong><small>Combat telegraphs</small></span><span class="forge-number">03</span></a>
-<a href="./latch.html" data-forge-link="latch" style="--swatch:#efd29a"><span class="forge-dot" aria-hidden="true"></span><span><strong>Latch</strong><small>Contextual interactions</small></span><span class="forge-number">04</span></a>
-<a href="./loom.html" data-forge-link="loom" style="--swatch:#95d8ed"><span class="forge-dot" aria-hidden="true"></span><span><strong>Loom</strong><small>Splines & geometry</small></span><span class="forge-number">05</span></a>
-<a href="./play.html?kit=satchel" data-forge-link="satchel" style="--swatch:#e7c18a"><span class="forge-dot" aria-hidden="true"></span><span><strong>Satchel</strong><small>Inventory & crafting</small></span><span class="forge-number">06</span></a>
-<a href="./play.html?kit=chatter" data-forge-link="chatter" style="--swatch:#edafd6"><span class="forge-dot" aria-hidden="true"></span><span><strong>Chatter</strong><small>Branching dialogue</small></span><span class="forge-number">07</span></a>
-<a href="./trailmark.html" data-forge-link="trailmark" style="--swatch:#b9e5bb"><span class="forge-dot" aria-hidden="true"></span><span><strong>Trailmark</strong><small>Quests & objectives</small></span><span class="forge-number">08</span></a>
-<a href="./wayfinder.html" data-forge-link="wayfinder" style="--swatch:#c6bce9" aria-current="page"><span class="forge-dot" aria-hidden="true"></span><span><strong>Wayfinder</strong><small>Grid pathfinding</small></span><span class="forge-number">09</span></a>
-<a href="./spring.html" data-forge-link="spring" style="--swatch:#99543d"><span class="forge-dot" aria-hidden="true"></span><span><strong>Spring</strong><small>Responsive motion</small></span><span class="forge-number">10</span></a>
-<a href="./parcel.html" data-forge-link="parcel" style="--swatch:#f1c674"><span class="forge-dot" aria-hidden="true"></span><span><strong>Parcel</strong><small>Loot & probability</small></span><span class="forge-number">11</span></a>
-<a href="./tempo.html" data-forge-link="tempo" style="--swatch:#bfc6f1"><span class="forge-dot" aria-hidden="true"></span><span><strong>Tempo</strong><small>Charges & cooldowns</small></span><span class="forge-number">12</span></a>
-<a href="./ledger.html" data-forge-link="ledger" style="--swatch:#e8b579"><span class="forge-dot" aria-hidden="true"></span><span><strong>Ledger</strong><small>Stats & loadouts</small></span><span class="forge-number">13</span></a>
-<a href="./keepsake.html" data-forge-link="keepsake" style="--swatch:#beadf3"><span class="forge-dot" aria-hidden="true"></span><span><strong>Keepsake</strong><small>Save migration</small></span><span class="forge-number">14</span></a>
-<a href="./sift.html" data-forge-link="sift" style="--swatch:#b7ed87"><span class="forge-dot" aria-hidden="true"></span><span><strong>Sift</strong><small>Asset validation</small></span><span class="forge-number">15</span></a>
-<a href="./templates/mothlight/" data-forge-link="mothlight" style="--swatch:#eed997"><span class="forge-dot" aria-hidden="true"></span><span><strong>Mothlight</strong><small>Playable adventure</small></span><span class="forge-number">16</span></a>
-<a href="./templates/afterglow/" data-forge-link="afterglow" style="--swatch:#a7e9d7"><span class="forge-dot" aria-hidden="true"></span><span><strong>Afterglow</strong><small>Playable combat</small></span><span class="forge-number">17</span></a></div></div>
-  </details>
-</nav>
-<!-- forge-shell:end --><main>
-      <section class="wf-intro">
-        <div>
-          <p class="wf-eyebrow">
-            Cranberry Forge / Worldbuilding tools / Navigation
-          </p>
-          <h1>Wayfinder <span>0.1.0</span></h1>
-          <p>A little direction for worlds worth wandering.</p>
-        </div>
-        <div class="wf-intro-note">
-          <span class="wf-spark">✧</span>
-          <div>One destination.<br /><span>Many ways to get there.</span></div>
-        </div>
-      </section>
-      <section
-        class="wf-workspace"
-        aria-label="Moonpost Dispatch navigation laboratory"
-      >
+
+
+<link rel="icon" type="image/svg+xml" href="./assets/branding/forge-mark.svg"><link data-forge-shell="" rel="stylesheet" href="./showcase-shell.css"><script data-forge-shell="" src="./showcase-shell.js" defer=""></script></head>
+  <body data-forge-tool="wayfinder"><header class="forge-site-header"><a class="forge-source-brand" href="./catalog.html"><img src="./assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="forge-explorer" aria-label="Cranberry Forge collection"><a class="forge-home" href="./catalog.html"><img src="./assets/branding/forge-mark.svg" width="26" height="26" alt="">FORGE <span>15 tools · 2 games</span></a><details class="forge-picker"><summary><span data-forge-current="">Wayfinder</span><span class="forge-switch-label">Explore every system</span><span aria-hidden="true">⌄</span></summary><div class="forge-menu"><div class="forge-menu-heading">ONE COLLECTION. MANY POSSIBILITIES.</div><div class="forge-options"><a href="./index.html#biome" data-forge-link="biome" style="--swatch:#dcf68b"><span class="forge-dot" aria-hidden="true"></span><span><strong>Biome</strong><small>Terrain &amp; placement</small></span><span class="forge-number">01</span></a><a href="./index.html#flux" data-forge-link="flux" style="--swatch:#91e8de"><span class="forge-dot" aria-hidden="true"></span><span><strong>Flux</strong><small>Motion trails</small></span><span class="forge-number">02</span></a><a href="./signal.html" data-forge-link="signal" style="--swatch:#ffb99c"><span class="forge-dot" aria-hidden="true"></span><span><strong>Signal</strong><small>Combat telegraphs</small></span><span class="forge-number">03</span></a><a href="./latch.html" data-forge-link="latch" style="--swatch:#efd29a"><span class="forge-dot" aria-hidden="true"></span><span><strong>Latch</strong><small>Contextual interactions</small></span><span class="forge-number">04</span></a><a href="./loom.html" data-forge-link="loom" style="--swatch:#95d8ed"><span class="forge-dot" aria-hidden="true"></span><span><strong>Loom</strong><small>Splines &amp; geometry</small></span><span class="forge-number">05</span></a><a href="./play.html?kit=satchel" data-forge-link="satchel" style="--swatch:#e7c18a"><span class="forge-dot" aria-hidden="true"></span><span><strong>Satchel</strong><small>Inventory &amp; crafting</small></span><span class="forge-number">06</span></a><a href="./play.html?kit=chatter" data-forge-link="chatter" style="--swatch:#edafd6"><span class="forge-dot" aria-hidden="true"></span><span><strong>Chatter</strong><small>Branching dialogue</small></span><span class="forge-number">07</span></a><a href="./trailmark.html" data-forge-link="trailmark" style="--swatch:#b9e5bb"><span class="forge-dot" aria-hidden="true"></span><span><strong>Trailmark</strong><small>Quests &amp; objectives</small></span><span class="forge-number">08</span></a><a href="./wayfinder.html" data-forge-link="wayfinder" style="--swatch:#c6bce9" aria-current="page"><span class="forge-dot" aria-hidden="true"></span><span><strong>Wayfinder</strong><small>Grid pathfinding</small></span><span class="forge-number">09</span></a><a href="./spring.html" data-forge-link="spring" style="--swatch:#98cfb1"><span class="forge-dot" aria-hidden="true"></span><span><strong>Spring</strong><small>Responsive motion</small></span><span class="forge-number">10</span></a><a href="./parcel.html" data-forge-link="parcel" style="--swatch:#f1c674"><span class="forge-dot" aria-hidden="true"></span><span><strong>Parcel</strong><small>Loot &amp; probability</small></span><span class="forge-number">11</span></a><a href="./tempo.html" data-forge-link="tempo" style="--swatch:#bfc6f1"><span class="forge-dot" aria-hidden="true"></span><span><strong>Tempo</strong><small>Charges &amp; cooldowns</small></span><span class="forge-number">12</span></a><a href="./ledger.html" data-forge-link="ledger" style="--swatch:#e8b579"><span class="forge-dot" aria-hidden="true"></span><span><strong>Ledger</strong><small>Stats &amp; loadouts</small></span><span class="forge-number">13</span></a><a href="./keepsake.html" data-forge-link="keepsake" style="--swatch:#beadf3"><span class="forge-dot" aria-hidden="true"></span><span><strong>Keepsake</strong><small>Save migration</small></span><span class="forge-number">14</span></a><a href="./sift.html" data-forge-link="sift" style="--swatch:#b7ed87"><span class="forge-dot" aria-hidden="true"></span><span><strong>Sift</strong><small>Asset validation</small></span><span class="forge-number">15</span></a><a href="./templates/mothlight/" data-forge-link="mothlight" style="--swatch:#eed997"><span class="forge-dot" aria-hidden="true"></span><span><strong>Mothlight</strong><small>Playable adventure</small></span><span class="forge-number">16</span></a><a href="./templates/afterglow/" data-forge-link="afterglow" style="--swatch:#a7e9d7"><span class="forge-dot" aria-hidden="true"></span><span><strong>Afterglow</strong><small>Playable combat</small></span><span class="forge-number">17</span></a></div></div></details></nav>
+    <main id="main-content"><section class="forge-product-hero" aria-labelledby="forge-product-name"><div class="forge-product-copy"><p class="forge-product-eyebrow"><span data-product-kind="">INDEPENDENT TOOL</span><span aria-hidden="true">/</span><span data-product-category="">Grid pathfinding</span></p><h1 id="forge-product-name" data-product-name="">Wayfinder</h1><p class="forge-product-tagline" data-product-title="">A little direction. A world to explore.</p><p class="forge-product-pitch" data-product-pitch="">Help a letter find the quietest path through a world that keeps changing.</p><div class="forge-product-actions"><a class="forge-action-primary" href="#forge-demo">Try the system ↓</a><a data-product-download="" href="./downloads/cranberry-forge-wayfinder-0.1.0.tgz" download="">Download package ↗</a><a data-product-docs="" href="./packages/wayfinder/README.md">Documentation ↗</a></div><div class="forge-product-facts"><span>MIT LICENSE</span><span>v<span data-product-version="">0.1.0</span></span><span>MODULAR BY DESIGN</span></div></div><div class="forge-product-emblem"><img data-product-mark="" src="./assets/identities/wayfinder.svg" width="240" height="240" alt="MOONPOST DISPATCH — Wayfinder showcase identity"></div></section>
+
+      <section class="wf-workspace" aria-label="Moonpost Dispatch navigation laboratory" data-forge-demo="" id="forge-demo">
         <div class="wf-stage" id="world">
-          <canvas
-            id="garden"
-            tabindex="0"
-            aria-label="Moonpost garden. Select a delivery tile, or choose a terrain brush to paint. The keyboard map provides the same controls."
-          ></canvas>
+          <canvas id="garden" tabindex="0" aria-label="Moonpost garden. Select a delivery tile, or choose a terrain brush to paint. The keyboard map provides the same controls."></canvas>
           <div class="wf-world-title">
             <p class="wf-eyebrow">Moonpost / Night shift 023</p>
-            <h2>Moonpost<br />Dispatch</h2>
+            <h2>Moonpost<br>Dispatch</h2>
             <p>
-              Letters find a way.<br />Help this one find the quietest path.
+              Letters find a way.<br>Help this one find the quietest path.
             </p>
           </div>
           <div class="wf-world-badge"><span></span>12 × 10 COURIER GARDEN</div>
           <div class="wf-world-bottom">
             <div class="wf-legend">
-              <span><i class="path"></i>Route</span
-              ><span><i class="wall"></i>Planters</span
-              ><span><i class="slow"></i>Lavender ×5</span>
+              <span><i class="path"></i>Route</span><span><i class="wall"></i>Planters</span><span><i class="slow"></i>Lavender ×5</span>
             </div>
             <button id="camera-reset" class="wf-camera">Reset view ↗</button>
           </div>
-          <div id="error" class="wf-error" role="status" hidden></div>
+          <div id="error" class="wf-error" role="status" hidden=""></div>
         </div>
         <aside class="wf-panel" aria-label="Dispatch controls">
           <div class="wf-panel-head">
@@ -102,12 +49,9 @@
           </div>
           <div class="wf-modebar" role="group" aria-label="Map interaction">
             <button data-mode="goal" aria-pressed="true">
-              <span>↗</span>Deliver</button
-            ><button data-mode="wall" aria-pressed="false">
-              <span>▦</span>Planter</button
-            ><button data-mode="cost" aria-pressed="false">
-              <span>✾</span>Lavender</button
-            ><button data-mode="erase" aria-pressed="false">
+              <span>↗</span>Deliver</button><button data-mode="wall" aria-pressed="false">
+              <span>▦</span>Planter</button><button data-mode="cost" aria-pressed="false">
+              <span>✾</span>Lavender</button><button data-mode="erase" aria-pressed="false">
               <span>◇</span>Erase
             </button>
           </div>
@@ -116,8 +60,7 @@
           </p>
           <div class="wf-route-card">
             <div class="wf-route-head">
-              <span id="route-status">Route ready</span
-              ><span id="route-version">REV 01</span>
+              <span id="route-status">Route ready</span><span id="route-version">REV 01</span>
             </div>
             <div class="wf-route-stops">
               <div>
@@ -147,20 +90,16 @@
             Your courier is ready at the southern gate.
           </p>
           <div class="wf-settings">
-            <label for="preset"
-              >Garden arrangement<select id="preset">
+            <label for="preset">Garden arrangement<select id="preset">
                 <option value="garden">The lavender detour</option>
                 <option value="switchback">A winding way home</option>
                 <option value="sealed">The closed garden</option>
                 <option value="clear">A blank canvas</option>
-              </select></label
-            ><label for="diagonal"
-              >Movement policy<select id="diagonal">
+              </select></label><label for="diagonal">Movement policy<select id="diagonal">
                 <option value="no-cut">Diagonal · keep corners clear</option>
                 <option value="never">Four directions only</option>
                 <option value="always">Diagonal · allow corner cuts</option>
-              </select></label
-            >
+              </select></label>
           </div>
           <details class="wf-access-map">
             <summary>Keyboard &amp; touch cell map <span>↗</span></summary>
@@ -168,25 +107,13 @@
               Arrow keys move focus. Enter applies your selected brush. Columns
               and rows start at 1.
             </p>
-            <div
-              id="cell-map"
-              class="wf-cell-map"
-              aria-label="Accessible garden cells"
-            ></div>
+            <div id="cell-map" class="wf-cell-map" aria-label="Accessible garden cells"></div>
           </details>
           <div class="wf-savebar">
-            <button id="export">Export JSON ↓</button
-            ><button id="load">Import JSON ↑</button
-            ><button id="reset">Reset ↺</button
-            ><input
-              id="save-file"
-              type="file"
-              accept=".json,application/json"
-              hidden
-            />
+            <button id="export">Export JSON ↓</button><button id="load">Import JSON ↑</button><button id="reset">Reset ↺</button><input id="save-file" type="file" accept=".json,application/json" hidden="">
           </div>
         </aside>
-      </section>
+      </section><div class="forge-runtime-metrics"><span id="deliveries">00 letters delivered</span></div>
       <p id="status" class="wf-status" role="status">
         A route is waiting. Try a new destination, or plant a little obstacle in
         its way.
@@ -195,17 +122,14 @@
         <article class="wf-code">
           <div class="wf-section-top">
             <h2>Grid in. Directions out.</h2>
-            <a href="/packages/wayfinder/TUTORIAL.md"
-              >Integration tutorial ↗</a
-            >
+            <a href="/packages/wayfinder/TUTORIAL.md">Integration tutorial ↗</a>
           </div>
           <pre><code>const garden = new <b>Wayfinder</b>({ width: 12, height: 10 });
 garden.<b>setCell</b>({ x: 4, z: 3 }, { cost: 5 });
 const route = garden.<b>findPath</b>(courier, destination);
 world.<b>setRoute</b>(route.points); <span>// Plain { x, y, z } coordinates.</span></code></pre>
           <div class="wf-code-tags">
-            <span>Zero runtime dependencies</span><span>Deterministic A*</span
-            ><span>Atomic grid edits</span>
+            <span>Zero runtime dependencies</span><span>Deterministic A*</span><span>Atomic grid edits</span>
           </div>
         </article>
         <article class="wf-note">
@@ -219,12 +143,13 @@ world.<b>setRoute</b>(route.points); <span>// Plain { x, y, z } coordinates.</sp
           <a href="/packages/wayfinder/API.md">Explore the API ↗</a>
         </article>
       </section>
-    </main>
-    <footer class="wf-footer">
-      <span>@cranberry-forge/wayfinder · MIT · Framework independent</span
-      ><a href="/packages/wayfinder/README.md">Readme &amp; limits ↗</a
-      ><span id="deliveries">00 letters delivered</span>
-    </footer>
+    <section class="forge-use-product"><div><p class="forge-product-eyebrow">FROM SHOWCASE TO YOUR PROJECT</p><h2>Take the good parts with you.</h2><p data-product-use="">Edit a grid, adjust travel costs, and compare routes. Take the pathfinding core into your own world.</p></div><div class="forge-install"><p>Download the archive, then install locally.</p><code data-product-command="">npm install ./cranberry-forge-wayfinder-0.1.0.tgz</code><div><a data-product-download="" href="./downloads/cranberry-forge-wayfinder-0.1.0.tgz" download="">Download archive ↓</a><a data-product-docs="" href="./packages/wayfinder/README.md">Read the integration guide ↗</a></div></div></section></main>
+
     <script type="module" src="/wayfinder-app.js"></script>
-  </body>
-</html>
+
+
+
+
+
+
+<script type="application/json" id="forge-product-data">{"wayfinder":{"title":"A little direction. A world to explore.","pitch":"Help a letter find the quietest path through a world that keeps changing.","studio":"MOONPOST DISPATCH","glyph":"M32 8v48M8 32h48M21 43l7-15 15-7-7 15ZM13 13l5 5m28 28 5 5","use":"Edit a grid, adjust travel costs, and compare routes. Take the pathfinding core into your own world.","name":"Wayfinder","category":"Grid pathfinding","version":"0.1.0","mark":"./assets/identities/wayfinder.svg","download":"./downloads/cranberry-forge-wayfinder-0.1.0.tgz","docs":"./packages/wayfinder/README.md","command":"npm install ./cranberry-forge-wayfinder-0.1.0.tgz","kind":"INDEPENDENT TOOL"}}</script><footer class="forge-site-footer"><a class="forge-source-brand" href="./catalog.html"><img src="./assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="./catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a><a href="https://cranberryclock.com/about/">The story behind Forge ↗</a></nav></footer></body></html>
