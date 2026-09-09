@@ -68,7 +68,8 @@ export function createStage(canvas) {
   const frame = (now) => {
     if (!running) return;
     raf = requestAnimationFrame(frame);
-    const dt = Math.min((now - last) / 1000, 0.05);
+    // The first RAF timestamp can precede performance.now() from this frame.
+    const dt = Math.max(0, Math.min((now - last) / 1000, 0.05));
     last = now;
     if (document.hidden) return;
     elapsed += dt;

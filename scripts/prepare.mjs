@@ -2,6 +2,8 @@ import { cp, mkdir, readFile, readdir } from "node:fs/promises";
 import { resolve } from "node:path";
 import { execFileSync } from "node:child_process";
 
+await import("./showcase-shell.mjs");
+
 // dist contains authored source. Never delete it during preparation.
 await mkdir("dist/vendor/three", { recursive: true });
 await cp("node_modules/three/build", "dist/vendor/three/build", {
@@ -30,8 +32,9 @@ await mkdir("dist/downloads", { recursive: true });
 await cp("docs/images", "dist/assets/previews", { recursive: true });
 for (const name of (await readdir("dist/packages")).sort()) {
   execFileSync(
-    "npm",
+    process.execPath,
     [
+      process.env.npm_execpath,
       "pack",
       `./dist/packages/${name}`,
       "--pack-destination",

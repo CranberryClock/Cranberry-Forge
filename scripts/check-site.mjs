@@ -1,6 +1,6 @@
 // Resolve static page links and browser module graphs without starting a browser.
 import { readFile, readdir, stat } from "node:fs/promises";
-import { resolve, dirname, extname } from "node:path";
+import { resolve, dirname, extname, sep } from "node:path";
 import assert from "node:assert/strict";
 import { JSDOM } from "jsdom";
 import ts from "typescript";
@@ -26,7 +26,7 @@ const seenCSS = new Set(),
   };
 async function exists(path) {
   assert.ok(
-    path === root || path.startsWith(root + "/"),
+    path === root || path.startsWith(root + sep),
     `Path outside static root: ${path}`,
   );
   const info = await stat(path);
