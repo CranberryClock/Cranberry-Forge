@@ -1,0 +1,109 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101817"><title>Wayfinder Integration guide — Cranberry Forge</title><meta name="description" content="Install Wayfinder, connect it to your project, and understand the integration boundaries."><link rel="icon" type="image/svg+xml" href="../../../assets/branding/forge-mark.svg"><link rel="stylesheet" href="../../../showcase-shell.css"><link rel="stylesheet" href="../../../syntax.css"><link rel="stylesheet" href="../../docs.css"><script src="../../docs.js" defer></script></head><body class="forge-docs" data-forge-tool="wayfinder"><a class="docs-skip" href="#main-content">Skip to documentation</a><header class="forge-site-header"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a class="forge-home" href="../../../catalog.html">Forge</a><span aria-hidden="true">/</span><a href="../../index.html">Documentation</a><span aria-hidden="true">/</span><span>Wayfinder</span></nav><div class="docs-layout"><aside class="docs-sidebar"><a class="docs-product" href="../index.html"><img src="../../../assets/identities/wayfinder.svg" alt="" width="88" height="88"><strong>Wayfinder</strong><small>Grid pathfinding</small></a><nav aria-label="Wayfinder documentation"><a href="../index.html">Overview</a><a href="index.html" aria-current="page">Integration guide</a><a href="../api/index.html">API reference</a><a href="../tutorial/index.html">Tutorial</a></nav><a class="docs-demo-link" href="../../../wayfinder.html">Open the showcase ↗</a><label for="docs-system-select">Explore another system</label><select id="docs-system-select" class="docs-system-select"><option value="../../biome/index.html">Biome</option><option value="../../flux/index.html">Flux</option><option value="../../signal/index.html">Signal</option><option value="../../latch/index.html">Latch</option><option value="../../loom/index.html">Loom</option><option value="../../satchel/index.html">Satchel</option><option value="../../chatter/index.html">Chatter</option><option value="../../trailmark/index.html">Trailmark</option><option value="../index.html" selected>Wayfinder</option><option value="../../spring/index.html">Spring</option><option value="../../parcel/index.html">Parcel</option><option value="../../tempo/index.html">Tempo</option><option value="../../ledger/index.html">Ledger</option><option value="../../keepsake/index.html">Keepsake</option><option value="../../sift/index.html">Sift</option><option value="../../mothlight/index.html">Mothlight</option><option value="../../afterglow/index.html">Afterglow</option></select><a href="../../index.html">All documentation →</a></aside><main class="docs-main" id="main-content"><header class="docs-heading"><p class="docs-eyebrow">INDEPENDENT TOOL / v0.1.0</p><h1>Wayfinder<span>Integration guide</span></h1><p class="docs-lede">Install Wayfinder, connect it to your project, and understand the integration boundaries.</p></header><div class="docs-callout"><strong>Start with the package archive.</strong><p><a href="../../../downloads/cranberry-forge-wayfinder-0.1.0.tgz" download>Download Wayfinder v0.1.0 ↓</a>, then follow the installation instructions below. Commands that pack source files run from the public repository checkout.</p></div><article class="docs-prose"><h2 id="install">Install</h2>
+<p>Run <code>npm pack ./dist/packages/wayfinder</code> from the repository and install the resulting archive in your game project:</p>
+<div class="code-example"><div class="code-toolbar"><span>bash</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-bash">npm install ./cranberry-forge-wayfinder-0.1.0.tgz</code></pre></div>
+<p>The archive is an installable npm package. This documentation does not assume publication to the public npm registry.</p>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Wayfinder</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@cranberry-forge/wayfinder'</span>;
+
+<span class="hljs-keyword">const</span> garden = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Wayfinder</span>({
+  <span class="hljs-attr">width</span>: <span class="hljs-number">12</span>,
+  <span class="hljs-attr">height</span>: <span class="hljs-number">10</span>,
+  <span class="hljs-attr">cellSize</span>: <span class="hljs-number">1.35</span>,
+  <span class="hljs-attr">origin</span>: { <span class="hljs-attr">x</span>: -<span class="hljs-number">8.1</span>, <span class="hljs-attr">z</span>: -<span class="hljs-number">6.75</span> },
+  <span class="hljs-attr">diagonal</span>: <span class="hljs-string">'no-cut'</span>,
+});
+
+garden.<span class="hljs-title function_">setCells</span>([
+  { <span class="hljs-attr">x</span>: <span class="hljs-number">3</span>, <span class="hljs-attr">z</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">blocked</span>: <span class="hljs-literal">true</span> },
+  { <span class="hljs-attr">x</span>: <span class="hljs-number">4</span>, <span class="hljs-attr">z</span>: <span class="hljs-number">3</span>, <span class="hljs-attr">cost</span>: <span class="hljs-number">5</span> },
+]);
+
+<span class="hljs-keyword">const</span> route = garden.<span class="hljs-title function_">findPath</span>({ <span class="hljs-attr">x</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">z</span>: <span class="hljs-number">8</span> }, { <span class="hljs-attr">x</span>: <span class="hljs-number">10</span>, <span class="hljs-attr">z</span>: <span class="hljs-number">1</span> }, { <span class="hljs-attr">y</span>: <span class="hljs-number">1.05</span> });
+<span class="hljs-keyword">if</span> (route.<span class="hljs-property">status</span> === <span class="hljs-string">'found'</span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(route.<span class="hljs-property">cost</span>, route.<span class="hljs-property">visited</span>);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(route.<span class="hljs-property">cells</span>);  <span class="hljs-comment">// [{ x, z }, ...], including start and goal</span>
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(route.<span class="hljs-property">points</span>); <span class="hljs-comment">// [{ x, y, z }, ...], at cell centers</span>
+}</code></pre></div>
+
+<h2 id="the-navigation-contract">The navigation contract</h2>
+<ul>
+<li>One rectangular, single-layer XZ grid. Coordinates are zero-based <code>{ x, z }</code> integer indices. <code>origin</code> is the lower X/Z boundary, not the first cell center. World bounds include the lower edge and exclude the upper edge.</li>
+<li>Entering a neighboring cell costs its weight × <code>cellSize</code> × step length. Cardinal step length is 1; diagonal step length is √2. The starting cell's weight is not charged. Weights must be finite numbers in 1–1,000.</li>
+<li><code>diagonal: 'never'</code> allows four neighbors. <code>'no-cut'</code>, the default, allows diagonals only when both adjacent cardinal cells are open. <code>'always'</code> allows diagonal movement past blocked corners. All policies still forbid entering blocked cells.</li>
+<li>A* uses Manhattan or octile distance with the minimum allowed weight of 1. Its heuristic remains admissible as terrain weights change. An indexed binary heap holds at most one open entry per cell.</li>
+<li>Ties compare total estimate <code>f</code>, then heuristic <code>h</code>, then row-major cell index. Equal-cost alternate parents do not replace the first parent. Repeating a search with the same grid and endpoints gives the same result in the same JavaScript numeric environment.</li>
+<li>A successful search returns an optimal weighted route on this graph, subject to ordinary floating-point arithmetic. An unsuccessful search returns an explicit status and no partial route. A bounded search may return <code>budget-exceeded</code> even when a route exists.</li>
+</ul>
+
+<h2 id="edit-terrain-and-replan">Edit terrain and replan</h2>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> previous = garden.<span class="hljs-title function_">findPath</span>({ <span class="hljs-attr">x</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">z</span>: <span class="hljs-number">8</span> }, { <span class="hljs-attr">x</span>: <span class="hljs-number">10</span>, <span class="hljs-attr">z</span>: <span class="hljs-number">1</span> });
+garden.<span class="hljs-title function_">setCell</span>({ <span class="hljs-attr">x</span>: <span class="hljs-number">5</span>, <span class="hljs-attr">z</span>: <span class="hljs-number">4</span> }, { <span class="hljs-attr">blocked</span>: <span class="hljs-literal">true</span> });
+
+<span class="hljs-keyword">if</span> (previous.<span class="hljs-property">revision</span> !== garden.<span class="hljs-property">revision</span>) {
+  <span class="hljs-comment">// The old route describes an earlier terrain revision. Search again.</span>
+  <span class="hljs-keyword">const</span> current = garden.<span class="hljs-title function_">findPath</span>({ <span class="hljs-attr">x</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">z</span>: <span class="hljs-number">8</span> }, { <span class="hljs-attr">x</span>: <span class="hljs-number">10</span>, <span class="hljs-attr">z</span>: <span class="hljs-number">1</span> });
+}</code></pre></div>
+<p><code>setCells()</code> validates the whole batch before changing any cell. Duplicate cell edits, sparse arrays, and malformed patches reject atomically. A changed batch increments revision once; an empty or unchanged batch does not increment it. Blocking a cell retains its cost until you change it. Clear both explicitly with <code>{ blocked: false, cost: 1 }</code> when that is the intended edit.</p>
+<p>Routes are detached values, not live objects. Terrain edits do not automatically recompute old routes or stop an actor. Your game decides when to replan and how to move safely. A revision is local to a grid's history; loading an older snapshot or constructing a new grid can reuse an old revision number. It is not a globally unique map identity.</p>
+
+<h2 id="world-coordinates">World coordinates</h2>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> cell = garden.<span class="hljs-title function_">worldToCell</span>({ <span class="hljs-attr">x</span>: pointerWorldX, <span class="hljs-attr">z</span>: pointerWorldZ });
+<span class="hljs-keyword">if</span> (cell) {
+  <span class="hljs-keyword">const</span> center = garden.<span class="hljs-title function_">cellToWorld</span>(cell, <span class="hljs-number">1.05</span>);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(center); <span class="hljs-comment">// plain { x, y, z }</span>
+}
+
+<span class="hljs-keyword">const</span> route = garden.<span class="hljs-title function_">findWorldPath</span>(
+  { <span class="hljs-attr">x</span>: courier.<span class="hljs-property">position</span>.<span class="hljs-property">x</span>, <span class="hljs-attr">z</span>: courier.<span class="hljs-property">position</span>.<span class="hljs-property">z</span> },
+  { <span class="hljs-attr">x</span>: destination.<span class="hljs-property">position</span>.<span class="hljs-property">x</span>, <span class="hljs-attr">z</span>: destination.<span class="hljs-property">position</span>.<span class="hljs-property">z</span> },
+);</code></pre></div>
+<p>Pass plain XZ records, not <code>THREE.Vector3</code> instances. A world search maps its endpoints to containing cells; returned points are cell centers, not the exact input endpoints. Y is a chosen output height and does not affect navigation.</p>
+
+<h2 id="saves">Saves</h2>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> text = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(garden.<span class="hljs-title function_">snapshot</span>());
+<span class="hljs-keyword">const</span> restored = <span class="hljs-title class_">Wayfinder</span>.<span class="hljs-title function_">fromSnapshot</span>(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(text));
+garden.<span class="hljs-title function_">restore</span>(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(text)); <span class="hljs-comment">// atomic; config must match this instance</span></code></pre></div>
+<p>Version 1 saves contain the complete normalized grid configuration, revision, and a dense row-major array of blocked flags and weights. Loading validates version, dimensions, limits, exact fields, and every cell before replacing the current terrain. Inputs and outputs do not expose mutable internal arrays. <code>fromSnapshot()</code> creates a grid from the saved configuration; <code>restore()</code> requires the current configuration to match. There is no automatic schema migration, merging, storage, or authentication. Snapshot validation checks structural validity, not whether an untrusted player earned a terrain change.</p>
+
+<h2 id="practical-limits">Practical limits</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Bound</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Width / height</td>
+<td>Integers 1–128 each</td>
+</tr>
+<tr>
+<td>Total cells</td>
+<td>At most 16,384</td>
+</tr>
+<tr>
+<td>Cell size</td>
+<td>Finite 0.001–1,000 world units</td>
+</tr>
+<tr>
+<td>Origin X/Z and output Y</td>
+<td>Finite −1,000,000 to 1,000,000</td>
+</tr>
+<tr>
+<td>Traversal weight</td>
+<td>Finite 1–1,000, including fractional values</td>
+</tr>
+<tr>
+<td>Batch edits</td>
+<td>At most one edit per grid cell</td>
+</tr>
+<tr>
+<td>Search budget</td>
+<td>1–cell count expanded cells; default cell count</td>
+</tr>
+<tr>
+<td>Revision</td>
+<td>Safe integer; exhaustion throws before terrain changes</td>
+</tr>
+</tbody></table></div>
+<p>Search uses O(N) bounded working storage and O(N log N) worst-case heap work for N cells on this constant-degree grid. It runs synchronously; repeated maximum-size searches can still block a UI thread. The maximum is a validation limit, not a frame-time guarantee. Put larger workloads behind an application-owned worker if needed. The package stores no route cache or search history. The demo displays 120 cells and rejects uploaded files larger than 2 MB.</p>
+</article><footer class="docs-pagination"><a href="../index.html"><small>← Previous</small><strong>Overview</strong></a><a href="../api/index.html"><small>Next →</small><strong>API reference</strong></a></footer><p class="docs-source"><a href="https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/wayfinder">View versioned source on GitHub ↗</a></p></main><aside class="docs-toc"><nav aria-label="On this page"><strong>On this page</strong><a href="#install">Install</a><a href="#the-navigation-contract">The navigation contract</a><a href="#edit-terrain-and-replan">Edit terrain and replan</a><a href="#world-coordinates">World coordinates</a><a href="#saves">Saves</a><a href="#practical-limits">Practical limits</a></nav></aside></div><footer class="forge-site-footer"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="../../index.html">Documentation</a><a href="../../../catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a></nav></footer></body></html>

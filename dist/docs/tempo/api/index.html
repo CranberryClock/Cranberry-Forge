@@ -1,0 +1,172 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101817"><title>Tempo API reference — Cranberry Forge</title><meta name="description" content="The public Tempo API: inputs, outputs, behavior, and constraints."><link rel="icon" type="image/svg+xml" href="../../../assets/branding/forge-mark.svg"><link rel="stylesheet" href="../../../showcase-shell.css"><link rel="stylesheet" href="../../../syntax.css"><link rel="stylesheet" href="../../docs.css"><script src="../../docs.js" defer></script></head><body class="forge-docs" data-forge-tool="tempo"><a class="docs-skip" href="#main-content">Skip to documentation</a><header class="forge-site-header"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a class="forge-home" href="../../../catalog.html">Forge</a><span aria-hidden="true">/</span><a href="../../index.html">Documentation</a><span aria-hidden="true">/</span><span>Tempo</span></nav><div class="docs-layout"><aside class="docs-sidebar"><a class="docs-product" href="../index.html"><img src="../../../assets/identities/tempo.svg" alt="" width="88" height="88"><strong>Tempo</strong><small>Charges & cooldowns</small></a><nav aria-label="Tempo documentation"><a href="../index.html">Overview</a><a href="../guide/index.html">Integration guide</a><a href="index.html" aria-current="page">API reference</a><a href="../tutorial/index.html">Tutorial</a></nav><a class="docs-demo-link" href="../../../tempo.html">Open the showcase ↗</a><label for="docs-system-select">Explore another system</label><select id="docs-system-select" class="docs-system-select"><option value="../../biome/index.html">Biome</option><option value="../../flux/index.html">Flux</option><option value="../../signal/index.html">Signal</option><option value="../../latch/index.html">Latch</option><option value="../../loom/index.html">Loom</option><option value="../../satchel/index.html">Satchel</option><option value="../../chatter/index.html">Chatter</option><option value="../../trailmark/index.html">Trailmark</option><option value="../../wayfinder/index.html">Wayfinder</option><option value="../../spring/index.html">Spring</option><option value="../../parcel/index.html">Parcel</option><option value="../index.html" selected>Tempo</option><option value="../../ledger/index.html">Ledger</option><option value="../../keepsake/index.html">Keepsake</option><option value="../../sift/index.html">Sift</option><option value="../../mothlight/index.html">Mothlight</option><option value="../../afterglow/index.html">Afterglow</option></select><a href="../../index.html">All documentation →</a></aside><main class="docs-main" id="main-content"><header class="docs-heading"><p class="docs-eyebrow">INDEPENDENT TOOL / v0.1.0</p><h1>Tempo<span>API reference</span></h1><p class="docs-lede">The public Tempo API: inputs, outputs, behavior, and constraints.</p></header><article class="docs-prose"><h2 id="the-recharge-policy">The recharge policy</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Clock</th>
+<th>Starts</th>
+<th>Completes</th>
+<th>Relationship</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Sequential recharge</td>
+<td>First charge spent from a full ability</td>
+<td>Restores one charge every <code>recharge</code> seconds until full</td>
+<td>Spending another stored charge keeps the running recharge deadline</td>
+</tr>
+<tr>
+<td>Per-use cooldown</td>
+<td>Every successful use</td>
+<td>After that ability's <code>cooldown</code> seconds</td>
+<td>Runs concurrently with recharge; can block an ability even when charges remain</td>
+</tr>
+<tr>
+<td>Global cooldown</td>
+<td>Successful use by a participating ability</td>
+<td>After the scheduler's <code>globalCooldown</code> seconds</td>
+<td>Blocks other participating abilities while their individual clocks continue</td>
+</tr>
+</tbody></table></div>
+<p>For three charges with <code>recharge: 2</code>, spending all three at time zero restores charges at 2, 4 and 6 seconds. These are sequential deadlines; each charge does not get a separate parallel timer. A one-charge ability with no per-use cooldown behaves like an ordinary cooldown: its next use is available after recharge.</p>
+<p><code>usesGlobalCooldown: false</code> both bypasses the current global lock and avoids starting or extending it. A failed use changes nothing. When several locks apply, the reported reason prefers global cooldown, then per-use cooldown, then no charges. <code>retryAfter</code> is the maximum delay across every applicable lock, including the next recharge when empty.</p>
+
+<h2 id="api">API</h2>
+<h3 id="new-tempodefinitions-options"><code>new Tempo(definitions, options?)</code></h3>
+<p>Provide 1–64 unique ability definitions. Unknown fields, duplicate IDs, sparse arrays, explicit nulls and invalid values throw.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Definition field</th>
+<th>Type / range</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>id</code></td>
+<td>1–48 characters; starts with a letter, then letters, digits, <code>_</code> or <code>-</code>; prototype-related names excluded</td>
+<td>Required</td>
+</tr>
+<tr>
+<td><code>charges</code></td>
+<td>Integer 1–16</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>recharge</code></td>
+<td>Finite seconds, 0.001–86400</td>
+<td>Required</td>
+</tr>
+<tr>
+<td><code>cooldown</code></td>
+<td>Finite seconds, 0–86400</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>usesGlobalCooldown</code></td>
+<td>Boolean</td>
+<td>true</td>
+</tr>
+</tbody></table></div>
+<p><code>options.globalCooldown</code> is a finite duration in 0–86400 seconds, default 0. The definition order determines tie ordering between abilities. Definitions remain fixed for a Tempo instance; construct a new instance to apply another recipe.</p>
+<h3 id="tryuseid"><code>tryUse(id)</code></h3>
+<p>Known, available ability:</p>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript">{
+  <span class="hljs-attr">ok</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">id</span>: <span class="hljs-string">'dash'</span>,
+  <span class="hljs-attr">at</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">state</span>: { <span class="hljs-comment">/* detached AbilityState after spending */</span> },
+  <span class="hljs-attr">events</span>: [{ <span class="hljs-attr">type</span>: <span class="hljs-string">'used'</span>, <span class="hljs-attr">id</span>: <span class="hljs-string">'dash'</span>, <span class="hljs-attr">at</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">charges</span>: <span class="hljs-number">2</span> }]
+}</code></pre></div>
+<p>Blocked ability:</p>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript">{
+  <span class="hljs-attr">ok</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-attr">id</span>: <span class="hljs-string">'dash'</span>,
+  <span class="hljs-attr">reason</span>: <span class="hljs-string">'global-cooldown'</span>, <span class="hljs-comment">// or 'cooldown' / 'no-charges'</span>
+  <span class="hljs-attr">retryAfter</span>: <span class="hljs-number">0.4</span>,
+  <span class="hljs-attr">state</span>: { <span class="hljs-comment">/* detached unchanged AbilityState */</span> },
+  <span class="hljs-attr">events</span>: []
+}</code></pre></div>
+<p>Unknown or invalid IDs throw rather than silently accepting a typo. The successful result means the charge was consumed; perform your gameplay effect afterward. Tempo does not validate movement, target range, resources or game rules for you. Check those prerequisites before calling <code>tryUse</code>.</p>
+<p>An extremely small positive cooldown can become unrepresentable after a large simulation time. <code>tryUse</code> rejects that case before changing any charge or clock. Normal millisecond-scale durations remain representable throughout the supported time range.</p>
+<h3 id="tickdt"><code>tick(dt)</code></h3>
+<p>Advance by finite seconds in <code>[0, 86400]</code>. Returns a detached array of events generated during this call. A zero tick does nothing. Events include their scheduled completion time, even if one large tick crosses several deadlines.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Fields</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>recharged</code></td>
+<td><code>id</code>, <code>at</code>, <code>charges</code></td>
+<td>One charge returned</td>
+</tr>
+<tr>
+<td><code>cooldown-ready</code></td>
+<td><code>id</code>, <code>at</code></td>
+<td>An ability's per-use cooldown finished</td>
+</tr>
+<tr>
+<td><code>global-ready</code></td>
+<td><code>at</code></td>
+<td>The shared lock finished</td>
+</tr>
+</tbody></table></div>
+<p>Events sort by timestamp. Exact ties sort global-ready, cooldown-ready, then recharged; abilities tie in definition order. <code>cooldown-ready</code> does not itself guarantee the ability can be used: inspect its remaining charges and global lock. <code>tick</code> never emits or replays <code>used</code> events.</p>
+<p>Recharge deadlines are absolute simulation times. Dividing an interval into smaller ticks preserves scheduled completions and ordering, within ordinary floating-point precision. Boundary checks tolerate 1 nanosecond; this is not a fixed-point networking clock or a bit-identical cross-platform simulation guarantee. At most 1024 recharge events can be pending across the maximum 64×16 charges. Simulation time is bounded to 1 billion seconds; invalid advancement throws before mutation.</p>
+<h3 id="state-and-lifecycle">State and lifecycle</h3>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>API</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>.inspect(id)</code></td>
+<td>Detached ability view</td>
+</tr>
+<tr>
+<td><code>.state</code></td>
+<td><code>{time, globalRemaining, globalProgress, abilities}</code></td>
+</tr>
+<tr>
+<td><code>.definitions</code></td>
+<td>Detached normalized definitions with defaults filled</td>
+</tr>
+<tr>
+<td><code>.time</code></td>
+<td>Current simulation seconds</td>
+</tr>
+<tr>
+<td><code>.globalCooldown</code></td>
+<td>Configured global duration</td>
+</tr>
+<tr>
+<td><code>.reset()</code></td>
+<td>Refills every charge, clears every cooldown and resets time to zero; returns fresh state</td>
+</tr>
+<tr>
+<td><code>.toSnapshot()</code></td>
+<td>Detached <code>cranberry-forge.tempo/1</code> snapshot</td>
+</tr>
+<tr>
+<td><code>.restore(snapshot)</code></td>
+<td>Atomically restores matching configuration; returns restored state</td>
+</tr>
+<tr>
+<td><code>Tempo.fromSnapshot(snapshot)</code></td>
+<td>New validated scheduler using the saved recipe</td>
+</tr>
+</tbody></table></div>
+<p>An ability view contains <code>id</code>, <code>charges</code>, <code>maxCharges</code>, <code>rechargeRemaining</code>, <code>rechargeProgress</code>, <code>cooldownRemaining</code>, <code>globalRemaining</code>, <code>ready</code>, <code>reason</code> and <code>retryAfter</code>. Progress values run 0–1 and are 1 when their clock is inactive. An opted-out ability reports zero <code>globalRemaining</code>, even when <code>.state.globalRemaining</code> is positive. Every object, array and event returned by Tempo is detached; modifying it does not change the scheduler.</p>
+<p>Tempo has no internal pause, time scale or wall clock. The host chooses the elapsed simulation time:</p>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript">tempo.<span class="hljs-title function_">tick</span>(paused ? <span class="hljs-number">0</span> : realDt * timeScale);</code></pre></div>
+<p>Pause must also prevent new <code>tryUse</code> calls if your game disallows casting while paused. The Spellgarden applies that host rule and freezes its spell visuals with the same delta. It pauses when hidden and preserves its renderer/listeners when browser back-forward caching retains the page.</p>
+<h3 id="snapshots">Snapshots</h3>
+<p><code>restore</code> accepts a snapshot object or JSON string of at most 128 KiB. The snapshot contains the full normalized recipe, global duration, current simulation time, optional active global deadline and each ability's charges/recharge/cooldown deadlines. <code>null</code> deadlines mean inactive; active deadlines must lie after the saved clock and within the configured duration.</p>
+<p><code>restore</code> requires an exact normalized definition order and matching global cooldown. It validates the complete candidate, including dense arrays, required fields, valid charge counts and full/missing-charge clock consistency, before committing. An invalid restore leaves existing state unchanged. <code>fromSnapshot</code> can construct another valid recipe. Neither method replays previous casts or completion events.</p>
+<p>Snapshots preserve clocks, not spell effects, character motion, random state or session analytics. Structural validation does not authenticate a save; a backend that cares about competitive outcomes should own its simulation.</p>
+</article><footer class="docs-pagination"><a href="../guide/index.html"><small>← Previous</small><strong>Integration guide</strong></a><a href="../tutorial/index.html"><small>Next →</small><strong>Tutorial</strong></a></footer><p class="docs-source"><a href="https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/tempo">View versioned source on GitHub ↗</a></p></main><aside class="docs-toc"><nav aria-label="On this page"><strong>On this page</strong><a href="#the-recharge-policy">The recharge policy</a><a href="#api">API</a><a href="#new-tempodefinitions-options" class="docs-toc-sub">new Tempo(definitions, options?)</a><a href="#tryuseid" class="docs-toc-sub">tryUse(id)</a><a href="#tickdt" class="docs-toc-sub">tick(dt)</a><a href="#state-and-lifecycle" class="docs-toc-sub">State and lifecycle</a><a href="#snapshots" class="docs-toc-sub">Snapshots</a></nav></aside></div><footer class="forge-site-footer"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="../../index.html">Documentation</a><a href="../../../catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a></nav></footer></body></html>

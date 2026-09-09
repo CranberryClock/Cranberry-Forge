@@ -1,0 +1,113 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101817"><title>Parcel API reference — Cranberry Forge</title><meta name="description" content="The public Parcel API: inputs, outputs, behavior, and constraints."><link rel="icon" type="image/svg+xml" href="../../../assets/branding/forge-mark.svg"><link rel="stylesheet" href="../../../showcase-shell.css"><link rel="stylesheet" href="../../../syntax.css"><link rel="stylesheet" href="../../docs.css"><script src="../../docs.js" defer></script></head><body class="forge-docs" data-forge-tool="parcel"><a class="docs-skip" href="#main-content">Skip to documentation</a><header class="forge-site-header"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a class="forge-home" href="../../../catalog.html">Forge</a><span aria-hidden="true">/</span><a href="../../index.html">Documentation</a><span aria-hidden="true">/</span><span>Parcel</span></nav><div class="docs-layout"><aside class="docs-sidebar"><a class="docs-product" href="../index.html"><img src="../../../assets/identities/parcel.svg" alt="" width="88" height="88"><strong>Parcel</strong><small>Loot & probability</small></a><nav aria-label="Parcel documentation"><a href="../index.html">Overview</a><a href="../guide/index.html">Integration guide</a><a href="index.html" aria-current="page">API reference</a><a href="../tutorial/index.html">Tutorial</a></nav><a class="docs-demo-link" href="../../../parcel.html">Open the showcase ↗</a><label for="docs-system-select">Explore another system</label><select id="docs-system-select" class="docs-system-select"><option value="../../biome/index.html">Biome</option><option value="../../flux/index.html">Flux</option><option value="../../signal/index.html">Signal</option><option value="../../latch/index.html">Latch</option><option value="../../loom/index.html">Loom</option><option value="../../satchel/index.html">Satchel</option><option value="../../chatter/index.html">Chatter</option><option value="../../trailmark/index.html">Trailmark</option><option value="../../wayfinder/index.html">Wayfinder</option><option value="../../spring/index.html">Spring</option><option value="../index.html" selected>Parcel</option><option value="../../tempo/index.html">Tempo</option><option value="../../ledger/index.html">Ledger</option><option value="../../keepsake/index.html">Keepsake</option><option value="../../sift/index.html">Sift</option><option value="../../mothlight/index.html">Mothlight</option><option value="../../afterglow/index.html">Afterglow</option></select><a href="../../index.html">All documentation →</a></aside><main class="docs-main" id="main-content"><header class="docs-heading"><p class="docs-eyebrow">INDEPENDENT TOOL / v0.1.0</p><h1>Parcel<span>API reference</span></h1><p class="docs-lede">The public Parcel API: inputs, outputs, behavior, and constraints.</p></header><article class="docs-prose"><p>Import from <code>@cranberry-forge/parcel</code>. The package exports <code>createParcel</code>, <code>validateTable</code>, <code>ParcelError</code>, <code>VERSION</code>, <code>SNAPSHOT_VERSION</code>, and <code>LIMITS</code>.</p>
+<h2 id="table">Table</h2>
+<div class="code-example"><div class="code-toolbar"><span>typescript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-typescript"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">LootTable</span> {
+  <span class="hljs-attr">id</span>: <span class="hljs-built_in">string</span>;
+  <span class="hljs-attr">entries</span>: {
+    <span class="hljs-attr">id</span>: <span class="hljs-built_in">string</span>; <span class="hljs-attr">itemId</span>: <span class="hljs-built_in">string</span>; <span class="hljs-attr">label</span>?: <span class="hljs-built_in">string</span>; <span class="hljs-attr">rarity</span>: <span class="hljs-built_in">string</span>;
+    <span class="hljs-attr">weight</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">min</span>?: <span class="hljs-built_in">number</span>; <span class="hljs-attr">max</span>?: <span class="hljs-built_in">number</span>;
+  }[];
+  <span class="hljs-attr">pity</span>?: { <span class="hljs-attr">after</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">rarities</span>: <span class="hljs-built_in">string</span>[] } | <span class="hljs-literal">null</span>;
+}</code></pre></div>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Contract</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Table/entry/item/rarity ID</td>
+<td>Lowercase <code>[a-z][a-z0-9_-]{0,63}</code>, excluding <code>constructor</code>, <code>prototype</code>, <code>__proto__</code>. Entry IDs are unique within the table; multiple entries may share an item ID or rarity.</td>
+</tr>
+<tr>
+<td><code>entries</code></td>
+<td>Dense array of 1–256 entries. No nested tables or extra fields.</td>
+</tr>
+<tr>
+<td><code>label</code></td>
+<td>Nonblank string, at most 120 characters; defaults to entry ID.</td>
+</tr>
+<tr>
+<td><code>weight</code></td>
+<td>Integer 0–1,000,000. At least one positive weight; zero disables an entry. Relative weights need not total 100.</td>
+</tr>
+<tr>
+<td><code>min</code>, <code>max</code></td>
+<td>Inclusive integer item quantities 1–1,000,000. <code>min</code> defaults to 1; <code>max</code> defaults to <code>min</code>; <code>max &gt;= min</code>. One entry is selected per roll.</td>
+</tr>
+<tr>
+<td><code>pity</code></td>
+<td>Omit or use null to disable. <code>after</code> is an integer 1–10,000. <code>rarities</code> is a dense array of 1–256 unique rarity IDs, each with at least one positive-weight table entry. Order of this list is normalized.</td>
+</tr>
+</tbody></table></div>
+<p><code>validateTable(unknown)</code> returns a detached normalized <code>{id,entries,pity}</code>. Every entry has all fields filled. Unknown fields and sparse arrays reject. The normalized table is fixed for one Parcel instance; use a new instance for a different table. Saves bind the complete normalized table, including labels and entry order.</p>
+<h2 id="factory-and-methods">Factory and methods</h2>
+<p><code>createParcel(table, {seed?, snapshot?})</code> validates the table and options. <code>seed</code> is an unsigned 32-bit integer, default 1 for a fresh stream. A supplied snapshot is always validated, including explicitly supplied null, false or undefined. With only <code>snapshot</code>, its seed is restored. If a seed is also supplied, it must match the saved seed. Snapshots must be objects; parse JSON strings before passing them.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Returns / behavior</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>roll()</code></td>
+<td><code>{receipt, snapshot}</code> for one opening.</td>
+</tr>
+<tr>
+<td><code>open(count = 1)</code></td>
+<td><code>{receipts, snapshot}</code>. Count is an integer 1–10,000. Entire batch commits or nothing commits.</td>
+</tr>
+<tr>
+<td><code>odds()</code></td>
+<td><code>{guaranteed, misses, remaining, entries}</code>. Does not consume randomness. Entries include every normalized entry plus <code>probability</code> and <code>baseProbability</code>.</td>
+</tr>
+<tr>
+<td><code>snapshot()</code></td>
+<td>Detached versioned state. No effects or random draws.</td>
+</tr>
+<tr>
+<td><code>restore(snapshot)</code></td>
+<td>Validates a candidate fully, then atomically replaces current state and returns its detached snapshot. It may restore another seed with the same normalized table.</td>
+</tr>
+</tbody></table></div>
+<p><code>remaining</code> is the maximum number of additional rolls until a qualifying result, including the next roll. It is null without pity. <code>guaranteed</code> means the next roll uses the restricted pity pool. Before that threshold, probabilities remain the base weights. With no pity, misses stay zero. All methods are synchronous and have no callbacks.</p>
+<h2 id="receipt">Receipt</h2>
+<div class="code-example"><div class="code-toolbar"><span>typescript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-typescript">{
+  <span class="hljs-attr">id</span>: <span class="hljs-built_in">string</span>;             <span class="hljs-comment">// tableId:roll</span>
+  <span class="hljs-attr">roll</span>: <span class="hljs-built_in">number</span>;           <span class="hljs-comment">// 1-based</span>
+  <span class="hljs-attr">entryId</span>: <span class="hljs-built_in">string</span>;
+  <span class="hljs-attr">itemId</span>: <span class="hljs-built_in">string</span>;
+  <span class="hljs-attr">label</span>: <span class="hljs-built_in">string</span>;
+  <span class="hljs-attr">rarity</span>: <span class="hljs-built_in">string</span>;
+  <span class="hljs-attr">quantity</span>: <span class="hljs-built_in">number</span>;
+  <span class="hljs-attr">guaranteed</span>: <span class="hljs-built_in">boolean</span>;    <span class="hljs-comment">// restricted pool used, not merely a rare result</span>
+  <span class="hljs-attr">probability</span>: <span class="hljs-built_in">number</span>;    <span class="hljs-comment">// selected entry's probability on this roll</span>
+  <span class="hljs-attr">baseProbability</span>: <span class="hljs-built_in">number</span>;
+  <span class="hljs-attr">missesBefore</span>: <span class="hljs-built_in">number</span>;
+  <span class="hljs-attr">missesAfter</span>: <span class="hljs-built_in">number</span>;
+}</code></pre></div>
+<p>Probabilities concern entry selection. If several entries share an item ID, sum their probabilities for the item's total chance. For a particular quantity in a selected entry, divide that entry's probability by <code>max-min+1</code>. A whole batch uses each preceding roll's updated pity state.</p>
+<h2 id="snapshot-and-limits">Snapshot and limits</h2>
+<div class="code-example"><div class="code-toolbar"><span>typescript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-typescript">{
+  <span class="hljs-attr">version</span>: <span class="hljs-number">1</span>;
+  <span class="hljs-attr">tableKey</span>: <span class="hljs-built_in">string</span>;       <span class="hljs-comment">// exact JSON of normalized table</span>
+  <span class="hljs-attr">seed</span>: <span class="hljs-built_in">number</span>;
+  <span class="hljs-attr">rngState</span>: <span class="hljs-built_in">number</span>;
+  <span class="hljs-attr">draws</span>: <span class="hljs-built_in">number</span>;          <span class="hljs-comment">// raw 32-bit PRNG words consumed</span>
+  <span class="hljs-attr">rolls</span>: <span class="hljs-built_in">number</span>;
+  <span class="hljs-attr">misses</span>: <span class="hljs-built_in">number</span>;
+}</code></pre></div>
+<p>All fields are required; unknown fields reject. <code>tableKey</code> is a compatibility key, not a cryptographic signature. Seed/state are integers 0–4,294,967,295. Raw draws are bounded at 4,294,967,295 and rolls at 1,000,000,000. The PRNG state must agree with the seed and draw count; draws must fit 2–256 per roll. Misses cannot exceed roll count or <code>after-1</code>, and are zero without pity or when every selectable entry qualifies. These are structural checks; they do not authenticate historical outcomes.</p>
+<p>PRNG transition: increment state by <code>0x6d2b79f5</code> modulo 2³², apply the Mulberry32 integer mixer, then draw an integer with rejection of words above the largest multiple of the target range below 2³². Every weighted and quantity selection consumes at least one word; rejection can consume more. At most 128 words per selection. Total work per batch is bounded by count × (entry scan + rejection budgets); no recursion or unbounded retained history.</p>
+<h2 id="errors">Errors</h2>
+<p>Errors are <code>ParcelError</code> with a <code>code</code> and readable <code>message</code>:</p>
+<ul>
+<li><code>INVALID_INPUT</code>: bad type, range, identifier, unknown property or sparse array.</li>
+<li><code>INVALID_TABLE</code>: duplicate entries, no positive weight, or impossible pity pool.</li>
+<li><code>INCOMPATIBLE_SNAPSHOT</code>: version/table mismatch, or explicit factory seed mismatch.</li>
+<li><code>INVALID_SNAPSHOT</code>: internally inconsistent random/roll/pity counters.</li>
+<li><code>LIMIT_REACHED</code>: exhausted roll/draw/rejection budget.</li>
+</ul>
+<p>Failed <code>open</code> and <code>restore</code> preserve the full prior state. Successful returns and definitions are detached. The host must grant items and persist the returned snapshot in its own transaction when durable rewards matter. Replaying old saves intentionally reproduces old receipts.</p>
+</article><footer class="docs-pagination"><a href="../guide/index.html"><small>← Previous</small><strong>Integration guide</strong></a><a href="../tutorial/index.html"><small>Next →</small><strong>Tutorial</strong></a></footer><p class="docs-source"><a href="https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/parcel">View versioned source on GitHub ↗</a></p></main><aside class="docs-toc"><nav aria-label="On this page"><strong>On this page</strong><a href="#table">Table</a><a href="#factory-and-methods">Factory and methods</a><a href="#receipt">Receipt</a><a href="#snapshot-and-limits">Snapshot and limits</a><a href="#errors">Errors</a></nav></aside></div><footer class="forge-site-footer"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="../../index.html">Documentation</a><a href="../../../catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a></nav></footer></body></html>

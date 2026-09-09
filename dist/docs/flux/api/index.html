@@ -1,0 +1,81 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101817"><title>Flux API reference — Cranberry Forge</title><meta name="description" content="The public Flux API: inputs, outputs, behavior, and constraints."><link rel="icon" type="image/svg+xml" href="../../../assets/branding/forge-mark.svg"><link rel="stylesheet" href="../../../showcase-shell.css"><link rel="stylesheet" href="../../../syntax.css"><link rel="stylesheet" href="../../docs.css"><script src="../../docs.js" defer></script></head><body class="forge-docs" data-forge-tool="flux"><a class="docs-skip" href="#main-content">Skip to documentation</a><header class="forge-site-header"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a class="forge-home" href="../../../catalog.html">Forge</a><span aria-hidden="true">/</span><a href="../../index.html">Documentation</a><span aria-hidden="true">/</span><span>Flux</span></nav><div class="docs-layout"><aside class="docs-sidebar"><a class="docs-product" href="../index.html"><img src="../../../assets/identities/flux.svg" alt="" width="88" height="88"><strong>Flux</strong><small>Motion trails</small></a><nav aria-label="Flux documentation"><a href="../index.html">Overview</a><a href="../guide/index.html">Integration guide</a><a href="index.html" aria-current="page">API reference</a><a href="../tutorial/index.html">Tutorial</a></nav><a class="docs-demo-link" href="../../../index.html#flux">Open the showcase ↗</a><label for="docs-system-select">Explore another system</label><select id="docs-system-select" class="docs-system-select"><option value="../../biome/index.html">Biome</option><option value="../index.html" selected>Flux</option><option value="../../signal/index.html">Signal</option><option value="../../latch/index.html">Latch</option><option value="../../loom/index.html">Loom</option><option value="../../satchel/index.html">Satchel</option><option value="../../chatter/index.html">Chatter</option><option value="../../trailmark/index.html">Trailmark</option><option value="../../wayfinder/index.html">Wayfinder</option><option value="../../spring/index.html">Spring</option><option value="../../parcel/index.html">Parcel</option><option value="../../tempo/index.html">Tempo</option><option value="../../ledger/index.html">Ledger</option><option value="../../keepsake/index.html">Keepsake</option><option value="../../sift/index.html">Sift</option><option value="../../mothlight/index.html">Mothlight</option><option value="../../afterglow/index.html">Afterglow</option></select><a href="../../index.html">All documentation →</a></aside><main class="docs-main" id="main-content"><header class="docs-heading"><p class="docs-eyebrow">INDEPENDENT TOOL / v0.1.0</p><h1>Flux<span>API reference</span></h1><p class="docs-lede">The public Flux API: inputs, outputs, behavior, and constraints.</p></header><article class="docs-prose"><h2 id="api">API</h2>
+<h3 id="new-trailoptions"><code>new Trail(options?)</code></h3>
+<p>Creates a <code>THREE.Mesh</code> that owns a dynamic BufferGeometry and additive ShaderMaterial. Allocates all geometry capacity upfront. Oldest points are overwritten once the ring buffer fills.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>capacity</code></td>
+<td><code>256</code></td>
+<td>Integer sample limit, 4–4096. Immutable after construction.</td>
+</tr>
+<tr>
+<td><code>lifetime</code></td>
+<td><code>2</code></td>
+<td>Seconds until samples expire.</td>
+</tr>
+<tr>
+<td><code>width</code></td>
+<td><code>0.4</code></td>
+<td>Full ribbon width in world units at the head.</td>
+</tr>
+<tr>
+<td><code>taper</code></td>
+<td><code>1.25</code></td>
+<td>Age-based width exponent. Zero gives constant width.</td>
+</tr>
+<tr>
+<td><code>opacity</code></td>
+<td><code>1</code></td>
+<td>0–1 opacity.</td>
+</tr>
+<tr>
+<td><code>intensity</code></td>
+<td><code>2.2</code></td>
+<td>Linear HDR color multiplier.</td>
+</tr>
+<tr>
+<td><code>color</code></td>
+<td><code>#b6f5d8</code></td>
+<td>Head color as six-digit hex.</td>
+</tr>
+<tr>
+<td><code>tailColor</code></td>
+<td><code>#237c92</code></td>
+<td>Tail color as six-digit hex.</td>
+</tr>
+<tr>
+<td><code>minDistance</code></td>
+<td><code>0.025</code></td>
+<td>Avoid near-identical consecutive samples.</td>
+</tr>
+<tr>
+<td><code>maxJump</code></td>
+<td><code>8</code></td>
+<td>Automatically break connections beyond this world-space distance.</td>
+</tr>
+</tbody></table></div>
+<p>Use capacity ≥ expected samples-per-second × desired lifetime + 1. A small capacity deliberately truncates the tail sooner than lifetime. All numeric options are checked for finiteness/range. <code>normalizeTrailOptions()</code> validates a recipe without creating GPU objects.</p>
+<h3 id="pushposition-time--boolean"><code>push(position, time) → boolean</code></h3>
+<p>Accepts a Vector3 or <code>[x,y,z]</code>, plus monotonic seconds. Copies the position, so callers can reuse temporary vectors. Returns false if a live last point is closer than <code>minDistance</code>. Time cannot go backwards relative to a prior push/update. A point after a long stationary pause is accepted to avoid preserving a stale head forever.</p>
+<h3 id="updatetime-cameraworldposition--this"><code>update(time, cameraWorldPosition) → this</code></h3>
+<p>Expires samples and updates camera-facing triangle strips. Continue calling while the emitter is inactive so the tail fades. Camera position must be a finite Vector3. Geometry buffers retain their identity across updates. CPU work is O(live samples); geometry index/attribute arrays are updated in place.</p>
+<h3 id="break--this"><code>break() → this</code></h3>
+<p>The next accepted point starts a disconnected segment. Use for teleports, sword activation changes or respawns. The automatic <code>maxJump</code> break is a fallback.</p>
+<h3 id="clear--this"><code>clear() → this</code></h3>
+<p>Clears history and resets the internal time guard, allowing a restarted simulation clock. Does not replace buffers.</p>
+<h3 id="configurepartialoptions--this"><code>configure(partialOptions) → this</code></h3>
+<p>Changes colors, width, fade and sampling parameters. Changing capacity throws; construct a new trail instead. A configuration applies to existing samples as well as new ones. The object has readonly getters <code>sampleCount</code> and <code>capacity</code>. Do not mutate <code>options</code> directly.</p>
+<h3 id="torecipe-trailfromrecipejsonorobject"><code>toRecipe()</code>, <code>Trail.fromRecipe(jsonOrObject)</code></h3>
+<p>Versioned plain data, schema <code>cranberry-forge.flux/1</code>. Saves configuration, not motion history, renderer settings or trajectories. <code>fromRecipe</code> validates input and creates a fresh Trail. Workbench <strong>Trail recipe</strong> exports this format; <strong>Export recipe</strong> instead saves all workbench settings and individual trail recipes.</p>
+<h3 id="dispose"><code>dispose()</code></h3>
+<p>Idempotent. Removes from parent and disposes owned geometry/material. Calling push/update afterward throws.</p>
+
+<h2 id="performance-and-limits">Performance and limits</h2>
+<p>One draw call per Trail; no batching between trails. GPU geometry buffers have fixed capacity, while CPU updates remain O(samples). At camera alignment singularities, a stable perpendicular fallback avoids NaNs; tightly reversed paths may twist. Sample at a reasonably steady simulation rate for comparable appearance across devices. The showcase clamps long frame gaps rather than simulating seconds of catch-up. No promised FPS, zero-allocation claim, WebGPU support or general VFX engine claim.</p>
+</article><footer class="docs-pagination"><a href="../guide/index.html"><small>← Previous</small><strong>Integration guide</strong></a><a href="../tutorial/index.html"><small>Next →</small><strong>Tutorial</strong></a></footer><p class="docs-source"><a href="https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/flux">View versioned source on GitHub ↗</a></p></main><aside class="docs-toc"><nav aria-label="On this page"><strong>On this page</strong><a href="#api">API</a><a href="#new-trailoptions" class="docs-toc-sub">new Trail(options?)</a><a href="#pushposition-time--boolean" class="docs-toc-sub">push(position, time) → boolean</a><a href="#updatetime-cameraworldposition--this" class="docs-toc-sub">update(time, cameraWorldPosition) → this</a><a href="#break--this" class="docs-toc-sub">break() → this</a><a href="#clear--this" class="docs-toc-sub">clear() → this</a><a href="#configurepartialoptions--this" class="docs-toc-sub">configure(partialOptions) → this</a><a href="#torecipe-trailfromrecipejsonorobject" class="docs-toc-sub">toRecipe(), Trail.fromRecipe(jsonOrObject)</a><a href="#dispose" class="docs-toc-sub">dispose()</a><a href="#performance-and-limits">Performance and limits</a></nav></aside></div><footer class="forge-site-footer"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="../../index.html">Documentation</a><a href="../../../catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a></nav></footer></body></html>

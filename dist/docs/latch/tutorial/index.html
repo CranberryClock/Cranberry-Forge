@@ -1,0 +1,90 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101817"><title>Latch Tutorial — Cranberry Forge</title><meta name="description" content="Work through the Latch example and adapt the pattern to your own project."><link rel="icon" type="image/svg+xml" href="../../../assets/branding/forge-mark.svg"><link rel="stylesheet" href="../../../showcase-shell.css"><link rel="stylesheet" href="../../../syntax.css"><link rel="stylesheet" href="../../docs.css"><script src="../../docs.js" defer></script></head><body class="forge-docs" data-forge-tool="latch"><a class="docs-skip" href="#main-content">Skip to documentation</a><header class="forge-site-header"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a class="forge-home" href="../../../catalog.html">Forge</a><span aria-hidden="true">/</span><a href="../../index.html">Documentation</a><span aria-hidden="true">/</span><span>Latch</span></nav><div class="docs-layout"><aside class="docs-sidebar"><a class="docs-product" href="../index.html"><img src="../../../assets/identities/latch.svg" alt="" width="88" height="88"><strong>Latch</strong><small>Contextual interactions</small></a><nav aria-label="Latch documentation"><a href="../index.html">Overview</a><a href="../guide/index.html">Integration guide</a><a href="../api/index.html">API reference</a><a href="index.html" aria-current="page">Tutorial</a></nav><a class="docs-demo-link" href="../../../latch.html">Open the showcase ↗</a><label for="docs-system-select">Explore another system</label><select id="docs-system-select" class="docs-system-select"><option value="../../biome/index.html">Biome</option><option value="../../flux/index.html">Flux</option><option value="../../signal/index.html">Signal</option><option value="../index.html" selected>Latch</option><option value="../../loom/index.html">Loom</option><option value="../../satchel/index.html">Satchel</option><option value="../../chatter/index.html">Chatter</option><option value="../../trailmark/index.html">Trailmark</option><option value="../../wayfinder/index.html">Wayfinder</option><option value="../../spring/index.html">Spring</option><option value="../../parcel/index.html">Parcel</option><option value="../../tempo/index.html">Tempo</option><option value="../../ledger/index.html">Ledger</option><option value="../../keepsake/index.html">Keepsake</option><option value="../../sift/index.html">Sift</option><option value="../../mothlight/index.html">Mothlight</option><option value="../../afterglow/index.html">Afterglow</option></select><a href="../../index.html">All documentation →</a></aside><main class="docs-main" id="main-content"><header class="docs-heading"><p class="docs-eyebrow">INDEPENDENT TOOL / v0.1.0</p><h1>Latch<span>Tutorial</span></h1><p class="docs-lede">Work through the Latch example and adapt the pattern to your own project.</p></header><article class="docs-prose"><h2 id="tutorial-a-locked-mechanism">Tutorial: a locked mechanism</h2>
+<p>Your host creates and renders the objects. A registered root can be a Group containing deeply nested meshes.</p>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> <span class="hljs-variable constant_">THREE</span> <span class="hljs-keyword">from</span> <span class="hljs-string">"three"</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Latch</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@cranberry-forge/latch"</span>;
+
+<span class="hljs-keyword">const</span> latch = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Latch</span>({ <span class="hljs-attr">reach</span>: <span class="hljs-number">3</span>, <span class="hljs-attr">focusTolerance</span>: <span class="hljs-number">0.015</span> });
+<span class="hljs-keyword">const</span> game = { <span class="hljs-attr">hasFuse</span>: <span class="hljs-literal">false</span>, <span class="hljs-attr">charged</span>: <span class="hljs-literal">false</span> };
+<span class="hljs-comment">// fuseRoot, crankRoot and wallRoot are your own Three.Object3D objects.</span>
+latch.<span class="hljs-title function_">register</span>({ <span class="hljs-attr">id</span>: <span class="hljs-string">"fuse"</span>, <span class="hljs-attr">root</span>: fuseRoot, <span class="hljs-attr">label</span>: <span class="hljs-string">"Take fuse"</span> });
+latch.<span class="hljs-title function_">register</span>({
+  <span class="hljs-attr">id</span>: <span class="hljs-string">"crank"</span>,
+  <span class="hljs-attr">root</span>: crankRoot,
+  <span class="hljs-attr">label</span>: <span class="hljs-string">"Wind mechanism"</span>,
+  <span class="hljs-attr">mode</span>: <span class="hljs-string">"hold"</span>,
+  <span class="hljs-attr">holdDuration</span>: <span class="hljs-number">1.8</span>,
+  <span class="hljs-attr">condition</span>: <span class="hljs-function">(<span class="hljs-params">{ context }</span>) =&gt;</span>
+    context.<span class="hljs-property">charged</span>
+      ? <span class="hljs-string">"Already wound"</span>
+      : context.<span class="hljs-property">hasFuse</span> || <span class="hljs-string">"Find the fuse first"</span>,
+});
+latch.<span class="hljs-title function_">setOccluders</span>([wallRoot]);
+
+<span class="hljs-keyword">const</span> aim = <span class="hljs-keyword">new</span> <span class="hljs-variable constant_">THREE</span>.<span class="hljs-title class_">Raycaster</span>();
+<span class="hljs-keyword">const</span> actorPosition = <span class="hljs-keyword">new</span> <span class="hljs-variable constant_">THREE</span>.<span class="hljs-title class_">Vector3</span>();
+<span class="hljs-keyword">const</span> pointerNDC = <span class="hljs-keyword">new</span> <span class="hljs-variable constant_">THREE</span>.<span class="hljs-title class_">Vector2</span>();
+<span class="hljs-keyword">let</span> pressed = <span class="hljs-literal">false</span>;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">step</span>(<span class="hljs-params">dt</span>) {
+  <span class="hljs-comment">// Call after your movement and world transforms, before applying interactions.</span>
+  aim.<span class="hljs-title function_">setFromCamera</span>(pointerNDC, camera);
+  actor.<span class="hljs-title function_">getWorldPosition</span>(actorPosition);
+  actorPosition.<span class="hljs-property">y</span> += <span class="hljs-number">0.8</span>; <span class="hljs-comment">// Your chosen hand/body interaction origin.</span>
+  <span class="hljs-keyword">const</span> result = latch.<span class="hljs-title function_">update</span>({
+    dt, <span class="hljs-comment">// Elapsed seconds, never milliseconds.</span>
+    <span class="hljs-attr">aimRay</span>: aim.<span class="hljs-property">ray</span>, <span class="hljs-comment">// May originate at a distant third-person camera.</span>
+    actorPosition, <span class="hljs-comment">// Reach is measured from this actor position.</span>
+    pressed, <span class="hljs-comment">// Current physical button state.</span>
+    <span class="hljs-attr">suspended</span>: menuIsOpen,
+    <span class="hljs-attr">context</span>: game,
+    camera, <span class="hljs-comment">// Needed for view-dependent raycasting, e.g. Sprites.</span>
+  });
+
+  prompt.<span class="hljs-property">textContent</span> = result.<span class="hljs-property">focus</span>
+    ? result.<span class="hljs-property">focus</span>.<span class="hljs-property">available</span>
+      ? result.<span class="hljs-property">focus</span>.<span class="hljs-property">label</span>
+      : result.<span class="hljs-property">focus</span>.<span class="hljs-property">reason</span>
+    : <span class="hljs-string">""</span>;
+  progress.<span class="hljs-property">value</span> = result.<span class="hljs-property">progress</span>;
+
+  <span class="hljs-comment">// The traversal is finished. Apply gameplay changes here.</span>
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> event <span class="hljs-keyword">of</span> result.<span class="hljs-property">events</span>) {
+    <span class="hljs-keyword">if</span> (event.<span class="hljs-property">type</span> !== <span class="hljs-string">"activate"</span>) <span class="hljs-keyword">continue</span>;
+    <span class="hljs-keyword">if</span> (event.<span class="hljs-property">target</span>.<span class="hljs-property">id</span> === <span class="hljs-string">"fuse"</span>) {
+      game.<span class="hljs-property">hasFuse</span> = <span class="hljs-literal">true</span>;
+      latch.<span class="hljs-title function_">remove</span>(<span class="hljs-string">"fuse"</span>);
+      fuseRoot.<span class="hljs-property">visible</span> = <span class="hljs-literal">false</span>;
+    }
+    <span class="hljs-keyword">if</span> (event.<span class="hljs-property">target</span>.<span class="hljs-property">id</span> === <span class="hljs-string">"crank"</span>) game.<span class="hljs-property">charged</span> = <span class="hljs-literal">true</span>;
+  }
+}</code></pre></div>
+<p><code>actor</code>, <code>camera</code>, scene roots, prompt, progress element, and <code>menuIsOpen</code> are host variables. Latch deliberately does not create them. The same loop works with a gamepad, touch button, first-person camera, or XR controller: supply a world-space ray and a current button state.</p>
+<h3 id="connect-input-without-losing-quick-taps">Connect input without losing quick taps</h3>
+<p>Track a button's down/up state. Call <code>step(0)</code> at each transition as well as <code>step(dt)</code> in your frame loop so a tap completed between rendered frames is still observed. Use one source of elapsed time: transition updates receive zero seconds. For multiple devices, aggregate their down states with a Set, as the showcase does.</p>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript"><span class="hljs-variable language_">window</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">"keydown"</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
+  <span class="hljs-keyword">if</span> (event.<span class="hljs-property">code</span> !== <span class="hljs-string">"KeyE"</span> || event.<span class="hljs-property">repeat</span>) <span class="hljs-keyword">return</span>;
+  pressed = <span class="hljs-literal">true</span>;
+  <span class="hljs-title function_">step</span>(<span class="hljs-number">0</span>);
+});
+<span class="hljs-variable language_">window</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">"keyup"</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
+  <span class="hljs-keyword">if</span> (event.<span class="hljs-property">code</span> !== <span class="hljs-string">"KeyE"</span>) <span class="hljs-keyword">return</span>;
+  pressed = <span class="hljs-literal">false</span>;
+  <span class="hljs-title function_">step</span>(<span class="hljs-number">0</span>);
+});</code></pre></div>
+<p>On blur, lost pointer capture, pointer cancellation, and hidden-page transitions, clear held input and call an update. For a menu or background state use <code>suspended: true</code>. Continue sending released input while suspended when possible. If the input remains held during suspension, it must be released before starting again after resumption. No DOM listeners or background timers are installed by the package.</p>
+<h3 id="typescript">TypeScript</h3>
+<div class="code-example"><div class="code-toolbar"><span>typescript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-typescript"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Latch</span>, <span class="hljs-keyword">type</span> <span class="hljs-title class_">InteractionEvent</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@cranberry-forge/latch"</span>;
+
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">GameState</span> = { <span class="hljs-attr">hasFuse</span>: <span class="hljs-built_in">boolean</span>; <span class="hljs-attr">charged</span>: <span class="hljs-built_in">boolean</span> };
+<span class="hljs-keyword">const</span> latch = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Latch</span>&lt;<span class="hljs-title class_">GameState</span>&gt;();
+latch.<span class="hljs-title function_">register</span>({
+  <span class="hljs-attr">id</span>: <span class="hljs-string">"door"</span>,
+  <span class="hljs-attr">root</span>: doorRoot,
+  <span class="hljs-attr">condition</span>: <span class="hljs-function">(<span class="hljs-params">{ context }</span>) =&gt;</span> context.<span class="hljs-property">hasFuse</span> || <span class="hljs-string">"A fuse is required"</span>,
+});
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">consume</span>(<span class="hljs-params"><span class="hljs-attr">event</span>: <span class="hljs-title class_">InteractionEvent</span></span>) {
+  <span class="hljs-keyword">if</span> (event.<span class="hljs-property">type</span> === <span class="hljs-string">"cancel"</span>) <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(event.<span class="hljs-property">reason</span>);
+  <span class="hljs-keyword">if</span> (event.<span class="hljs-property">type</span> === <span class="hljs-string">"activate"</span>) <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(event.<span class="hljs-property">target</span>.<span class="hljs-property">id</span>);
+}</code></pre></div>
+<p>When a condition uses context, supply it on every update, including zero-time input and suspension updates. Install <code>@types/three</code> matching your Three version if your TypeScript project does not already provide Three declarations.</p>
+</article><footer class="docs-pagination"><a href="../api/index.html"><small>← Previous</small><strong>API reference</strong></a><span></span></footer><p class="docs-source"><a href="https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/latch">View versioned source on GitHub ↗</a></p></main><aside class="docs-toc"><nav aria-label="On this page"><strong>On this page</strong><a href="#tutorial-a-locked-mechanism">Tutorial: a locked mechanism</a><a href="#connect-input-without-losing-quick-taps" class="docs-toc-sub">Connect input without losing quick taps</a><a href="#typescript" class="docs-toc-sub">TypeScript</a></nav></aside></div><footer class="forge-site-footer"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="../../index.html">Documentation</a><a href="../../../catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a></nav></footer></body></html>

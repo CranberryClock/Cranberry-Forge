@@ -1,0 +1,500 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101817"><title>Optional HTTP companion — Cranberry Forge</title><meta name="description" content="Local Node companion endpoints, request examples, and response contracts for Cranberry Forge."><link rel="icon" type="image/svg+xml" href="../../assets/branding/forge-mark.svg"><link rel="stylesheet" href="../../showcase-shell.css"><link rel="stylesheet" href="../../syntax.css"><link rel="stylesheet" href="../docs.css"><script src="../docs.js" defer></script></head><body class="forge-docs" data-forge-tool="collection"><a class="docs-skip" href="#main-content">Skip to documentation</a><header class="forge-site-header"><a class="forge-source-brand" href="../../catalog.html"><img src="../../assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a class="forge-home" href="../../catalog.html">Forge</a><span aria-hidden="true">/</span><a href="../index.html">Documentation</a></nav><div class="docs-layout"><aside class="docs-sidebar"><a class="docs-product" href="../index.html"><img src="../../assets/branding/forge-mark.svg" width="88" height="88" alt=""><strong>Forge</strong><small>Local development</small></a><nav aria-label="Companion documentation"><a href="index.html" aria-current="page">HTTP API</a><a href="../index.html">All documentation</a></nav></aside><main class="docs-main" id="main-content"><header class="docs-heading"><p class="docs-eyebrow">OPTIONAL LOCAL COMPANION</p><h1>HTTP API<span>Local automation &amp; development</span></h1><p class="docs-lede">Run the companion on your own machine to connect Forge’s data tools to local workflows.</p></header><article class="docs-prose"><p>The published showcase is static. It runs its tools entirely in your browser and does not require a backend. The endpoints below run in the repository's <strong>optional Node server</strong>; they are not available on the static hosted showcase URL.</p>
+<div class="code-example"><div class="code-toolbar"><span>bash</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-bash">npm ci
+npm run build
+npm run dev</code></pre></div>
+<p>Default: <code>http://127.0.0.1:4173</code>. Set <code>PORT</code> to choose a different port. <code>HOST=0.0.0.0</code> is an explicit opt-in to expose the local server. This companion is intended for local automation/development; add your own authentication, TLS, process isolation and request rate limiting before internet exposure. It accepts data, never executable height callbacks or remote URLs.</p>
+<h2 id="endpoints">Endpoints</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Endpoint</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GET</td>
+<td><code>/api/v1/health</code></td>
+<td>API status, version, Three.js version</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/capabilities</code></td>
+<td>Supported schemas, surfaces and request limits</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/biome/scatter</code></td>
+<td><code>cranberry-forge.biome/1</code> placement snapshot</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/flux/validate</code></td>
+<td>Normalized <code>cranberry-forge.flux/1</code> recipe</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/satchel/craft</code></td>
+<td>Craft result and updated <code>cranberry-forge.satchel/1</code> inventory snapshot</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/chatter/validate</code></td>
+<td>Validated, normalized dialogue story</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/chatter/step</code></td>
+<td>Action result, dialogue view and <code>cranberry-forge.chatter/1</code> conversation snapshot</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/trailmark/step</code></td>
+<td>Quest action result, quest views and version-1 journal snapshot</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/signal/validate</code></td>
+<td>Normalized <code>cranberry-forge.signal/1</code> recipe</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/signal/contains</code></td>
+<td>Boolean footprint results for local <code>[x,z]</code> points</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/loom/sample</code></td>
+<td>Normalized spline recipe and local arc-length frames</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/wayfinder/path</code></td>
+<td>Weighted grid route and edited grid snapshot</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/spring/step</code></td>
+<td>Analytically advanced scalar spring state</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/parcel/open</code></td>
+<td>Seeded loot receipts, snapshot and next-roll odds</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/tempo/step</code></td>
+<td>Clock events, optional ability-use result, state and snapshot</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api-reference.json</code></td>
+<td>OpenAPI 3.1 description</td>
+</tr>
+</tbody></table></div>
+<p>Latch remains JavaScript-only: interaction resolution queries a live Three.js scene, so it has no HTTP endpoint.</p>
+<h2 id="generate-a-meadow">Generate a meadow</h2>
+<div class="code-example"><div class="code-toolbar"><span>bash</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-bash">curl http://127.0.0.1:4173/api/v1/biome/scatter \
+  -H <span class="hljs-string">'Content-Type: application/json'</span> \
+  --data <span class="hljs-string">'{"options":{"seed":42,"count":500,"radius":25,"minDistance":1.2},"surface":{"type":"waves","amplitude":2,"frequency":0.12}}'</span></code></pre></div>
+<p><code>options</code> uses the Biome JavaScript schema. HTTP adds limits: 10,000 requested instances, 100,000 attempts, 2 MB body and a constraint workload budget of 2,000,000 (<code>maxAttempts × (1 + circles + total path segments)</code>). Exceeding a generation limit returns 422. The surface defaults to <code>{type:"flat",height:0}</code>; the other preset is <code>{type:"waves",amplitude:2,frequency:0.1}</code>. Wave height is <code>amplitude * sin(x * frequency) * cos(z * frequency)</code>.</p>
+<p>Read the returned <code>stats.placed</code> and <code>stats.saturated</code>. Geometrically impossible requests legitimately return fewer placements. Use <code>parseScatter(response)</code> in your game, then <code>createInstances</code> with local prototype meshes.</p>
+<h2 id="validate-a-trail-preset">Validate a trail preset</h2>
+<div class="code-example"><div class="code-toolbar"><span>bash</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-bash">curl http://127.0.0.1:4173/api/v1/flux/validate \
+  -H <span class="hljs-string">'Content-Type: application/json'</span> \
+  --data <span class="hljs-string">'{"schema":"cranberry-forge.flux/1","options":{"width":0.5,"lifetime":2.5,"color":"#b2ffcd"}}'</span></code></pre></div>
+<p>Returns the fully normalized preset suitable for <code>Trail.fromRecipe()</code>. It does not generate motion paths or render an image.</p>
+<h2 id="craft-and-save-an-inventory">Craft and save an inventory</h2>
+<p><code>POST /api/v1/satchel/craft</code> accepts an object with three required fields: <code>catalog</code>, <code>snapshot</code> and <code>recipe</code>. The snapshot may be an object or a JSON-encoded snapshot string. The catalog is separate from the snapshot and must be supplied on every request. The server restores the inventory, crafts the recipe <strong>once</strong>, and returns <code>{result, snapshot}</code>. The HTTP endpoint does not expose the JavaScript method's <code>times</code> argument.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Shape and limits</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>catalog</code></td>
+<td>1–256 item definitions. Each requires a unique <code>id</code>; optional <code>name</code> defaults to the ID, <code>width</code> and <code>height</code> to 1, <code>maxStack</code> to 1, and <code>weight</code> to 0. Names are 1–120 characters, dimensions are integers 1–32, stack capacity is an integer 1–1,000,000, and weight is finite in 0–1,000,000.</td>
+</tr>
+<tr>
+<td><code>snapshot</code></td>
+<td><code>{schema:"cranberry-forge.satchel/1", columns, rows, maxWeight, nextId, items}</code>. Both grid dimensions are integers 1–32; HTTP additionally limits their product to <strong>96 cells</strong>. <code>maxWeight</code> is finite in 0–1,000,000,000.</td>
+</tr>
+<tr>
+<td><code>snapshot.items</code></td>
+<td>Stacks shaped as <code>{id, itemId, quantity, x, y, rotated}</code>. IDs are unique <code>s</code> followed by 1–15 digits, without a leading zero. Quantities must fit the item's stack capacity; coordinates are integers and footprints must be inside the grid without overlapping. <code>rotated</code> is a boolean. The complete inventory must fit its weight limit.</td>
+</tr>
+<tr>
+<td><code>snapshot.nextId</code></td>
+<td>Integer 1–1,000,000,000,000,000, greater than every existing stack ID's numeric suffix. Keep the returned value when saving.</td>
+</tr>
+<tr>
+<td><code>recipe</code></td>
+<td><code>{ingredients:[{itemId,quantity}], outputs:[{itemId,quantity}]}</code>. HTTP permits <strong>1–8 entries in each array</strong>; quantities are integers 1–1,000,000. Every item must exist in the supplied catalog.</td>
+</tr>
+</tbody></table></div>
+<p>Catalog IDs use <code>[a-z][a-z0-9_-]{0,63}</code>, excluding <code>constructor</code>, <code>prototype</code> and <code>__proto__</code>. Saved stack IDs are independent of catalog IDs. Snapshot parsing permits at most 1,024 stack entries, but a valid HTTP inventory can hold no more stacks than its 96-cell grid allows.</p>
+<p>Crafting is atomic: insufficient ingredients (<code>missing-items</code>), excess output weight (<code>weight-limit</code>), lack of room (<code>no-space</code>), or exhausted stack IDs (<code>id-limit</code>) return <strong>HTTP 200</strong> with <code>result: {ok:false, reason}</code> and the unchanged inventory state. Success returns <code>result: {ok:true}</code> and the new snapshot. Invalid data, such as an unknown item, overlapping saved stacks, or an oversized HTTP grid, returns <strong>422</strong> with <code>{error}</code> instead.</p>
+<p>With the server running, use a separate shell for this example. It creates a four-cell inventory holding four ore, then crafts a fuse from two ore. The examples use curl and Node; no jq is required.</p>
+<div class="code-example"><div class="code-toolbar"><span>bash</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-bash"><span class="hljs-built_in">cat</span> &gt; satchel-request.json &lt;&lt;<span class="hljs-string">'JSON'</span>
+{
+  <span class="hljs-string">"catalog"</span>: [
+    {<span class="hljs-string">"id"</span>:<span class="hljs-string">"ore"</span>,<span class="hljs-string">"name"</span>:<span class="hljs-string">"Copper ore"</span>,<span class="hljs-string">"maxStack"</span>:10,<span class="hljs-string">"weight"</span>:1},
+    {<span class="hljs-string">"id"</span>:<span class="hljs-string">"fuse"</span>,<span class="hljs-string">"name"</span>:<span class="hljs-string">"Beacon fuse"</span>,<span class="hljs-string">"maxStack"</span>:5,<span class="hljs-string">"weight"</span>:1}
+  ],
+  <span class="hljs-string">"snapshot"</span>: {
+    <span class="hljs-string">"schema"</span>:<span class="hljs-string">"cranberry-forge.satchel/1"</span>,
+    <span class="hljs-string">"columns"</span>:2,<span class="hljs-string">"rows"</span>:2,<span class="hljs-string">"maxWeight"</span>:10,<span class="hljs-string">"nextId"</span>:2,
+    <span class="hljs-string">"items"</span>:[{<span class="hljs-string">"id"</span>:<span class="hljs-string">"s1"</span>,<span class="hljs-string">"itemId"</span>:<span class="hljs-string">"ore"</span>,<span class="hljs-string">"quantity"</span>:4,<span class="hljs-string">"x"</span>:0,<span class="hljs-string">"y"</span>:0,<span class="hljs-string">"rotated"</span>:<span class="hljs-literal">false</span>}]
+  },
+  <span class="hljs-string">"recipe"</span>: {
+    <span class="hljs-string">"ingredients"</span>:[{<span class="hljs-string">"itemId"</span>:<span class="hljs-string">"ore"</span>,<span class="hljs-string">"quantity"</span>:2}],
+    <span class="hljs-string">"outputs"</span>:[{<span class="hljs-string">"itemId"</span>:<span class="hljs-string">"fuse"</span>,<span class="hljs-string">"quantity"</span>:1}]
+  }
+}
+JSON
+
+curl --fail -sS http://127.0.0.1:4173/api/v1/satchel/craft \
+  -H <span class="hljs-string">'Content-Type: application/json'</span> \
+  --data-binary @satchel-request.json -o satchel-response.json
+
+node --input-type=module &lt;&lt;<span class="hljs-string">'JS'</span>
+import { readFileSync, writeFileSync } from <span class="hljs-string">'node:fs'</span>;
+const <span class="hljs-built_in">read</span> = path =&gt; JSON.parse(readFileSync(path, <span class="hljs-string">'utf8'</span>));
+const response = <span class="hljs-built_in">read</span>(<span class="hljs-string">'satchel-response.json'</span>);
+<span class="hljs-keyword">if</span> (!response.result?.ok) throw new Error(JSON.stringify(response));
+writeFileSync(<span class="hljs-string">'satchel-save.json'</span>, JSON.stringify(response.snapshot, null, 2));
+const request = <span class="hljs-built_in">read</span>(<span class="hljs-string">'satchel-request.json'</span>);
+request.snapshot = <span class="hljs-built_in">read</span>(<span class="hljs-string">'satchel-save.json'</span>);
+writeFileSync(<span class="hljs-string">'satchel-next-request.json'</span>, JSON.stringify(request, null, 2));
+console.log(response.result, response.snapshot.items);
+JS
+
+curl --fail -sS http://127.0.0.1:4173/api/v1/satchel/craft \
+  -H <span class="hljs-string">'Content-Type: application/json'</span> \
+  --data-binary @satchel-next-request.json -o satchel-next-response.json
+
+node --input-type=module &lt;&lt;<span class="hljs-string">'JS'</span>
+import { readFileSync, writeFileSync } from <span class="hljs-string">'node:fs'</span>;
+const response = JSON.parse(readFileSync(<span class="hljs-string">'satchel-next-response.json'</span>, <span class="hljs-string">'utf8'</span>));
+<span class="hljs-keyword">if</span> (!response.result?.ok) throw new Error(JSON.stringify(response));
+writeFileSync(<span class="hljs-string">'satchel-save.json'</span>, JSON.stringify(response.snapshot, null, 2));
+console.log(response.result, response.snapshot.items);
+JS</code></pre></div>
+<p>The first response contains two ore and one fuse; the second contains two fuses and no ore. Both calls resubmit the catalog and recipe. For another operation, build its request from the latest saved snapshot. Reposting an old request repeats that operation from the old state; the server does not retain an inventory or overwrite your save files.</p>
+<h2 id="validate-play-and-resume-a-conversation">Validate, play and resume a conversation</h2>
+<p><code>POST /api/v1/chatter/validate</code> accepts <code>{story}</code> and returns <code>{story}</code> with defaults filled in and unsupported fields discarded. The story itself has <code>id</code>, <code>start</code>, optional <code>variables</code>, and a <code>nodes</code> object; <code>cranberry-forge.chatter/1</code> identifies a <strong>conversation snapshot</strong>, not the story input. Validation checks identifiers, variable types, interpolation references and node targets. It does not start a conversation or run effects.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Story field</th>
+<th>Shape and limits</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>id</code>, <code>start</code>, node/choice IDs and variable names</td>
+<td><code>[a-z][a-z0-9_-]{0,63}</code>, excluding <code>constructor</code>, <code>prototype</code> and <code>__proto__</code>. <code>start</code> must name an existing node; choice IDs are unique within their node.</td>
+</tr>
+<tr>
+<td><code>variables</code></td>
+<td>At most 64 declared variables. Values are booleans, finite numbers within ±1,000,000,000, or strings of at most 1,000 characters.</td>
+</tr>
+<tr>
+<td><code>nodes</code></td>
+<td>1–256 entries. Each node requires <code>text</code> of at most 8,000 characters; optional <code>speaker</code> is at most 120 characters. <code>{{variable}}</code> interpolation in node and choice text must refer to a declared variable.</td>
+</tr>
+<tr>
+<td>Node navigation</td>
+<td>At most 12 <code>choices</code>, each with <code>id</code>, <code>text</code> (at most 500 characters) and <code>target</code> (an existing node ID or <code>null</code> to end). A node without choices may use <code>next</code> with the same target shape; omitted <code>next</code> defaults to <code>null</code>. Choices and a non-null <code>next</code> cannot be combined.</td>
+</tr>
+<tr>
+<td>Choice availability</td>
+<td>Optional boolean <code>once</code> defaults to <code>false</code>. Optional <code>when</code> contains at most 16 <code>{op,variable,value}</code> conditions; all must pass. Operators are <code>eq</code>, <code>ne</code>, <code>gt</code>, <code>gte</code>, <code>lt</code>, <code>lte</code>; ordered comparisons require numbers.</td>
+</tr>
+<tr>
+<td>Effects</td>
+<td>Node <code>onEnter</code> and choice <code>effects</code> each allow at most 32 <code>{op,variable,value}</code> operations. <code>set</code> assigns a declared variable; <code>add</code> requires a numeric variable. Conditions and effects must use the variable's declared type.</td>
+</tr>
+</tbody></table></div>
+<p><code>POST /api/v1/chatter/step</code> requires <code>story</code> on every request and accepts the following optional fields:</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>snapshot</code></td>
+<td>An <code>cranberry-forge.chatter/1</code> snapshot object or JSON-encoded snapshot string. Omit it to start a new conversation at <code>story.start</code> and run that node's <code>onEnter</code> effects. A supplied snapshot restores progress without replaying entry effects. Explicit invalid values, including <code>null</code>, <code>false</code>, <code>0</code> and <code>""</code>, return 422.</td>
+</tr>
+<tr>
+<td><code>choiceId</code></td>
+<td>A string selecting one choice from the current node. The response can report <code>not-found</code>, <code>unavailable</code> or <code>ended</code>; a non-string value returns 422.</td>
+</tr>
+<tr>
+<td><code>advance</code></td>
+<td>Must be exactly <code>true</code> when supplied. Advance a node without choices to <code>next</code>; a null target ends the conversation. The response can report <code>choice-required</code> or <code>ended</code>.</td>
+</tr>
+</tbody></table></div>
+<p>Supply at most one of <code>choiceId</code> and <code>advance</code>. Supplying both, or supplying <code>advance:false</code>, returns 422. Omitting both returns the initial/restored view with <code>result: {ok:true}</code> and performs no navigation. Each step returns <code>{result, view, snapshot}</code>. The view includes <code>nodeId</code>, <code>speaker</code>, interpolated <code>text</code>, <code>ended</code>, <code>canAdvance</code>, and choices shaped as <code>{id,text,enabled}</code>; unavailable choices remain visible with <code>enabled:false</code>. A terminal line remains available to display until advancing ends the conversation.</p>
+<p>Valid but unsuccessful gameplay actions return <strong>HTTP 200</strong> with <code>result: {ok:false,reason}</code> and unchanged conversation state. Invalid stories/snapshots, mismatched story signatures, and effect or visit-limit violations return <strong>422</strong> with <code>{error}</code>. A snapshot records <code>schema</code>, <code>storyId</code>, <code>signature</code>, <code>nodeId</code>, <code>variables</code>, <code>usedChoices</code>, <code>visits</code> and <code>ended</code>. Preserve all of it and resubmit the same story: the signature must match the normalized story, including its content. Visits are limited to 1,000,000 per node, and snapshots allow at most 256 visit entries and 3,072 unique, valid one-time choice keys. The server stores neither stories nor conversations.</p>
+<p>This example validates a story, starts it, buys a fuse, saves and restores the returned progress, then advances the receipt to end the conversation.</p>
+<div class="code-example"><div class="code-toolbar"><span>bash</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-bash"><span class="hljs-built_in">cat</span> &gt; chatter-validate-request.json &lt;&lt;<span class="hljs-string">'JSON'</span>
+{
+  <span class="hljs-string">"story"</span>: {
+    <span class="hljs-string">"id"</span>:<span class="hljs-string">"beacon-shop"</span>,<span class="hljs-string">"start"</span>:<span class="hljs-string">"offer"</span>,
+    <span class="hljs-string">"variables"</span>:{<span class="hljs-string">"coins"</span>:2,<span class="hljs-string">"has_fuse"</span>:<span class="hljs-literal">false</span>},
+    <span class="hljs-string">"nodes"</span>:{
+      <span class="hljs-string">"offer"</span>:{
+        <span class="hljs-string">"speaker"</span>:<span class="hljs-string">"Engineer"</span>,<span class="hljs-string">"text"</span>:<span class="hljs-string">"A fuse costs 2 coins. You have {{coins}}."</span>,
+        <span class="hljs-string">"choices"</span>:[{
+          <span class="hljs-string">"id"</span>:<span class="hljs-string">"buy"</span>,<span class="hljs-string">"text"</span>:<span class="hljs-string">"Buy the fuse"</span>,<span class="hljs-string">"target"</span>:<span class="hljs-string">"receipt"</span>,<span class="hljs-string">"once"</span>:<span class="hljs-literal">true</span>,
+          <span class="hljs-string">"when"</span>:[{<span class="hljs-string">"op"</span>:<span class="hljs-string">"gte"</span>,<span class="hljs-string">"variable"</span>:<span class="hljs-string">"coins"</span>,<span class="hljs-string">"value"</span>:2}],
+          <span class="hljs-string">"effects"</span>:[
+            {<span class="hljs-string">"op"</span>:<span class="hljs-string">"add"</span>,<span class="hljs-string">"variable"</span>:<span class="hljs-string">"coins"</span>,<span class="hljs-string">"value"</span>:-2},
+            {<span class="hljs-string">"op"</span>:<span class="hljs-string">"set"</span>,<span class="hljs-string">"variable"</span>:<span class="hljs-string">"has_fuse"</span>,<span class="hljs-string">"value"</span>:<span class="hljs-literal">true</span>}
+          ]
+        }]
+      },
+      <span class="hljs-string">"receipt"</span>:{<span class="hljs-string">"speaker"</span>:<span class="hljs-string">"Engineer"</span>,<span class="hljs-string">"text"</span>:<span class="hljs-string">"The fuse is yours. Coins left: {{coins}}."</span>,<span class="hljs-string">"next"</span>:null}
+    }
+  }
+}
+JSON
+
+curl --fail -sS http://127.0.0.1:4173/api/v1/chatter/validate \
+  -H <span class="hljs-string">'Content-Type: application/json'</span> \
+  --data-binary @chatter-validate-request.json -o chatter-validated.json
+
+<span class="hljs-comment"># The validation response is already a {story} request: no snapshot starts anew.</span>
+curl --fail -sS http://127.0.0.1:4173/api/v1/chatter/step \
+  -H <span class="hljs-string">'Content-Type: application/json'</span> \
+  --data-binary @chatter-validated.json -o chatter-start-response.json
+
+node --input-type=module &lt;&lt;<span class="hljs-string">'JS'</span>
+import { readFileSync, writeFileSync } from <span class="hljs-string">'node:fs'</span>;
+const <span class="hljs-built_in">read</span> = path =&gt; JSON.parse(readFileSync(path, <span class="hljs-string">'utf8'</span>));
+const { story } = <span class="hljs-built_in">read</span>(<span class="hljs-string">'chatter-validated.json'</span>);
+const response = <span class="hljs-built_in">read</span>(<span class="hljs-string">'chatter-start-response.json'</span>);
+<span class="hljs-keyword">if</span> (!response.result?.ok) throw new Error(JSON.stringify(response));
+writeFileSync(<span class="hljs-string">'chatter-story.json'</span>, JSON.stringify(story, null, 2));
+writeFileSync(<span class="hljs-string">'chatter-save.json'</span>, JSON.stringify(response.snapshot, null, 2));
+writeFileSync(<span class="hljs-string">'chatter-choice-request.json'</span>, JSON.stringify({
+  story, snapshot: <span class="hljs-built_in">read</span>(<span class="hljs-string">'chatter-save.json'</span>), choiceId: <span class="hljs-string">'buy'</span>
+}, null, 2));
+console.log(response.view);
+JS
+
+curl --fail -sS http://127.0.0.1:4173/api/v1/chatter/step \
+  -H <span class="hljs-string">'Content-Type: application/json'</span> \
+  --data-binary @chatter-choice-request.json -o chatter-choice-response.json
+
+node --input-type=module &lt;&lt;<span class="hljs-string">'JS'</span>
+import { readFileSync, writeFileSync } from <span class="hljs-string">'node:fs'</span>;
+const <span class="hljs-built_in">read</span> = path =&gt; JSON.parse(readFileSync(path, <span class="hljs-string">'utf8'</span>));
+const response = <span class="hljs-built_in">read</span>(<span class="hljs-string">'chatter-choice-response.json'</span>);
+<span class="hljs-keyword">if</span> (!response.result?.ok) throw new Error(JSON.stringify(response));
+writeFileSync(<span class="hljs-string">'chatter-save.json'</span>, JSON.stringify(response.snapshot, null, 2));
+writeFileSync(<span class="hljs-string">'chatter-advance-request.json'</span>, JSON.stringify({
+  story: <span class="hljs-built_in">read</span>(<span class="hljs-string">'chatter-story.json'</span>), snapshot: <span class="hljs-built_in">read</span>(<span class="hljs-string">'chatter-save.json'</span>), advance: <span class="hljs-literal">true</span>
+}, null, 2));
+console.log(response.view, response.snapshot.variables);
+JS
+
+curl --fail -sS http://127.0.0.1:4173/api/v1/chatter/step \
+  -H <span class="hljs-string">'Content-Type: application/json'</span> \
+  --data-binary @chatter-advance-request.json -o chatter-end-response.json
+
+node --input-type=module &lt;&lt;<span class="hljs-string">'JS'</span>
+import { readFileSync, writeFileSync } from <span class="hljs-string">'node:fs'</span>;
+const response = JSON.parse(readFileSync(<span class="hljs-string">'chatter-end-response.json'</span>, <span class="hljs-string">'utf8'</span>));
+<span class="hljs-keyword">if</span> (!response.result?.ok) throw new Error(JSON.stringify(response));
+writeFileSync(<span class="hljs-string">'chatter-save.json'</span>, JSON.stringify(response.snapshot, null, 2));
+console.log(response.view.ended, response.snapshot.variables);
+JS</code></pre></div>
+<p>The final output is <code>true</code> with <code>{coins:0, has_fuse:true}</code>. Those are dialogue variables; Chatter does not add an item to a Satchel inventory. The host application coordinates the two systems and saves each returned snapshot. Curl's <code>--fail</code> handles HTTP errors, but clients must also inspect <code>result.ok</code> for gameplay failures returned with HTTP 200.</p>
+<h2 id="activate-complete-and-claim-a-quest">Activate, complete and claim a quest</h2>
+<p><code>POST /api/v1/trailmark/step</code> accepts <code>{definitions, snapshot?, action?}</code> and returns <code>{result, quests, snapshot}</code>. Every request supplies the quest definitions. Omit <code>snapshot</code> to create a fresh journal with a deduplication capacity of <strong>2,048</strong> accepted event IDs. To continue, supply the latest returned snapshot as a <strong>JSON object</strong>; JSON-encoded snapshot strings are not supported by this endpoint. A restored journal preserves the snapshot's <code>dedupeCapacity</code>, an integer from 1 to 10,000. There is no top-level capacity option.</p>
+<p>The request, action, quest/objective definitions, event and all snapshot records reject unknown fields. Explicit invalid snapshots, including <code>null</code>, <code>false</code>, <code>0</code>, <code>""</code> and encoded JSON strings, return <strong>422</strong>; only omission starts a new journal. All POST requests share the 2 MiB body limit.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th><code>action</code></th>
+<th>Returned <code>result</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Omitted</td>
+<td><code>null</code>; inspect the fresh or restored journal without changing it.</td>
+</tr>
+<tr>
+<td><code>{type:"activate", questId}</code></td>
+<td><code>{activated, reason, quest}</code>. Success has <code>activated:true</code> and <code>reason:null</code>; failed gates have <code>activated:false</code> and reason <code>prerequisites</code> or <code>already-started</code>.</td>
+</tr>
+<tr>
+<td><code>{type:"dispatch", event:{id,type,tags?,amount?}}</code></td>
+<td><code>{accepted, duplicate, sequence, changes, completed}</code>. Each change is <code>{questId,objectiveId,before,after,target}</code>; <code>completed</code> contains newly issued completion receipts. A retained event ID returns <code>accepted:false</code>, <code>duplicate:true</code> and empty change/completion arrays.</td>
+</tr>
+<tr>
+<td><code>{type:"claim", questId}</code></td>
+<td>The receipt on the first claim of a completed quest; <code>null</code> if that quest is not completed or was already claimed.</td>
+</tr>
+</tbody></table></div>
+<p>Trailmark returns these method results directly; it does not wrap them in <code>{ok:...}</code>. Failed activation gates, duplicate events and no-op claims are <strong>HTTP 200</strong> gameplay outcomes. Invalid definitions, events, actions or snapshots, an unknown quest ID, or an exhausted operation sequence return <strong>422</strong> with <code>{error}</code>. A successful claim acknowledges completion; it does not award currency or inventory.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Definitions and event limits</th>
+<th>Contract</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>definitions</code></td>
+<td>1–128 quests, each <code>{id,title?,description?,prerequisites?,objectives}</code>. Quest IDs must be unique.</td>
+</tr>
+<tr>
+<td><code>objectives</code></td>
+<td>1–64 per quest and at most 1,024 across the journal; each <code>{id,title?,type,tags?,target}</code>. Objective IDs must be unique within their quest.</td>
+</tr>
+<tr>
+<td><code>prerequisites</code></td>
+<td>At most 32 unique existing quest IDs per quest, with no cycles; defaults to <code>[]</code>.</td>
+</tr>
+<tr>
+<td>IDs, event types and tags</td>
+<td>Nonblank strings of 1–96 characters. Matching is exact and case-sensitive.</td>
+</tr>
+<tr>
+<td>Titles and descriptions</td>
+<td>Quest/objective titles default to their ID and must be nonblank strings of at most 160 characters. Quest descriptions default to <code>""</code>; supplied descriptions allow <code>""</code> or a nonblank string of at most 1,000 characters.</td>
+</tr>
+<tr>
+<td>Objective/event <code>tags</code></td>
+<td>At most 16 unique strings, default <code>[]</code>. An event must contain every tag required by an objective; extra event tags are allowed.</td>
+</tr>
+<tr>
+<td>Objective <code>target</code></td>
+<td>Integer 1–1,000,000,000.</td>
+</tr>
+<tr>
+<td>Event <code>amount</code></td>
+<td>Integer 1–1,000,000, default 1.</td>
+</tr>
+<tr>
+<td>Operation <code>sequence</code></td>
+<td>Integer 0–9,007,199,254,740,991. Accepted events, successful activations and successful claims increment it. Failed gates, duplicates and no-op claims do not. Exhaustion throws before mutation.</td>
+</tr>
+</tbody></table></div>
+<p>Activation is explicit. Only active objectives with the matching event type and all required tags receive progress. One event can advance multiple objectives in parallel; amounts are not consumed between objectives, and counters clamp at their targets. Events received before activation never count retroactively. Completing all objectives creates a receipt and makes dependent quests <strong>available before claim</strong>, but does not activate those dependents. <code>quests</code> is the current list in definition order, with statuses <code>locked</code>, <code>available</code>, <code>active</code>, <code>completed</code> or <code>claimed</code>, objective counts, missing prerequisites and any receipt. Changes and completions also follow definition/objective order.</p>
+<p>Deduplication retains the most recent N <strong>accepted event IDs in FIFO order</strong>, including events that matched nothing or arrived before any quest was active. IDs are global within the journal, regardless of event type or payload. A duplicate changes neither progress nor sequence and does not refresh its retention position. After N later distinct accepted events, an ID is evicted and can be accepted again. Invalid event payloads are rejected before the duplicate check. Use the same ID for a retry and a new ID for a distinct gameplay action.</p>
+<p>Keep the complete returned snapshot: <code>{version:1,catalogKey,dedupeCapacity,sequence,recentEvents,quests}</code>. It preserves counters, activation order, completion/claim receipts and retained event IDs. A receipt is <code>{id,questId,completedAt,eventId,claimedAt}</code>, with <code>claimedAt:null</code> until claimed. Restoration checks structural consistency and the exact normalized definitions; definition order, titles, descriptions and objective edits can make a save incompatible. Tag and prerequisite ordering are normalized. Restoration does not replay events or reissue completion/claim results. The server retains no journal: send the definitions and newest save on every request.</p>
+<p>This example activates a timber commission, completes it with one event, then claims its receipt. A dependent beacon quest becomes available when the timber arrives. Run it beside the local server using curl and Node:</p>
+<div class="code-example"><div class="code-toolbar"><span>bash</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-bash"><span class="hljs-built_in">cat</span> &gt; trailmark-activate-request.json &lt;&lt;<span class="hljs-string">'JSON'</span>
+{
+  <span class="hljs-string">"definitions"</span>:[
+    {
+      <span class="hljs-string">"id"</span>:<span class="hljs-string">"timber"</span>,<span class="hljs-string">"title"</span>:<span class="hljs-string">"Supply the harbor"</span>,
+      <span class="hljs-string">"objectives"</span>:[{<span class="hljs-string">"id"</span>:<span class="hljs-string">"wood"</span>,<span class="hljs-string">"type"</span>:<span class="hljs-string">"gather"</span>,<span class="hljs-string">"tags"</span>:[<span class="hljs-string">"timber"</span>],<span class="hljs-string">"target"</span>:3}]
+    },
+    {
+      <span class="hljs-string">"id"</span>:<span class="hljs-string">"beacon"</span>,<span class="hljs-string">"title"</span>:<span class="hljs-string">"Light the beacon"</span>,<span class="hljs-string">"prerequisites"</span>:[<span class="hljs-string">"timber"</span>],
+      <span class="hljs-string">"objectives"</span>:[{<span class="hljs-string">"id"</span>:<span class="hljs-string">"light"</span>,<span class="hljs-string">"type"</span>:<span class="hljs-string">"restore"</span>,<span class="hljs-string">"tags"</span>:[<span class="hljs-string">"beacon"</span>],<span class="hljs-string">"target"</span>:1}]
+    }
+  ],
+  <span class="hljs-string">"action"</span>:{<span class="hljs-string">"type"</span>:<span class="hljs-string">"activate"</span>,<span class="hljs-string">"questId"</span>:<span class="hljs-string">"timber"</span>}
+}
+JSON
+
+curl --fail -sS http://127.0.0.1:4173/api/v1/trailmark/step \
+  -H <span class="hljs-string">'Content-Type: application/json'</span> \
+  --data-binary @trailmark-activate-request.json -o trailmark-activate-response.json
+
+node --input-type=module &lt;&lt;<span class="hljs-string">'JS'</span>
+import { readFileSync, writeFileSync } from <span class="hljs-string">'node:fs'</span>;
+const <span class="hljs-built_in">read</span> = path =&gt; JSON.parse(readFileSync(path, <span class="hljs-string">'utf8'</span>));
+const { definitions } = <span class="hljs-built_in">read</span>(<span class="hljs-string">'trailmark-activate-request.json'</span>);
+const response = <span class="hljs-built_in">read</span>(<span class="hljs-string">'trailmark-activate-response.json'</span>);
+<span class="hljs-keyword">if</span> (!response.result?.activated) throw new Error(JSON.stringify(response));
+writeFileSync(<span class="hljs-string">'trailmark-definitions.json'</span>, JSON.stringify(definitions, null, 2));
+writeFileSync(<span class="hljs-string">'trailmark-save.json'</span>, JSON.stringify(response.snapshot, null, 2));
+writeFileSync(<span class="hljs-string">'trailmark-dispatch-request.json'</span>, JSON.stringify({
+  definitions, snapshot: <span class="hljs-built_in">read</span>(<span class="hljs-string">'trailmark-save.json'</span>),
+  action: { <span class="hljs-built_in">type</span>: <span class="hljs-string">'dispatch'</span>, event: { <span class="hljs-built_in">id</span>: <span class="hljs-string">'wood-001'</span>, <span class="hljs-built_in">type</span>: <span class="hljs-string">'gather'</span>, tags: [<span class="hljs-string">'timber'</span>], amount: 3 } }
+}, null, 2));
+console.log(response.quests.map(quest =&gt; [quest.id, quest.status]));
+JS
+
+curl --fail -sS http://127.0.0.1:4173/api/v1/trailmark/step \
+  -H <span class="hljs-string">'Content-Type: application/json'</span> \
+  --data-binary @trailmark-dispatch-request.json -o trailmark-dispatch-response.json
+
+node --input-type=module &lt;&lt;<span class="hljs-string">'JS'</span>
+import { readFileSync, writeFileSync } from <span class="hljs-string">'node:fs'</span>;
+const <span class="hljs-built_in">read</span> = path =&gt; JSON.parse(readFileSync(path, <span class="hljs-string">'utf8'</span>));
+const response = <span class="hljs-built_in">read</span>(<span class="hljs-string">'trailmark-dispatch-response.json'</span>);
+<span class="hljs-keyword">if</span> (!response.result?.accepted) throw new Error(JSON.stringify(response));
+writeFileSync(<span class="hljs-string">'trailmark-save.json'</span>, JSON.stringify(response.snapshot, null, 2));
+writeFileSync(<span class="hljs-string">'trailmark-claim-request.json'</span>, JSON.stringify({
+  definitions: <span class="hljs-built_in">read</span>(<span class="hljs-string">'trailmark-definitions.json'</span>), snapshot: <span class="hljs-built_in">read</span>(<span class="hljs-string">'trailmark-save.json'</span>),
+  action: { <span class="hljs-built_in">type</span>: <span class="hljs-string">'claim'</span>, questId: <span class="hljs-string">'timber'</span> }
+}, null, 2));
+console.log(response.result.completed);
+console.log(response.quests.map(quest =&gt; [quest.id, quest.status]));
+JS
+
+curl --fail -sS http://127.0.0.1:4173/api/v1/trailmark/step \
+  -H <span class="hljs-string">'Content-Type: application/json'</span> \
+  --data-binary @trailmark-claim-request.json -o trailmark-claim-response.json
+
+node --input-type=module &lt;&lt;<span class="hljs-string">'JS'</span>
+import { readFileSync, writeFileSync } from <span class="hljs-string">'node:fs'</span>;
+const response = JSON.parse(readFileSync(<span class="hljs-string">'trailmark-claim-response.json'</span>, <span class="hljs-string">'utf8'</span>));
+<span class="hljs-keyword">if</span> (!response.result || response.result.claimedAt === null) throw new Error(JSON.stringify(response));
+writeFileSync(<span class="hljs-string">'trailmark-save.json'</span>, JSON.stringify(response.snapshot, null, 2));
+console.log(response.result);
+console.log(response.quests.map(quest =&gt; [quest.id, quest.status]));
+JS</code></pre></div>
+<p>Activation is operation 1. The gathering event is operation 2 and returns receipt <code>timber@2</code>; the beacon is already <code>available</code> at that point. Claiming records <code>claimedAt:3</code>, leaving timber <code>claimed</code> and beacon <code>available</code>. A subsequent claim <strong>using the latest saved snapshot</strong> returns <code>result:null</code>. Replaying <code>wood-001</code> from that latest snapshot reports a duplicate. To inspect without acting, submit only <code>definitions</code> and that snapshot.</p>
+<p>Reposting a stale request or restoring an older save creates another branch of history and can repeat a completion or claim. Receipts and the bounded dedupe window do not provide external exactly-once delivery, merge concurrent saves, authenticate events, or make receipt IDs globally unique. If a claim grants durable rewards, the host application owns the transaction and must namespace idempotency by player/save. Always persist the returned snapshot before building the next request.</p>
+<h2 id="validate-and-query-a-combat-warning">Validate and query a combat warning</h2>
+<div class="code-example"><div class="code-toolbar"><span>bash</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-bash">curl http://127.0.0.1:4173/api/v1/signal/validate \
+  -H <span class="hljs-string">'Content-Type: application/json'</span> \
+  --data <span class="hljs-string">'{"schema":"cranberry-forge.signal/1","options":{"shape":"cone","radius":10,"angle":75,"color":"#a8a1ff"}}'</span>
+
+curl http://127.0.0.1:4173/api/v1/signal/contains \
+  -H <span class="hljs-string">'Content-Type: application/json'</span> \
+  --data <span class="hljs-string">'{"options":{"shape":"beam","width":2,"length":8},"points":[[0,-4],[2,-4],[0,1]]}'</span></code></pre></div>
+<p>The query returns <code>{"inside":[true,false,false]}</code> in input order. Coordinates are <strong>local XZ</strong>, not world positions; cones and beams extend along −Z. Maximum 10,000 points, each exactly two finite numbers. The query checks the complete footprint and includes boundaries. It does not consider altitude, transforms, terrain occlusion, charge progress or physics. Use <code>Telegraph.containsPoint(worldPosition)</code> in your game for transformed world-space checks.</p>
+<p>Errors are JSON <code>{error: string}</code>. 400 = malformed JSON; 413 = body larger than 2 MiB (2,097,152 bytes); 415 = wrong content type; 422 = invalid schema/range/workload; 404 = unknown endpoint; 405 = unsupported method. The body limit applies to every POST endpoint. Satchel and Chatter gameplay failures use HTTP 200 with <code>{result:{ok:false,reason},...}</code> instead of an HTTP error. Trailmark uses HTTP 200 with its action-specific result for failed gates, duplicates and no-op claims. No permissive CORS header is emitted. Use the local server's same-origin frontend or a server-side HTTP client.</p>
+<h2 id="sample-a-spline-track-with-loom">Sample a spline track with Loom</h2>
+<div class="code-example"><div class="code-toolbar"><span>bash</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-bash">curl http://127.0.0.1:4173/api/v1/loom/sample \
+  -H <span class="hljs-string">'Content-Type: application/json'</span> \
+  --data <span class="hljs-string">'{"options":{"points":[[-6,0,0],[0,2,-3],[6,0,0]],"width":1.5,"segments":32},"samples":[0,0.5,1]}'</span></code></pre></div>
+<p>Returns <code>{recipe,samples}</code>. Each sample includes <code>u</code>, arc distance, width, bank and local-space position/tangent/right/up/quaternion arrays. <code>u</code> is an arc-length fraction, not raw curve parameter. The HTTP wrapper accepts 1–128 sample fractions in [0,1]. A closed route wraps 1 to 0. Geometry is built and disposed for the request; no mesh, GLB or image is returned. The recipe imports into <code>Loom.fromRecipe()</code> in your own scene. Points, width/bank profiles and all bounds follow <a href="../loom/api/index.html">Loom's API</a>. No terrain projection or intersections are inferred.</p>
+<h2 id="ask-wayfinder-for-a-route">Ask Wayfinder for a route</h2>
+<div class="code-example"><div class="code-toolbar"><span>bash</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-bash">curl http://127.0.0.1:4173/api/v1/wayfinder/path \
+  -H <span class="hljs-string">'Content-Type: application/json'</span> \
+  --data <span class="hljs-string">'{"grid":{"width":4,"height":3,"diagonal":"no-cut"},"cells":[{"x":1,"z":0,"blocked":true},{"x":2,"z":1,"cost":4}],"start":{"x":0,"z":0},"goal":{"x":3,"z":2}}'</span></code></pre></div>
+<p>Supply either <code>grid</code> options or an object <code>snapshot</code>, never both. <code>cells</code> is an optional array of atomic <code>{x,z,blocked?,cost?}</code> edits. <code>start</code> and <code>goal</code> are integer cells; <code>maxVisited</code> optionally bounds search work. Returns <code>{result,snapshot}</code>. Result status <code>found</code> includes cells, world points, weighted cost, visited count and grid revision. <code>outside-grid</code>, <code>blocked-start</code>, <code>blocked-goal</code>, <code>unreachable</code> and <code>budget-exceeded</code> are ordinary <strong>200</strong> responses with empty paths and null cost, not malformed requests. Grid dimensions are 1–128 each, costs 1–1000. Pass the returned snapshot with new endpoints to query the same map later. The server stores no grid and does not move an agent. <a href="../wayfinder/api/index.html">Wayfinder API</a>.</p>
+<h2 id="step-a-spring">Step a spring</h2>
+<div class="code-example"><div class="code-toolbar"><span>bash</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-bash">curl http://127.0.0.1:4173/api/v1/spring/step \
+  -H <span class="hljs-string">'Content-Type: application/json'</span> \
+  --data <span class="hljs-string">'{"state":{"value":0,"velocity":0,"target":1},"dt":0.1,"options":{"frequency":2,"dampingRatio":0.65}}'</span></code></pre></div>
+<p>Returns <code>{state:{value,velocity,target}}</code>. Feed that state into the next request. Each input state field is required. <code>dt</code> is 0–60 seconds; frequency .01–100 Hz and damping ratio 0–10. Options default to 2 Hz and .65 damping. The analytic step assumes a fixed target and coefficients during that step; change the target or velocity between requests for tracking and impulses. Magnitudes are bounded to 1e12. The <a href="../spring/api/index.html">JavaScript API</a> also exposes scalar and vector classes; render-loop use should call those directly.</p>
+<h2 id="open-seeded-loot-parcels">Open seeded loot parcels</h2>
+<div class="code-example"><div class="code-toolbar"><span>bash</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-bash">curl http://127.0.0.1:4173/api/v1/parcel/open \
+  -H <span class="hljs-string">'Content-Type: application/json'</span> \
+  --data <span class="hljs-string">'{"table":{"id":"moon-cache","entries":[{"id":"copper","itemId":"copper","rarity":"common","weight":9,"min":1,"max":3},{"id":"star","itemId":"star","rarity":"rare","weight":1}],"pity":{"after":5,"rarities":["rare"]}},"seed":42,"count":5}'</span></code></pre></div>
+<p>Returns <code>{receipts,snapshot,odds}</code>. <code>odds</code> describes the <strong>next</strong> draw; each receipt records the probability for its own draw. One draw selects one weighted entry and an inclusive integer quantity. Integer weights may be zero; at least one must be positive. Hard pity guarantees a configured rarity on the Nth consecutive attempt, after N−1 misses; natural qualifying drops reset the counter. No soft probability escalation is applied.</p>
+<p>HTTP <code>count</code> is 1–1000 (default 1); the direct package permits larger bounded batches. Omitted seed defaults to 1. To resume, supply the same table and returned object snapshot; its seed is preserved. If you additionally supply a seed, it must match. Failed validation does not advance a saved stream. Receipts are local results, not proof of inventory granting or network authority; the host applies items. <a href="../parcel/api/index.html">Parcel API</a>.</p>
+<h2 id="advance-ability-clocks">Advance ability clocks</h2>
+<div class="code-example"><div class="code-toolbar"><span>bash</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-bash">curl http://127.0.0.1:4173/api/v1/tempo/step \
+  -H <span class="hljs-string">'Content-Type: application/json'</span> \
+  --data <span class="hljs-string">'{"definitions":[{"id":"dash","charges":2,"recharge":3,"cooldown":0.2}],"options":{"globalCooldown":0.5},"dt":0,"use":"dash"}'</span></code></pre></div>
+<p>Returns <code>{events,result,state,snapshot}</code>. The server first advances the clock by <code>dt</code> seconds (default 0), then attempts <code>use</code> if supplied. <code>result</code> is null when inspecting; a blocked ability is an ordinary <strong>200</strong> response with <code>ok:false</code>, reason and retry time. <code>events</code> contains recharge/cooldown completion events from the tick; a successful <code>result.events</code> contains the use event. Missing charges recharge sequentially. A separate per-use cooldown runs concurrently, and an ability with <code>usesGlobalCooldown:false</code> neither triggers nor observes the global gate.</p>
+<p>Start with <code>definitions</code> and optional <code>options</code>, or resume with the returned object <code>snapshot</code>. Snapshot input cannot be combined with definitions/options. There are at most 64 abilities and 16 charges each; <code>dt</code> is 0–86400 seconds. The host owns pause/time scale and persistence. The server uses no wall clock, keeps no game session and does not execute spell effects. <a href="../tempo/api/index.html">Tempo API</a>.</p>
+<p>All five expansion routes reject unknown request fields. HTTP snapshots are objects, even where a direct JavaScript package also accepts encoded JSON text. Request/response examples in OpenAPI are generated by <code>node scripts/document-expansion-api.mjs</code> and checked against the actual local server.</p>
+</article><p class="docs-source"><a href="https://github.com/CranberryClock/Cranberry-Forge/blob/main/docs/HTTP_API.md">View versioned source on GitHub ↗</a></p></main><aside class="docs-toc"><nav aria-label="On this page"><strong>On this page</strong><a href="#endpoints">Endpoints</a><a href="#generate-a-meadow">Generate a meadow</a><a href="#validate-a-trail-preset">Validate a trail preset</a><a href="#craft-and-save-an-inventory">Craft and save an inventory</a><a href="#validate-play-and-resume-a-conversation">Validate, play and resume a conversation</a><a href="#activate-complete-and-claim-a-quest">Activate, complete and claim a quest</a><a href="#validate-and-query-a-combat-warning">Validate and query a combat warning</a><a href="#sample-a-spline-track-with-loom">Sample a spline track with Loom</a><a href="#ask-wayfinder-for-a-route">Ask Wayfinder for a route</a><a href="#step-a-spring">Step a spring</a><a href="#open-seeded-loot-parcels">Open seeded loot parcels</a><a href="#advance-ability-clocks">Advance ability clocks</a></nav></aside></div><footer class="forge-site-footer"><a class="forge-source-brand" href="../../catalog.html"><img src="../../assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="../index.html">Documentation</a><a href="../../catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a></nav></footer></body></html>

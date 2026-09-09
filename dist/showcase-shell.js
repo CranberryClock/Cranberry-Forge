@@ -38,7 +38,7 @@
     ])
       for (const el of document.querySelectorAll(`[data-product-${key}]`))
         el.textContent = p[key];
-    for (const key of ["download", "docs"])
+    for (const key of ["download", "docs", "guide"])
       for (const el of document.querySelectorAll(`[data-product-${key}]`))
         el.href = p[key];
     for (const img of document.querySelectorAll("[data-product-mark]")) {

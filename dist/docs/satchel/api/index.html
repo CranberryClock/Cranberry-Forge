@@ -1,0 +1,104 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101817"><title>Satchel API reference — Cranberry Forge</title><meta name="description" content="The public Satchel API: inputs, outputs, behavior, and constraints."><link rel="icon" type="image/svg+xml" href="../../../assets/branding/forge-mark.svg"><link rel="stylesheet" href="../../../showcase-shell.css"><link rel="stylesheet" href="../../../syntax.css"><link rel="stylesheet" href="../../docs.css"><script src="../../docs.js" defer></script></head><body class="forge-docs" data-forge-tool="satchel"><a class="docs-skip" href="#main-content">Skip to documentation</a><header class="forge-site-header"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a class="forge-home" href="../../../catalog.html">Forge</a><span aria-hidden="true">/</span><a href="../../index.html">Documentation</a><span aria-hidden="true">/</span><span>Satchel</span></nav><div class="docs-layout"><aside class="docs-sidebar"><a class="docs-product" href="../index.html"><img src="../../../assets/identities/satchel.svg" alt="" width="88" height="88"><strong>Satchel</strong><small>Inventory & crafting</small></a><nav aria-label="Satchel documentation"><a href="../index.html">Overview</a><a href="../guide/index.html">Integration guide</a><a href="index.html" aria-current="page">API reference</a><a href="../tutorial/index.html">Tutorial</a></nav><a class="docs-demo-link" href="../../../play.html?kit=satchel">Open the showcase ↗</a><label for="docs-system-select">Explore another system</label><select id="docs-system-select" class="docs-system-select"><option value="../../biome/index.html">Biome</option><option value="../../flux/index.html">Flux</option><option value="../../signal/index.html">Signal</option><option value="../../latch/index.html">Latch</option><option value="../../loom/index.html">Loom</option><option value="../index.html" selected>Satchel</option><option value="../../chatter/index.html">Chatter</option><option value="../../trailmark/index.html">Trailmark</option><option value="../../wayfinder/index.html">Wayfinder</option><option value="../../spring/index.html">Spring</option><option value="../../parcel/index.html">Parcel</option><option value="../../tempo/index.html">Tempo</option><option value="../../ledger/index.html">Ledger</option><option value="../../keepsake/index.html">Keepsake</option><option value="../../sift/index.html">Sift</option><option value="../../mothlight/index.html">Mothlight</option><option value="../../afterglow/index.html">Afterglow</option></select><a href="../../index.html">All documentation →</a></aside><main class="docs-main" id="main-content"><header class="docs-heading"><p class="docs-eyebrow">INDEPENDENT TOOL / v0.1.0</p><h1>Satchel<span>API reference</span></h1><p class="docs-lede">The public Satchel API: inputs, outputs, behavior, and constraints.</p></header><article class="docs-prose"><h2 id="item-definitions">Item definitions</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Default</th>
+<th>Contract</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>id</code></td>
+<td>required</td>
+<td>Unique lowercase identifier: letters, digits, <code>_</code> and <code>-</code>; 1–64 characters, starts with a letter. Reserved prototype names are rejected.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>ID</td>
+<td>Display name, 1–120 characters.</td>
+</tr>
+<tr>
+<td><code>width</code>, <code>height</code></td>
+<td>1</td>
+<td>Integers 1–32; rectangles may be rotated 90°.</td>
+</tr>
+<tr>
+<td><code>maxStack</code></td>
+<td>1</td>
+<td>Integer 1–1,000,000. Every stack occupies the item's full rectangle.</td>
+</tr>
+<tr>
+<td><code>weight</code></td>
+<td>0</td>
+<td>Nonnegative per-unit weight, up to 1,000,000; choose your own unit.</td>
+</tr>
+</tbody></table></div>
+<p>Catalogs support 1–256 definitions. Extra visual metadata is ignored; keep rarity, icons, meshes and descriptions in your own content data. Every item of the same ID is fungible. Unique durability, rolls or equipment stats are outside this version; use distinct catalog IDs where practical.</p>
+
+<h2 id="inventory-and-actions">Inventory and actions</h2>
+<p>Construct with <code>{catalog, columns=6, rows=4, maxWeight=1e9}</code>. Grid dimensions are 1–32, and maximum weight is finite from 0–1e9. Getters <code>items</code>, <code>catalog</code>, <code>columns</code>, <code>rows</code>, <code>maxWeight</code>, <code>weight</code> and <code>revision</code> expose state. Arrays are copies, so mutating them does not modify the inventory. An item stack has <code>{id,itemId,quantity,x,y,rotated}</code>. Stack IDs are scoped to one inventory.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>add(itemId, quantity=1)</code></td>
+<td>Fill compatible stacks, then search row by row for new stacks. Try unrotated, then rotated layouts. All units must fit.</td>
+</tr>
+<tr>
+<td><code>take(itemId, quantity=1)</code></td>
+<td>Consume units across stacks in insertion order. All units must exist.</td>
+</tr>
+<tr>
+<td><code>remove(stackId, quantity=wholeStack)</code></td>
+<td>Remove units from one stack.</td>
+</tr>
+<tr>
+<td><code>move(stackId,x,y,rotated=current)</code></td>
+<td>Set the top-left grid cell and optional orientation. Reject overlap and bounds violations.</td>
+</tr>
+<tr>
+<td><code>rotate(stackId)</code></td>
+<td>Rotate in place. Does not search for a different position.</td>
+</tr>
+<tr>
+<td><code>split(stackId,quantity)</code></td>
+<td>Move part of a stack into a new automatically placed stack. Leave at least one unit behind.</td>
+</tr>
+<tr>
+<td><code>merge(sourceId,targetId)</code></td>
+<td>Move as many compatible units as the target can accept. Return the transferred quantity.</td>
+</tr>
+<tr>
+<td><code>transfer(stackId,target,quantity=wholeStack)</code></td>
+<td>Add to the target and remove from the source atomically. Destination catalog definitions govern its dimensions and weight.</td>
+</tr>
+<tr>
+<td><code>canCraft(recipe,times=1)</code></td>
+<td>Plan a craft without changing state.</td>
+</tr>
+<tr>
+<td><code>craft(recipe,times=1)</code></td>
+<td>Consume every ingredient and place every output, or change nothing.</td>
+</tr>
+<tr>
+<td><code>count(itemId)</code></td>
+<td>Count units across all stacks.</td>
+</tr>
+<tr>
+<td><code>dimensions(stack)</code></td>
+<td>Return width/height in the stack's current orientation.</td>
+</tr>
+<tr>
+<td><code>subscribe(callback)</code></td>
+<td>Notify after commits with a detached snapshot; returns an unsubscribe function.</td>
+</tr>
+</tbody></table></div>
+<p>Normal game-rule failures return <code>{ok:false,reason}</code>: <code>no-space</code>, <code>weight-limit</code>, <code>blocked</code>, <code>missing-items</code>, <code>not-found</code>, <code>invalid-split</code>, <code>same-stack</code>, <code>different-items</code>, <code>stack-full</code>, <code>same-inventory</code>, <code>id-limit</code>. Successful actions return <code>{ok:true}</code> with a <code>quantity</code> or new stack <code>id</code> when relevant. Invalid argument types, unknown catalog IDs and resource limits throw. Quantities are positive integers ≤1,000,000. Recipes have 1–64 ingredients and outputs, and batch size is 1–1,000; each multiplied quantity must stay within the quantity limit. Stack IDs stop at <code>s999999999999999</code>; an exhausted inventory can still merge into existing stacks, but allocating a new stack fails atomically with <code>id-limit</code>.</p>
+
+<h2 id="boundaries">Boundaries</h2>
+<p>This is bounded grid packing, not an optimal packing solver. Failure means the deterministic search could not fit the requested placement; manual rearrangement may create room. No physics, equipment slots, currency ledger, multiplayer authority, undo stack or persistent storage is included. Use server-owned state and your own transaction boundaries for online economies.</p>
+</article><footer class="docs-pagination"><a href="../guide/index.html"><small>← Previous</small><strong>Integration guide</strong></a><a href="../tutorial/index.html"><small>Next →</small><strong>Tutorial</strong></a></footer><p class="docs-source"><a href="https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/satchel">View versioned source on GitHub ↗</a></p></main><aside class="docs-toc"><nav aria-label="On this page"><strong>On this page</strong><a href="#item-definitions">Item definitions</a><a href="#inventory-and-actions">Inventory and actions</a><a href="#boundaries">Boundaries</a></nav></aside></div><footer class="forge-site-footer"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="../../index.html">Documentation</a><a href="../../../catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a></nav></footer></body></html>

@@ -88,7 +88,7 @@ export function mountKit({ world, panel, stage }) {
   $("#integration-description").textContent =
     "A validated dialogue graph with conditions, typed variables, one-time choices and save files. Use the headless runtime with your own UI, or mount the optional accessible dialogue box.";
   $("#kit-download").href = "/downloads/cranberry-forge-chatter-0.1.0.tgz";
-  $("#kit-api").href = "/packages/chatter/README.md";
+  $("#kit-api").href = "/docs/chatter/api/index.html";
   $("#code-filename").textContent = "conversation.js";
   $("#kit-code").textContent =
     `import { Conversation } from '@cranberry-forge/chatter';
@@ -121,6 +121,6 @@ box.dispose();`;
     guide: `<h2>Chatter / a small graph with a memory</h2><p>A story contains nodes, text, choices and scalar variables. Every target and variable reference is validated before a conversation begins. The runtime never evaluates code from story data.</p><pre>const talk = new Conversation(story);
 talk.choose('help');
 const currentLine = talk.view;
-const saved = talk.toSnapshot();</pre><p>Use <code>when</code> conditions to gate a choice, <code>effects</code> to set or add a variable, and <code>once:true</code> for one-time decisions. Choices and entry effects commit together. Save files preserve the current line, visited nodes and used choices without re-running effects.</p><h3>Connect a Three.js character</h3><p>Open the dialogue after a raycast interaction. Disable movement while the box is open. The optional <code>mountDialogue</code> adapter uses native buttons, safe text insertion, keyboard focus and reduced-motion-aware typing. Its styles can be themed with CSS variables.</p><p><a href="/packages/chatter/README.md" target="_blank" rel="noopener">Full story schema, tutorial and API ↗</a></p>`,
+const saved = talk.toSnapshot();</pre><p>Use <code>when</code> conditions to gate a choice, <code>effects</code> to set or add a variable, and <code>once:true</code> for one-time decisions. Choices and entry effects commit together. Save files preserve the current line, visited nodes and used choices without re-running effects.</p><h3>Connect a Three.js character</h3><p>Open the dialogue after a raycast interaction. Disable movement while the box is open. The optional <code>mountDialogue</code> adapter uses native buttons, safe text insertion, keyboard focus and reduced-motion-aware typing. Its styles can be themed with CSS variables.</p><p><a href="/docs/chatter/api/index.html" target="_blank" rel="noopener">Full story schema, tutorial and API ↗</a></p>`,
   };
 }

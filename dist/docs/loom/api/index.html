@@ -1,0 +1,159 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101817"><title>Loom API reference — Cranberry Forge</title><meta name="description" content="The public Loom API: inputs, outputs, behavior, and constraints."><link rel="icon" type="image/svg+xml" href="../../../assets/branding/forge-mark.svg"><link rel="stylesheet" href="../../../showcase-shell.css"><link rel="stylesheet" href="../../../syntax.css"><link rel="stylesheet" href="../../docs.css"><script src="../../docs.js" defer></script></head><body class="forge-docs" data-forge-tool="loom"><a class="docs-skip" href="#main-content">Skip to documentation</a><header class="forge-site-header"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a class="forge-home" href="../../../catalog.html">Forge</a><span aria-hidden="true">/</span><a href="../../index.html">Documentation</a><span aria-hidden="true">/</span><span>Loom</span></nav><div class="docs-layout"><aside class="docs-sidebar"><a class="docs-product" href="../index.html"><img src="../../../assets/identities/loom.svg" alt="" width="88" height="88"><strong>Loom</strong><small>Splines & geometry</small></a><nav aria-label="Loom documentation"><a href="../index.html">Overview</a><a href="../guide/index.html">Integration guide</a><a href="index.html" aria-current="page">API reference</a><a href="../tutorial/index.html">Tutorial</a></nav><a class="docs-demo-link" href="../../../loom.html">Open the showcase ↗</a><label for="docs-system-select">Explore another system</label><select id="docs-system-select" class="docs-system-select"><option value="../../biome/index.html">Biome</option><option value="../../flux/index.html">Flux</option><option value="../../signal/index.html">Signal</option><option value="../../latch/index.html">Latch</option><option value="../index.html" selected>Loom</option><option value="../../satchel/index.html">Satchel</option><option value="../../chatter/index.html">Chatter</option><option value="../../trailmark/index.html">Trailmark</option><option value="../../wayfinder/index.html">Wayfinder</option><option value="../../spring/index.html">Spring</option><option value="../../parcel/index.html">Parcel</option><option value="../../tempo/index.html">Tempo</option><option value="../../ledger/index.html">Ledger</option><option value="../../keepsake/index.html">Keepsake</option><option value="../../sift/index.html">Sift</option><option value="../../mothlight/index.html">Mothlight</option><option value="../../afterglow/index.html">Afterglow</option></select><a href="../../index.html">All documentation →</a></aside><main class="docs-main" id="main-content"><header class="docs-heading"><p class="docs-eyebrow">INDEPENDENT TOOL / v0.1.0</p><h1>Loom<span>API reference</span></h1><p class="docs-lede">The public Loom API: inputs, outputs, behavior, and constraints.</p></header><article class="docs-prose"><h2 id="api">API</h2>
+<h3 id="new-loomoptions-materials"><code>new Loom(options?, materials?)</code></h3>
+<p>Loom extends <code>THREE.Group</code> and adds two meshes: <code>surface</code> and <code>borders</code>.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>Contract</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>points</code></td>
+<td>Four-point S curve</td>
+<td>2–128 tuples <code>[x,y,z]</code> or Three.Vector3 values; closed routes require at least 3. Coordinates are finite in ±1,000,000.</td>
+</tr>
+<tr>
+<td><code>closed</code></td>
+<td><code>false</code></td>
+<td>Boolean. Closing is automatic; do not duplicate the first point at the end.</td>
+</tr>
+<tr>
+<td><code>segments</code></td>
+<td><code>128</code></td>
+<td>Integer from 8 to 4096. Surface subdivision and transported-frame resolution.</td>
+</tr>
+<tr>
+<td><code>width</code></td>
+<td><code>1.8</code></td>
+<td>Number or profile; each value is from 0.001 to 1000 world units.</td>
+</tr>
+<tr>
+<td><code>bank</code></td>
+<td><code>0</code></td>
+<td>Number or profile; radians from −π to π.</td>
+</tr>
+<tr>
+<td><code>up</code></td>
+<td><code>[0,1,0]</code></td>
+<td>Finite nonzero tuple/Vector3 defining the preferred initial up direction. Normalized internally.</td>
+</tr>
+<tr>
+<td><code>uvScale</code></td>
+<td><code>2</code></td>
+<td>World units per longitudinal UV repeat; finite from 0.001 to 1,000,000.</td>
+</tr>
+<tr>
+<td><code>borderWidth</code></td>
+<td><code>0.09</code></td>
+<td>Rectangular border thickness across the ribbon, from 0 to 100 world units.</td>
+</tr>
+<tr>
+<td><code>borderHeight</code></td>
+<td><code>0.16</code></td>
+<td>Border height above the ribbon, from 0 to 100. Zero width or height disables both borders.</td>
+</tr>
+</tbody></table></div>
+<p>A profile contains 2–128 <code>{ at, value }</code> keys. Key positions must run strictly from <code>0</code> to <code>1</code>. Unknown option/profile keys, sparse arrays, NaN, infinities, duplicate adjacent points, and near-collinear reversals are rejected. Adjacent point separation must be at least <code>0.00001</code> units. A sampled zero tangent also rejects construction. No silent coercion is performed. Omitted options use defaults; explicit <code>undefined</code> is not treated as an omitted value.</p>
+<p>The second argument accepts <code>{ surface?: THREE.Material, borders?: THREE.Material }</code>. If omitted, Loom creates a double-sided standard surface material and a metallic border material. A supplied material is shared by reference and remains <strong>caller-owned</strong>. Materials are never serialized in recipes. The two borders are one mesh; separate left/right materials are outside this version's scope.</p>
+<h3 id="properties-and-methods">Properties and methods</h3>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>options</code></td>
+<td>Deep-frozen normalized options copied from input.</td>
+</tr>
+<tr>
+<td><code>length</code></td>
+<td>Approximate total centerline arc length in local world units.</td>
+</tr>
+<tr>
+<td><code>surface</code></td>
+<td>Mesh with indexed ribbon geometry, position/normal/UV attributes, and bounds.</td>
+</tr>
+<tr>
+<td><code>borders</code></td>
+<td>Mesh containing both rectangular edge borders; an empty geometry when disabled. Open border ends are capped.</td>
+</tr>
+<tr>
+<td><code>disposed</code></td>
+<td>Whether disposal has occurred.</td>
+</tr>
+<tr>
+<td><code>sample(u, target?)</code></td>
+<td>Sample by normalized arc length. Open routes clamp; closed routes wrap. Requires a finite number.</td>
+</tr>
+<tr>
+<td><code>sampleDistance(distance, target?)</code></td>
+<td>Sample by local centerline distance; same clamp/wrap policy.</td>
+</tr>
+<tr>
+<td><code>configure(partialOptions)</code></td>
+<td>Atomically replace route geometry/data while keeping the two mesh objects and materials; returns <code>this</code>.</td>
+</tr>
+<tr>
+<td><code>toRecipe()</code></td>
+<td>Independent JSON-compatible <code>{ schema, options }</code> copy.</td>
+</tr>
+<tr>
+<td><code>Loom.fromRecipe(recipe, materials?)</code></td>
+<td>Construct from a recipe object or JSON string. Rejects unknown schemas or envelope properties. Missing option fields use defaults.</td>
+</tr>
+<tr>
+<td><code>dispose()</code></td>
+<td>Idempotent. Dispose owned geometries/default materials and detach the Loom group and its two meshes.</td>
+</tr>
+</tbody></table></div>
+<p>After disposal, sampling, configuring, and recipe export throw. Caller-supplied materials remain valid. Arbitrary host children added to the group are neither disposed nor automatically reparented; the detached group still owns those children. The host owns those lifetimes. Do not replace the package-owned geometry references manually. Prefer recipes for copying; inherited <code>Object3D.clone/copy</code> are not Loom reconstruction APIs.</p>
+<h3 id="sampling-result">Sampling result</h3>
+<p><code>createLoomSample()</code> creates a reusable output object for <code>sample</code> or <code>sampleDistance</code>. Omitting the output creates a new one. Supplying a reusable output avoids allocating the result's vectors/quaternion; no allocation-free performance guarantee is made.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>u</code></td>
+<td>Clamped or wrapped fraction in <code>[0,1]</code> for open routes, <code>[0,1)</code> for closed routes.</td>
+</tr>
+<tr>
+<td><code>distance</code></td>
+<td>That fraction multiplied by route length, rather than an unwrapped travel counter.</td>
+</tr>
+<tr>
+<td><code>position</code></td>
+<td>Centerline position in Loom local space.</td>
+</tr>
+<tr>
+<td><code>tangent</code></td>
+<td>Unit forward vector.</td>
+</tr>
+<tr>
+<td><code>right</code>, <code>up</code></td>
+<td>Orthonormal frame vectors after banking.</td>
+</tr>
+<tr>
+<td><code>quaternion</code></td>
+<td>Orientation mapping model +X/right, +Y/up, +Z/forward into the frame.</td>
+</tr>
+<tr>
+<td><code>width</code>, <code>bank</code></td>
+<td>Evaluated width and bank at the returned distance.</td>
+</tr>
+</tbody></table></div>
+<p>All returned vectors and the quaternion are independent mutable values. Changing them does not mutate Loom. Reusing the same sample object overwrites it, so copy values retained elsewhere.</p>
+<h3 id="other-exports">Other exports</h3>
+<ul>
+<li><code>LOOM_DEFAULTS</code>: deep-frozen normalized defaults.</li>
+<li><code>normalizeLoomOptions(options?)</code>: validate and copy without generating GPU geometry; returns normalized frozen options.</li>
+<li><code>LoomPoint</code>, <code>LoomProfile</code>, <code>ProfileKey</code>, <code>LoomOptions</code>, <code>NormalizedLoomOptions</code>, <code>LoomMaterials</code>, <code>LoomSample</code>, and <code>LoomRecipe</code>: declaration types.</li>
+</ul>
+</article><footer class="docs-pagination"><a href="../guide/index.html"><small>← Previous</small><strong>Integration guide</strong></a><a href="../tutorial/index.html"><small>Next →</small><strong>Tutorial</strong></a></footer><p class="docs-source"><a href="https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/loom">View versioned source on GitHub ↗</a></p></main><aside class="docs-toc"><nav aria-label="On this page"><strong>On this page</strong><a href="#api">API</a><a href="#new-loomoptions-materials" class="docs-toc-sub">new Loom(options?, materials?)</a><a href="#properties-and-methods" class="docs-toc-sub">Properties and methods</a><a href="#sampling-result" class="docs-toc-sub">Sampling result</a><a href="#other-exports" class="docs-toc-sub">Other exports</a></nav></aside></div><footer class="forge-site-footer"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="../../index.html">Documentation</a><a href="../../../catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a></nav></footer></body></html>

@@ -1,0 +1,108 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101817"><title>Trailmark Integration guide — Cranberry Forge</title><meta name="description" content="Install Trailmark, connect it to your project, and understand the integration boundaries."><link rel="icon" type="image/svg+xml" href="../../../assets/branding/forge-mark.svg"><link rel="stylesheet" href="../../../showcase-shell.css"><link rel="stylesheet" href="../../../syntax.css"><link rel="stylesheet" href="../../docs.css"><script src="../../docs.js" defer></script></head><body class="forge-docs" data-forge-tool="trailmark"><a class="docs-skip" href="#main-content">Skip to documentation</a><header class="forge-site-header"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a class="forge-home" href="../../../catalog.html">Forge</a><span aria-hidden="true">/</span><a href="../../index.html">Documentation</a><span aria-hidden="true">/</span><span>Trailmark</span></nav><div class="docs-layout"><aside class="docs-sidebar"><a class="docs-product" href="../index.html"><img src="../../../assets/identities/trailmark.svg" alt="" width="88" height="88"><strong>Trailmark</strong><small>Quests & objectives</small></a><nav aria-label="Trailmark documentation"><a href="../index.html">Overview</a><a href="index.html" aria-current="page">Integration guide</a><a href="../api/index.html">API reference</a><a href="../tutorial/index.html">Tutorial</a></nav><a class="docs-demo-link" href="../../../trailmark.html">Open the showcase ↗</a><label for="docs-system-select">Explore another system</label><select id="docs-system-select" class="docs-system-select"><option value="../../biome/index.html">Biome</option><option value="../../flux/index.html">Flux</option><option value="../../signal/index.html">Signal</option><option value="../../latch/index.html">Latch</option><option value="../../loom/index.html">Loom</option><option value="../../satchel/index.html">Satchel</option><option value="../../chatter/index.html">Chatter</option><option value="../index.html" selected>Trailmark</option><option value="../../wayfinder/index.html">Wayfinder</option><option value="../../spring/index.html">Spring</option><option value="../../parcel/index.html">Parcel</option><option value="../../tempo/index.html">Tempo</option><option value="../../ledger/index.html">Ledger</option><option value="../../keepsake/index.html">Keepsake</option><option value="../../sift/index.html">Sift</option><option value="../../mothlight/index.html">Mothlight</option><option value="../../afterglow/index.html">Afterglow</option></select><a href="../../index.html">All documentation →</a></aside><main class="docs-main" id="main-content"><header class="docs-heading"><p class="docs-eyebrow">INDEPENDENT TOOL / v0.1.0</p><h1>Trailmark<span>Integration guide</span></h1><p class="docs-lede">Install Trailmark, connect it to your project, and understand the integration boundaries.</p></header><div class="docs-callout"><strong>Start with the package archive.</strong><p><a href="../../../downloads/cranberry-forge-trailmark-0.1.0.tgz" download>Download Trailmark v0.1.0 ↓</a>, then follow the installation instructions below. Commands that pack source files run from the public repository checkout.</p></div><article class="docs-prose"><h2 id="install">Install</h2>
+<p>Run <code>npm pack ./dist/packages/trailmark</code> from the repository, then install the local archive in your game project:</p>
+<div class="code-example"><div class="code-toolbar"><span>bash</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-bash">npm install ./cranberry-forge-trailmark-0.1.0.tgz</code></pre></div>
+<p>The archive is an installable npm package; this documentation does not assume that the package has been published to the public npm registry.</p>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> { createJournal } <span class="hljs-keyword">from</span> <span class="hljs-string">'@cranberry-forge/trailmark'</span>;
+
+<span class="hljs-keyword">const</span> quests = [
+  {
+    <span class="hljs-attr">id</span>: <span class="hljs-string">'bridge'</span>,
+    <span class="hljs-attr">title</span>: <span class="hljs-string">'Across the blue'</span>,
+    <span class="hljs-attr">objectives</span>: [
+      { <span class="hljs-attr">id</span>: <span class="hljs-string">'timber'</span>, <span class="hljs-attr">type</span>: <span class="hljs-string">'gather'</span>, <span class="hljs-attr">tags</span>: [<span class="hljs-string">'timber'</span>], <span class="hljs-attr">target</span>: <span class="hljs-number">3</span> },
+      { <span class="hljs-attr">id</span>: <span class="hljs-string">'arch'</span>, <span class="hljs-attr">type</span>: <span class="hljs-string">'restore'</span>, <span class="hljs-attr">tags</span>: [<span class="hljs-string">'bridge'</span>], <span class="hljs-attr">target</span>: <span class="hljs-number">1</span> },
+    ],
+  },
+  {
+    <span class="hljs-attr">id</span>: <span class="hljs-string">'beacon'</span>,
+    <span class="hljs-attr">prerequisites</span>: [<span class="hljs-string">'bridge'</span>],
+    <span class="hljs-attr">objectives</span>: [{ <span class="hljs-attr">id</span>: <span class="hljs-string">'light'</span>, <span class="hljs-attr">type</span>: <span class="hljs-string">'restore'</span>, <span class="hljs-attr">tags</span>: [<span class="hljs-string">'beacon'</span>], <span class="hljs-attr">target</span>: <span class="hljs-number">1</span> }],
+  },
+];
+
+<span class="hljs-keyword">const</span> journal = <span class="hljs-title function_">createJournal</span>(quests, { <span class="hljs-attr">dedupeCapacity</span>: <span class="hljs-number">256</span> });
+journal.<span class="hljs-title function_">activate</span>(<span class="hljs-string">'bridge'</span>);
+journal.<span class="hljs-title function_">dispatch</span>({ <span class="hljs-attr">id</span>: <span class="hljs-string">'wood-001'</span>, <span class="hljs-attr">type</span>: <span class="hljs-string">'gather'</span>, <span class="hljs-attr">tags</span>: [<span class="hljs-string">'timber'</span>], <span class="hljs-attr">amount</span>: <span class="hljs-number">3</span> });
+<span class="hljs-keyword">const</span> result = journal.<span class="hljs-title function_">dispatch</span>({ <span class="hljs-attr">id</span>: <span class="hljs-string">'arch-001'</span>, <span class="hljs-attr">type</span>: <span class="hljs-string">'restore'</span>, <span class="hljs-attr">tags</span>: [<span class="hljs-string">'bridge'</span>] });
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result.<span class="hljs-property">completed</span>[<span class="hljs-number">0</span>]); <span class="hljs-comment">// stable local completion receipt</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(journal.<span class="hljs-title function_">get</span>(<span class="hljs-string">'beacon'</span>).<span class="hljs-property">status</span>); <span class="hljs-comment">// 'available', still needs activation</span>
+<span class="hljs-keyword">const</span> receipt = journal.<span class="hljs-title function_">claim</span>(<span class="hljs-string">'bridge'</span>); <span class="hljs-comment">// first call returns the claimed receipt</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(journal.<span class="hljs-title function_">claim</span>(<span class="hljs-string">'bridge'</span>)); <span class="hljs-comment">// null: already claimed</span></code></pre></div>
+
+<h2 id="contract">Contract</h2>
+<ul>
+<li>Activation is explicit. A quest starts only when all of its prerequisites are completed or claimed. Earlier events are never counted retroactively. Completing a prerequisite makes its dependents available; it does not activate them.</li>
+<li>Every active objective with the exact event <code>type</code> and <strong>all</strong> of its required tags receives the event's positive integer <code>amount</code> (default <code>1</code>). Extra event tags are allowed. Objectives progress in parallel; amounts are not an inventory to consume. All counters clamp at their targets.</li>
+<li>Events are processed synchronously, in caller order. Changes and completions are returned in catalog/objective order. There are no timers, callbacks, random numbers, or background tasks.</li>
+<li>A completed quest returns a completion receipt in exactly one <code>dispatch().completed</code> result during one forward journal history. <code>claim()</code> records an acknowledgement once. Receipts remain bounded by the number of defined quests.</li>
+<li>Snapshots preserve counters, activation order, completion and claim receipts, and retained event IDs. Restoration does not dispatch events or replay completion/claim callbacks.</li>
+</ul>
+
+<h2 id="bounded-duplicate-protection">Bounded duplicate protection</h2>
+<p><code>dedupeCapacity</code> is <strong>1–10,000</strong>, default <strong>2,048</strong>. The journal retains the IDs of the most recent N <strong>accepted events</strong>, in FIFO order. This includes events that matched nothing, even before any quest was active. Duplicate attempts are rejected without advancing the sequence, changing progress, or refreshing an ID's position. Event IDs are global within this journal, not per event type; different payloads with a retained ID are also duplicates. Invalid payloads throw before the dedupe check.</p>
+<p>After N later distinct accepted events, an old ID is evicted and can be accepted again. The retained window survives a snapshot round trip. Use stable IDs for retries and new IDs for distinct gameplay actions. An ID that was accepted too early cannot be reused to retroactively count that action while it remains retained.</p>
+<p><strong>This is bounded in-process duplicate suppression, not network exactly-once delivery.</strong> It does not authenticate events, coordinate clients, merge saves, or prevent rollback. Restoring an older save can make an already completed or claimed action happen again in a new branch of history. Receipt IDs such as <code>bridge@5</code> are stable within the saved journal history, not globally unique across players or resets. If claiming grants durable currency or inventory, use a transactional authority and a player/save namespace for idempotency. The application owns that transaction; Trailmark never grants rewards itself.</p>
+
+<h2 id="saves-and-validation">Saves and validation</h2>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> saved = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(journal.<span class="hljs-title function_">snapshot</span>());
+<span class="hljs-keyword">const</span> restored = <span class="hljs-title function_">createJournal</span>(quests, {
+  <span class="hljs-attr">dedupeCapacity</span>: <span class="hljs-number">256</span>,
+  <span class="hljs-attr">snapshot</span>: <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(saved),
+});
+
+<span class="hljs-comment">// Or replace an existing journal atomically:</span>
+restored.<span class="hljs-title function_">restore</span>(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(saved));</code></pre></div>
+<p>Version 1 snapshots are strict plain JSON records. Unknown fields, invalid counters, state/receipt inconsistencies, impossible prerequisite ordering, duplicate/out-of-order retained IDs, and mismatched catalog or capacity are rejected. Validation completes before the live journal changes. Inputs and returned data are copied, so edits to a view or snapshot cannot mutate the journal.</p>
+<p>The snapshot embeds an exact normalized catalog string. Definition order, title, description, type, target, and prerequisite/objective edits require an application-owned migration. Tag and prerequisite ordering are normalized. There is no implicit migration or partial restore. Validation establishes structural consistency; it does not prove that a client truly performed the claimed actions and is not a security boundary against cheating.</p>
+
+<h2 id="practical-limits">Practical limits</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Bound</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Quests per journal</td>
+<td>1–128</td>
+</tr>
+<tr>
+<td>Objectives per quest / per journal</td>
+<td>1–64 / at most 1,024</td>
+</tr>
+<tr>
+<td>Prerequisites per quest</td>
+<td>At most 32, acyclic, existing quest IDs</td>
+</tr>
+<tr>
+<td>Tags per event or objective</td>
+<td>At most 16 unique strings</td>
+</tr>
+<tr>
+<td>ID, event type, or tag</td>
+<td>1–96 characters; nonblank; exact case-sensitive matching</td>
+</tr>
+<tr>
+<td>Title / description</td>
+<td>At most 160 / 1,000 characters</td>
+</tr>
+<tr>
+<td>Objective target</td>
+<td>Integer 1–1,000,000,000</td>
+</tr>
+<tr>
+<td>Event amount</td>
+<td>Integer 1–1,000,000</td>
+</tr>
+<tr>
+<td>Retained IDs</td>
+<td>1–10,000 (default 2,048)</td>
+</tr>
+<tr>
+<td>Operation sequence</td>
+<td>JavaScript safe integer; exhaustion throws before mutation</td>
+</tr>
+</tbody></table></div>
+<p>Accepted events, successful activations, and successful claims increment the shared operation sequence. Failed gates, duplicate events, and repeated claims do not. Each dispatch scans active objectives; maximum work is proportional to objectives × required tags. In-memory retention is proportional to the catalog plus retained IDs. Persistence, file-size limits, UI, event transport, and save retention are application responsibilities. The browser demo imposes a 2 MB upload limit and a 256-event retention window.</p>
+</article><footer class="docs-pagination"><a href="../index.html"><small>← Previous</small><strong>Overview</strong></a><a href="../api/index.html"><small>Next →</small><strong>API reference</strong></a></footer><p class="docs-source"><a href="https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/trailmark">View versioned source on GitHub ↗</a></p></main><aside class="docs-toc"><nav aria-label="On this page"><strong>On this page</strong><a href="#install">Install</a><a href="#contract">Contract</a><a href="#bounded-duplicate-protection">Bounded duplicate protection</a><a href="#saves-and-validation">Saves and validation</a><a href="#practical-limits">Practical limits</a></nav></aside></div><footer class="forge-site-footer"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="../../index.html">Documentation</a><a href="../../../catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a></nav></footer></body></html>

@@ -1,0 +1,44 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101817"><title>Wayfinder Overview — Cranberry Forge</title><meta name="description" content="Help a letter find the quietest path through a world that keeps changing."><link rel="icon" type="image/svg+xml" href="../../assets/branding/forge-mark.svg"><link rel="stylesheet" href="../../showcase-shell.css"><link rel="stylesheet" href="../../syntax.css"><link rel="stylesheet" href="../docs.css"><script src="../docs.js" defer></script></head><body class="forge-docs" data-forge-tool="wayfinder"><a class="docs-skip" href="#main-content">Skip to documentation</a><header class="forge-site-header"><a class="forge-source-brand" href="../../catalog.html"><img src="../../assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a class="forge-home" href="../../catalog.html">Forge</a><span aria-hidden="true">/</span><a href="../index.html">Documentation</a><span aria-hidden="true">/</span><span>Wayfinder</span></nav><div class="docs-layout"><aside class="docs-sidebar"><a class="docs-product" href="index.html"><img src="../../assets/identities/wayfinder.svg" alt="" width="88" height="88"><strong>Wayfinder</strong><small>Grid pathfinding</small></a><nav aria-label="Wayfinder documentation"><a href="index.html" aria-current="page">Overview</a><a href="guide/index.html">Integration guide</a><a href="api/index.html">API reference</a><a href="tutorial/index.html">Tutorial</a></nav><a class="docs-demo-link" href="../../wayfinder.html">Open the showcase ↗</a><label for="docs-system-select">Explore another system</label><select id="docs-system-select" class="docs-system-select"><option value="../biome/index.html">Biome</option><option value="../flux/index.html">Flux</option><option value="../signal/index.html">Signal</option><option value="../latch/index.html">Latch</option><option value="../loom/index.html">Loom</option><option value="../satchel/index.html">Satchel</option><option value="../chatter/index.html">Chatter</option><option value="../trailmark/index.html">Trailmark</option><option value="index.html" selected>Wayfinder</option><option value="../spring/index.html">Spring</option><option value="../parcel/index.html">Parcel</option><option value="../tempo/index.html">Tempo</option><option value="../ledger/index.html">Ledger</option><option value="../keepsake/index.html">Keepsake</option><option value="../sift/index.html">Sift</option><option value="../mothlight/index.html">Mothlight</option><option value="../afterglow/index.html">Afterglow</option></select><a href="../index.html">All documentation →</a></aside><main class="docs-main" id="main-content"><header class="docs-heading"><p class="docs-eyebrow">INDEPENDENT TOOL / v0.1.0</p><h1>Wayfinder<span>Overview</span></h1><p class="docs-lede">Help a letter find the quietest path through a world that keeps changing.</p></header><article class="docs-prose"><p><strong>A little direction for worlds worth wandering.</strong> <code>@cranberry-forge/wayfinder</code> is a bounded weighted XZ grid navigator. It combines deterministic A* search, world/cell mapping, atomic terrain edits, explicit corner policies, and validated JSON snapshots in a small independent runtime.</p>
+<p>Version <strong>0.1.0</strong> · ESM · JavaScript + TypeScript declarations · Zero runtime dependencies · MIT</p>
+
+<h2 id="moonpost-dispatch">Moonpost Dispatch</h2>
+<p>Run the repository locally and open <code>/wayfinder.html</code> to explore a floating tiled courier garden. Choose a delivery tile, paint blocking planters, or plant costly lavender. The route recalculates immediately and a small courier follows its cell-center points. Try the winding maze or the sealed garden, change diagonal policy, and export or import your arrangement. The keyboard/touch cell map offers the same controls as the 3D canvas. Decorative arches, stairs, buildings, and satellite terraces sit outside the navigable grid.</p>
+<p>The showcase uses Three.js; the package does not. Its runtime imports no renderer, framework, storage provider, or other Cranberry Forge tool.</p>
+
+<h2 id="where-it-fits">Where it fits</h2>
+<p>A* and weighted grids are established techniques. Wayfinder's value is the grid-specific integration contract: deterministic results, explicit diagonal semantics, world mapping, bounded edits/searches, and portable validated saves. It is not a new pathfinding algorithm or a general navigation mesh system.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Documented focus</th>
+<th>A useful fit</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://github.com/donmccurdy/three-pathfinding">three-pathfinding</a></td>
+<td>Paths on 3D navigation meshes, zones, and movement clamping for Three.js</td>
+<td>Imported navigation geometry and movement over irregular walkable surfaces.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Mugen87/yuka">Yuka</a></td>
+<td>Game AI including steering, agent design, graph search, navigation meshes, and JSON state</td>
+<td>Projects needing a broader engine-independent AI system.</td>
+</tr>
+<tr>
+<td>Wayfinder</td>
+<td>Weighted single-layer XZ grids with small, explicit editing and save APIs</td>
+<td>Tile gardens, tactical boards, floor layouts, and prototype worlds whose traversability is naturally cell based.</td>
+</tr>
+</tbody></table></div>
+<p>Primary sources reviewed on September 8, 2026. This is a comparison of documented focus, not a feature-exclusivity claim or performance benchmark. Wayfinder does not handle slopes, multiple floors, agent radius, collision physics, path smoothing, crowd avoidance, steering, or navigation mesh generation. Reserve sufficient blocked-cell clearance for your actor and keep the visual movement consistent with the grid.</p>
+
+<h2 id="documentation-and-verification">Documentation and verification</h2>
+<ul>
+<li><a href="api/index.html">API reference</a></li>
+<li><a href="tutorial/index.html">Moonpost integration tutorial</a></li>
+<li><a href="../../packages/wayfinder/LICENSE">MIT license</a></li>
+</ul>
+<p>The Cranberry Forge repository includes nine meaningful runtime tests in <code>tests/wayfinder.test.mjs</code>, including comparison against an independent Dijkstra oracle on 45 seeded weighted grids across all diagonal policies. Other checks cover deterministic ties, entry costs, world boundaries, budgets/statuses, atomic edits, snapshots, sparse inputs, and revision exhaustion. Public declaration usage is checked in <code>tests/wayfinder-types.ts</code>.</p>
+<div class="code-example"><div class="code-toolbar"><span>bash</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-bash">node --<span class="hljs-built_in">test</span> tests/wayfinder.test.mjs</code></pre></div>
+</article><div class="docs-grid"><a class="docs-card" href="guide/index.html"><h2>Integration guide →</h2><p>Install the package and connect the pieces.</p></a><a class="docs-card" href="api/index.html"><h2>API reference →</h2><p>Explore the contract, methods, and constraints.</p></a><a class="docs-card" href="tutorial/index.html"><h2>Tutorial →</h2><p>Follow a worked example, step by step.</p></a></div><footer class="docs-pagination"><span></span><a href="guide/index.html"><small>Next →</small><strong>Integration guide</strong></a></footer><p class="docs-source"><a href="https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/wayfinder">View versioned source on GitHub ↗</a></p></main><aside class="docs-toc"><nav aria-label="On this page"><strong>On this page</strong><a href="#moonpost-dispatch">Moonpost Dispatch</a><a href="#where-it-fits">Where it fits</a><a href="#documentation-and-verification">Documentation and verification</a></nav></aside></div><footer class="forge-site-footer"><a class="forge-source-brand" href="../../catalog.html"><img src="../../assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="../index.html">Documentation</a><a href="../../catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a></nav></footer></body></html>

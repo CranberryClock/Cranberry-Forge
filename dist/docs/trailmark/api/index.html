@@ -1,0 +1,146 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101817"><title>Trailmark API reference — Cranberry Forge</title><meta name="description" content="The public Trailmark API: inputs, outputs, behavior, and constraints."><link rel="icon" type="image/svg+xml" href="../../../assets/branding/forge-mark.svg"><link rel="stylesheet" href="../../../showcase-shell.css"><link rel="stylesheet" href="../../../syntax.css"><link rel="stylesheet" href="../../docs.css"><script src="../../docs.js" defer></script></head><body class="forge-docs" data-forge-tool="trailmark"><a class="docs-skip" href="#main-content">Skip to documentation</a><header class="forge-site-header"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a class="forge-home" href="../../../catalog.html">Forge</a><span aria-hidden="true">/</span><a href="../../index.html">Documentation</a><span aria-hidden="true">/</span><span>Trailmark</span></nav><div class="docs-layout"><aside class="docs-sidebar"><a class="docs-product" href="../index.html"><img src="../../../assets/identities/trailmark.svg" alt="" width="88" height="88"><strong>Trailmark</strong><small>Quests & objectives</small></a><nav aria-label="Trailmark documentation"><a href="../index.html">Overview</a><a href="../guide/index.html">Integration guide</a><a href="index.html" aria-current="page">API reference</a><a href="../tutorial/index.html">Tutorial</a></nav><a class="docs-demo-link" href="../../../trailmark.html">Open the showcase ↗</a><label for="docs-system-select">Explore another system</label><select id="docs-system-select" class="docs-system-select"><option value="../../biome/index.html">Biome</option><option value="../../flux/index.html">Flux</option><option value="../../signal/index.html">Signal</option><option value="../../latch/index.html">Latch</option><option value="../../loom/index.html">Loom</option><option value="../../satchel/index.html">Satchel</option><option value="../../chatter/index.html">Chatter</option><option value="../index.html" selected>Trailmark</option><option value="../../wayfinder/index.html">Wayfinder</option><option value="../../spring/index.html">Spring</option><option value="../../parcel/index.html">Parcel</option><option value="../../tempo/index.html">Tempo</option><option value="../../ledger/index.html">Ledger</option><option value="../../keepsake/index.html">Keepsake</option><option value="../../sift/index.html">Sift</option><option value="../../mothlight/index.html">Mothlight</option><option value="../../afterglow/index.html">Afterglow</option></select><a href="../../index.html">All documentation →</a></aside><main class="docs-main" id="main-content"><header class="docs-heading"><p class="docs-eyebrow">INDEPENDENT TOOL / v0.1.0</p><h1>Trailmark<span>API reference</span></h1><p class="docs-lede">The public Trailmark API: inputs, outputs, behavior, and constraints.</p></header><article class="docs-prose"><p>All runtime exports come from <code>@cranberry-forge/trailmark</code>. ESM JavaScript and complete TypeScript declarations are included. The runtime supports Node.js 18+ and modern browsers with native ES modules. It never accesses the DOM, local storage, Three.js, or a network.</p>
+<h2 id="exports">Exports</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Export</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>createJournal(definitions, options?)</code></td>
+<td>Validate a catalog and construct an isolated journal.</td>
+</tr>
+<tr>
+<td><code>TrailmarkError</code></td>
+<td>Error subclass with a stable <code>code</code> field.</td>
+</tr>
+<tr>
+<td><code>VERSION</code></td>
+<td>Package version, <code>"0.1.0"</code>.</td>
+</tr>
+<tr>
+<td><code>SNAPSHOT_VERSION</code></td>
+<td>Persisted schema version, <code>1</code>.</td>
+</tr>
+<tr>
+<td><code>LIMITS</code></td>
+<td>Frozen public validation bounds.</td>
+</tr>
+</tbody></table></div>
+<h2 id="definitions">Definitions</h2>
+<div class="code-example"><div class="code-toolbar"><span>typescript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-typescript"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">ObjectiveDefinition</span> {
+  <span class="hljs-attr">id</span>: <span class="hljs-built_in">string</span>;              <span class="hljs-comment">// unique inside its quest</span>
+  <span class="hljs-attr">title</span>?: <span class="hljs-built_in">string</span>;          <span class="hljs-comment">// defaults to id</span>
+  <span class="hljs-attr">type</span>: <span class="hljs-built_in">string</span>;           <span class="hljs-comment">// exact event type</span>
+  <span class="hljs-attr">tags</span>?: <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">string</span>[]; <span class="hljs-comment">// all required; defaults to []</span>
+  <span class="hljs-attr">target</span>: <span class="hljs-built_in">number</span>;          <span class="hljs-comment">// positive integer</span>
+}
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">QuestDefinition</span> {
+  <span class="hljs-attr">id</span>: <span class="hljs-built_in">string</span>;              <span class="hljs-comment">// unique in the catalog</span>
+  <span class="hljs-attr">title</span>?: <span class="hljs-built_in">string</span>;          <span class="hljs-comment">// defaults to id</span>
+  <span class="hljs-attr">description</span>?: <span class="hljs-built_in">string</span>;   <span class="hljs-comment">// defaults to ''</span>
+  <span class="hljs-attr">prerequisites</span>?: <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">string</span>[]; <span class="hljs-comment">// existing IDs, no cycles</span>
+  <span class="hljs-attr">objectives</span>: <span class="hljs-keyword">readonly</span> <span class="hljs-title class_">ObjectiveDefinition</span>[];
+}
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">JournalOptions</span> {
+  <span class="hljs-attr">dedupeCapacity</span>?: <span class="hljs-built_in">number</span>; <span class="hljs-comment">// default 2048</span>
+  <span class="hljs-attr">snapshot</span>?: <span class="hljs-built_in">unknown</span>;     <span class="hljs-comment">// strict version-1 restore on construction</span>
+}</code></pre></div>
+<p>Every object accepts only its documented fields. IDs and tags are case sensitive and preserved, not trimmed or Unicode-normalized. Whitespace-only strings are invalid. Leading/trailing whitespace in a nonblank ID is significant. Objective tags and prerequisite IDs are sorted in the internal catalog, without changing the caller's objects. Quest and objective order is preserved.</p>
+<h2 id="lifecycle">Lifecycle</h2>
+<p><code>locked</code> → <code>available</code> → <code>active</code> → <code>completed</code> → <code>claimed</code></p>
+<p><code>locked</code> and <code>available</code> are derived views of an unstarted (<code>idle</code>) persisted state. A root quest begins available. An unstarted dependent is locked until all prerequisite quests have a completion receipt. Claims are optional acknowledgements and never block dependent activation. An activated quest is never cancelled or restarted; create a new journal for a reset.</p>
+<h3 id="journalactivateid-activationresult"><code>journal.activate(id): ActivationResult</code></h3>
+<p>Begins counting future matching events after every prerequisite has completed. On success: <code>{ activated: true, reason: null, quest }</code>. A blocked gate returns <code>reason: 'prerequisites'</code>; any active/completed/claimed quest returns <code>reason: 'already-started'</code>. Both unsuccessful results have <code>activated: false</code> and do not mutate or increment sequence. Unknown IDs throw <code>UNKNOWN_QUEST</code>.</p>
+<h3 id="journaldispatchevent-dispatchresult"><code>journal.dispatch(event): DispatchResult</code></h3>
+<div class="code-example"><div class="code-toolbar"><span>typescript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-typescript"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">JournalEvent</span> {
+  <span class="hljs-attr">id</span>: <span class="hljs-built_in">string</span>;
+  <span class="hljs-attr">type</span>: <span class="hljs-built_in">string</span>;
+  <span class="hljs-attr">tags</span>?: <span class="hljs-keyword">readonly</span> <span class="hljs-built_in">string</span>[];
+  <span class="hljs-attr">amount</span>?: <span class="hljs-built_in">number</span>; <span class="hljs-comment">// default 1</span>
+}
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">DispatchResult</span> {
+  <span class="hljs-attr">accepted</span>: <span class="hljs-built_in">boolean</span>;
+  <span class="hljs-attr">duplicate</span>: <span class="hljs-built_in">boolean</span>;
+  <span class="hljs-attr">sequence</span>: <span class="hljs-built_in">number</span>;
+  <span class="hljs-attr">changes</span>: {
+    <span class="hljs-attr">questId</span>: <span class="hljs-built_in">string</span>; <span class="hljs-attr">objectiveId</span>: <span class="hljs-built_in">string</span>;
+    <span class="hljs-attr">before</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">after</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">target</span>: <span class="hljs-built_in">number</span>;
+  }[];
+  <span class="hljs-attr">completed</span>: <span class="hljs-title class_">CompletionReceipt</span>[];
+}</code></pre></div>
+<p>Validation precedes duplicate detection. An accepted event gets a new sequence even if it matches nothing; an ignored duplicate reports the current sequence. Matching requires identical type plus a superset of objective tags. The same event can update multiple objectives and quests. Amount is added independently to each; objectives do not consume it. Already-full counters do not produce a change. Counts never exceed targets. Every accepted event ID participates in FIFO retention.</p>
+<p>Completing all objectives changes the quest status immediately and returns its receipt. No dependent quest activates automatically. Events cannot reach newly available dependents without a later explicit <code>activate()</code> call. Results follow definition order, independent of activation order.</p>
+<h3 id="journalclaimid-completionreceipt--null"><code>journal.claim(id): CompletionReceipt | null</code></h3>
+<p>Acknowledges a completed quest. The first successful call increments sequence, records <code>claimedAt</code>, and returns a detached receipt. Calls before completion or after a successful claim return <code>null</code>. Unknown IDs throw. This method does not grant inventory, currency, or any other external reward.</p>
+<div class="code-example"><div class="code-toolbar"><span>typescript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-typescript"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">CompletionReceipt</span> {
+  <span class="hljs-attr">id</span>: <span class="hljs-built_in">string</span>;               <span class="hljs-comment">// `${questId}@${completedAt}`</span>
+  <span class="hljs-attr">questId</span>: <span class="hljs-built_in">string</span>;
+  <span class="hljs-attr">completedAt</span>: <span class="hljs-built_in">number</span>;      <span class="hljs-comment">// operation sequence of the completing event</span>
+  <span class="hljs-attr">eventId</span>: <span class="hljs-built_in">string</span>;
+  <span class="hljs-attr">claimedAt</span>: <span class="hljs-built_in">number</span> | <span class="hljs-literal">null</span>; <span class="hljs-comment">// operation sequence of claim</span>
+}</code></pre></div>
+<p>Multiple quests completed by one event share its operation sequence but have different receipt IDs. Sequence numbers are logical order, not timestamps. Receipt IDs are local to a saved history. Restoring an older snapshot or resetting starts another possible history branch; external reward systems need their own transactional idempotency.</p>
+<h3 id="journalgetid-questview"><code>journal.get(id): QuestView</code></h3>
+<p>Returns <code>{ id, title, description, status, prerequisites, missingPrerequisites, activatedAt, objectives, receipt }</code>. Each objective contains its normalized definition fields plus <code>count</code> and <code>complete</code>. Missing prerequisites are those without a completion receipt. <code>activatedAt</code> is null for unstarted quests. All data is detached and mutable by the caller without changing the journal.</p>
+<h3 id="journallist-questview"><code>journal.list(): QuestView[]</code></h3>
+<p>Returns every view in catalog order. This is the primary integration point for UI rendering, map markers, and deriving a world from saved progress. There are no subscriber callbacks; the application renders after successful commands or dispatches.</p>
+<h3 id="journalsnapshot-journalsnapshot"><code>journal.snapshot(): JournalSnapshot</code></h3>
+<p>Returns a detached, JSON-serializable record:</p>
+<div class="code-example"><div class="code-toolbar"><span>typescript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-typescript"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">JournalSnapshot</span> {
+  <span class="hljs-attr">version</span>: <span class="hljs-number">1</span>;
+  <span class="hljs-attr">catalogKey</span>: <span class="hljs-built_in">string</span>; <span class="hljs-comment">// exact JSON of normalized definitions</span>
+  <span class="hljs-attr">dedupeCapacity</span>: <span class="hljs-built_in">number</span>;
+  <span class="hljs-attr">sequence</span>: <span class="hljs-built_in">number</span>;
+  <span class="hljs-attr">recentEvents</span>: { <span class="hljs-attr">id</span>: <span class="hljs-built_in">string</span>; <span class="hljs-attr">sequence</span>: <span class="hljs-built_in">number</span> }[]; <span class="hljs-comment">// oldest first</span>
+  <span class="hljs-attr">quests</span>: {
+    <span class="hljs-attr">id</span>: <span class="hljs-built_in">string</span>;
+    <span class="hljs-attr">status</span>: <span class="hljs-string">'idle'</span> | <span class="hljs-string">'active'</span> | <span class="hljs-string">'completed'</span> | <span class="hljs-string">'claimed'</span>;
+    <span class="hljs-attr">activatedAt</span>: <span class="hljs-built_in">number</span> | <span class="hljs-literal">null</span>;
+    <span class="hljs-attr">counters</span>: { <span class="hljs-attr">id</span>: <span class="hljs-built_in">string</span>; <span class="hljs-attr">count</span>: <span class="hljs-built_in">number</span> }[];
+    <span class="hljs-attr">receipt</span>: <span class="hljs-title class_">CompletionReceipt</span> | <span class="hljs-literal">null</span>;
+  }[];
+}</code></pre></div>
+<p>The catalog string provides exact compatibility comparison, not a cryptographic signature. It duplicates some definition data intentionally. The snapshot contains no unbounded event history. Existing completed/claimed state remains present even when its originating event ID has left the dedupe window.</p>
+<h3 id="journalrestoresnapshot-unknown-questview"><code>journal.restore(snapshot: unknown): QuestView[]</code></h3>
+<p>Validates and replaces the entire current state atomically. On error, the old state is unchanged. On success, returns <code>list()</code>. The provided definition catalog and configured capacity must match the snapshot. Restore does not invoke <code>dispatch</code> or return past completions/claims.</p>
+<p>Validation checks version and exact normalized catalog compatibility, bounds, exact quest/counter identities and order, idle/active/completed/claimed consistency, receipt IDs, activation/completion/claim ordering, prerequisites completed before activation, distinct activation/claim operation sequences, retained event order and uniqueness, and consistency between retained events and completion receipts. Reuse of an evicted ID is allowed, including when an old receipt references that ID. Structural validation does not reconstruct an authenticated event log, infer every historic operation, or prevent malicious counter fabrication.</p>
+<h2 id="errors">Errors</h2>
+<p><code>TrailmarkError extends Error</code> has <code>name: 'TrailmarkError'</code> and a <code>code</code>:</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>INVALID_INPUT</code></td>
+<td>Malformed shapes, unknown fields, missing required values, out-of-range values, duplicate tags, or basic snapshot field errors.</td>
+</tr>
+<tr>
+<td><code>INVALID_DEFINITION</code></td>
+<td>Duplicate quest/objective IDs, unknown prerequisite, dependency cycle, or too many total objectives.</td>
+</tr>
+<tr>
+<td><code>UNKNOWN_QUEST</code></td>
+<td>A method references a quest outside the catalog.</td>
+</tr>
+<tr>
+<td><code>INCOMPATIBLE_SNAPSHOT</code></td>
+<td>Unsupported schema version, different catalog, or different dedupe capacity.</td>
+</tr>
+<tr>
+<td><code>INVALID_SNAPSHOT</code></td>
+<td>Logically inconsistent snapshot state or ordering.</td>
+</tr>
+<tr>
+<td><code>LIMIT_REACHED</code></td>
+<td>Incrementing sequence would exceed <code>Number.MAX_SAFE_INTEGER</code>.</td>
+</tr>
+</tbody></table></div>
+<p>Catch the error type and <code>code</code> rather than parsing human-readable messages. Plain data objects are the supported input; objects with accessors/proxies or custom prototypes are outside the JSON data contract.</p>
+<h2 id="complexity-and-ownership">Complexity and ownership</h2>
+<p>Dispatch scans active objectives and required tags. The bounded FIFO uses a <code>Map</code> with constant-time membership and oldest-key eviction. Snapshot copies retained state and the catalog. Restore validates the bounded catalog and cross-checks retained events; it is intended for load boundaries, not every animation frame. Definitions, inputs, and returned records do not become live mutable handles. The journal object itself is frozen; its commands own its private mutable state.</p>
+</article><footer class="docs-pagination"><a href="../guide/index.html"><small>← Previous</small><strong>Integration guide</strong></a><a href="../tutorial/index.html"><small>Next →</small><strong>Tutorial</strong></a></footer><p class="docs-source"><a href="https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/trailmark">View versioned source on GitHub ↗</a></p></main><aside class="docs-toc"><nav aria-label="On this page"><strong>On this page</strong><a href="#exports">Exports</a><a href="#definitions">Definitions</a><a href="#lifecycle">Lifecycle</a><a href="#journalactivateid-activationresult" class="docs-toc-sub">journal.activate(id): ActivationResult</a><a href="#journaldispatchevent-dispatchresult" class="docs-toc-sub">journal.dispatch(event): DispatchResult</a><a href="#journalclaimid-completionreceipt--null" class="docs-toc-sub">journal.claim(id): CompletionReceipt | null</a><a href="#journalgetid-questview" class="docs-toc-sub">journal.get(id): QuestView</a><a href="#journallist-questview" class="docs-toc-sub">journal.list(): QuestView[]</a><a href="#journalsnapshot-journalsnapshot" class="docs-toc-sub">journal.snapshot(): JournalSnapshot</a><a href="#journalrestoresnapshot-unknown-questview" class="docs-toc-sub">journal.restore(snapshot: unknown): QuestView[]</a><a href="#errors">Errors</a><a href="#complexity-and-ownership">Complexity and ownership</a></nav></aside></div><footer class="forge-site-footer"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="../../index.html">Documentation</a><a href="../../../catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a></nav></footer></body></html>

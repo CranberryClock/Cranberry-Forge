@@ -3,6 +3,8 @@ import { resolve } from "node:path";
 import { execFileSync } from "node:child_process";
 
 await import("./showcase-shell.mjs");
+await import("./build-docs.mjs");
+await (await import("./highlight-code.mjs")).prepareSyntax();
 
 // dist contains authored source. Never delete it during preparation.
 await mkdir("dist/vendor/three", { recursive: true });

@@ -1,0 +1,43 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101817"><title>Trailmark Overview — Cranberry Forge</title><meta name="description" content="A journal for worlds that remember where the player has been—and what comes next."><link rel="icon" type="image/svg+xml" href="../../assets/branding/forge-mark.svg"><link rel="stylesheet" href="../../showcase-shell.css"><link rel="stylesheet" href="../../syntax.css"><link rel="stylesheet" href="../docs.css"><script src="../docs.js" defer></script></head><body class="forge-docs" data-forge-tool="trailmark"><a class="docs-skip" href="#main-content">Skip to documentation</a><header class="forge-site-header"><a class="forge-source-brand" href="../../catalog.html"><img src="../../assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a class="forge-home" href="../../catalog.html">Forge</a><span aria-hidden="true">/</span><a href="../index.html">Documentation</a><span aria-hidden="true">/</span><span>Trailmark</span></nav><div class="docs-layout"><aside class="docs-sidebar"><a class="docs-product" href="index.html"><img src="../../assets/identities/trailmark.svg" alt="" width="88" height="88"><strong>Trailmark</strong><small>Quests & objectives</small></a><nav aria-label="Trailmark documentation"><a href="index.html" aria-current="page">Overview</a><a href="guide/index.html">Integration guide</a><a href="api/index.html">API reference</a><a href="tutorial/index.html">Tutorial</a></nav><a class="docs-demo-link" href="../../trailmark.html">Open the showcase ↗</a><label for="docs-system-select">Explore another system</label><select id="docs-system-select" class="docs-system-select"><option value="../biome/index.html">Biome</option><option value="../flux/index.html">Flux</option><option value="../signal/index.html">Signal</option><option value="../latch/index.html">Latch</option><option value="../loom/index.html">Loom</option><option value="../satchel/index.html">Satchel</option><option value="../chatter/index.html">Chatter</option><option value="index.html" selected>Trailmark</option><option value="../wayfinder/index.html">Wayfinder</option><option value="../spring/index.html">Spring</option><option value="../parcel/index.html">Parcel</option><option value="../tempo/index.html">Tempo</option><option value="../ledger/index.html">Ledger</option><option value="../keepsake/index.html">Keepsake</option><option value="../sift/index.html">Sift</option><option value="../mothlight/index.html">Mothlight</option><option value="../afterglow/index.html">Afterglow</option></select><a href="../index.html">All documentation →</a></aside><main class="docs-main" id="main-content"><header class="docs-heading"><p class="docs-eyebrow">INDEPENDENT TOOL / v0.1.0</p><h1>Trailmark<span>Overview</span></h1><p class="docs-lede">A journal for worlds that remember where the player has been—and what comes next.</p></header><article class="docs-prose"><p><strong>Small objectives, dependable progress.</strong> <code>@cranberry-forge/trailmark</code> is a framework-independent quest journal for JavaScript games and interactive worlds. Define a few commissions, activate them deliberately, and feed typed events into inspectable counters. The runtime has zero dependencies, no storage, no renderer, and no Cranberry Forge imports.</p>
+<p>Version <strong>0.1.0</strong> · ESM · JavaScript + TypeScript declarations · MIT</p>
+
+<h2 id="the-harbor-laboratory">The harbor laboratory</h2>
+<p>Run the repository locally and open <code>/trailmark.html</code> to restore a tiny procedural archipelago: gather timber and stone, repair three open stone arches, rebuild a village's terracotta roofs, and light the lighthouse. Each action goes through the public package API. Inspect the event trace, replay the most recent event to demonstrate deduplication, claim receipts, and export or load a versioned save.</p>
+<p>The standalone runtime does not depend on the demonstration or on Three.js. The scene is application code that derives its appearance from <code>journal.list()</code>.</p>
+
+<h2 id="where-it-fits">Where it fits</h2>
+<p>Quest journals, narrative engines, and state machines are established categories. Trailmark's contribution is a compact objective-specific integration utility: explicit gated activation, integer objective aggregation, deterministic views, bounded event dedupe, and validated local receipts/saves in one small API.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Documented focus</th>
+<th>Choose it when</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://stately.ai/docs/persistence">XState persistence</a></td>
+<td>Persisting/restoring actor state; deep persistence and event-sourcing patterns</td>
+<td>Your gameplay needs hierarchical or parallel state machines and actor orchestration.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/y-lohse/inkjs">inkjs</a></td>
+<td>JavaScript runtime and compiler for ink interactive narrative, including story continuation and choices</td>
+<td>Your project needs authored branching narrative, ink scripts, and story execution.</td>
+</tr>
+<tr>
+<td>Trailmark</td>
+<td>Objective counters, prerequisite gates, completion receipts, and bounded local saves</td>
+<td>You already have events and need a small inspectable quest journal beside your world or narrative engine.</td>
+</tr>
+</tbody></table></div>
+<p>This comparison describes documented focus, not feature exclusivity or a performance benchmark. Primary sources reviewed on September 7, 2026. Trailmark can sit alongside either alternative; it does not implement their general state-machine or story-language capabilities.</p>
+
+<h2 id="documentation-and-verification">Documentation and verification</h2>
+<ul>
+<li><a href="api/index.html">Full API reference</a></li>
+<li><a href="tutorial/index.html">Harbor integration tutorial</a></li>
+<li><a href="../../packages/trailmark/LICENSE">MIT license</a></li>
+</ul>
+<p>The source repository includes <code>tests/trailmark.test.mjs</code>. Its meaningful checks cover explicit activation, prerequisite gates, matching/clamping, deterministic fan-out, FIFO deduplication, one-time claims, save round trips, detached data, malformed inputs, atomic failed restore, reused evicted IDs, and sequence exhaustion. Run from the Cranberry Forge repository with <code>node --test tests/trailmark.test.mjs</code>.</p>
+</article><div class="docs-grid"><a class="docs-card" href="guide/index.html"><h2>Integration guide →</h2><p>Install the package and connect the pieces.</p></a><a class="docs-card" href="api/index.html"><h2>API reference →</h2><p>Explore the contract, methods, and constraints.</p></a><a class="docs-card" href="tutorial/index.html"><h2>Tutorial →</h2><p>Follow a worked example, step by step.</p></a></div><footer class="docs-pagination"><span></span><a href="guide/index.html"><small>Next →</small><strong>Integration guide</strong></a></footer><p class="docs-source"><a href="https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/trailmark">View versioned source on GitHub ↗</a></p></main><aside class="docs-toc"><nav aria-label="On this page"><strong>On this page</strong><a href="#the-harbor-laboratory">The harbor laboratory</a><a href="#where-it-fits">Where it fits</a><a href="#documentation-and-verification">Documentation and verification</a></nav></aside></div><footer class="forge-site-footer"><a class="forge-source-brand" href="../../catalog.html"><img src="../../assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="../index.html">Documentation</a><a href="../../catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a></nav></footer></body></html>

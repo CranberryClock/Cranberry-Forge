@@ -1,0 +1,40 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101817"><title>Parcel Overview — Cranberry Forge</title><meta name="description" content="A treasure foundry at the edge of the sky. Follow the odds and bring the whole system into your game."><link rel="icon" type="image/svg+xml" href="../../assets/branding/forge-mark.svg"><link rel="stylesheet" href="../../showcase-shell.css"><link rel="stylesheet" href="../../syntax.css"><link rel="stylesheet" href="../docs.css"><script src="../docs.js" defer></script></head><body class="forge-docs" data-forge-tool="parcel"><a class="docs-skip" href="#main-content">Skip to documentation</a><header class="forge-site-header"><a class="forge-source-brand" href="../../catalog.html"><img src="../../assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a class="forge-home" href="../../catalog.html">Forge</a><span aria-hidden="true">/</span><a href="../index.html">Documentation</a><span aria-hidden="true">/</span><span>Parcel</span></nav><div class="docs-layout"><aside class="docs-sidebar"><a class="docs-product" href="index.html"><img src="../../assets/identities/parcel.svg" alt="" width="88" height="88"><strong>Parcel</strong><small>Loot & probability</small></a><nav aria-label="Parcel documentation"><a href="index.html" aria-current="page">Overview</a><a href="guide/index.html">Integration guide</a><a href="api/index.html">API reference</a><a href="tutorial/index.html">Tutorial</a></nav><a class="docs-demo-link" href="../../parcel.html">Open the showcase ↗</a><label for="docs-system-select">Explore another system</label><select id="docs-system-select" class="docs-system-select"><option value="../biome/index.html">Biome</option><option value="../flux/index.html">Flux</option><option value="../signal/index.html">Signal</option><option value="../latch/index.html">Latch</option><option value="../loom/index.html">Loom</option><option value="../satchel/index.html">Satchel</option><option value="../chatter/index.html">Chatter</option><option value="../trailmark/index.html">Trailmark</option><option value="../wayfinder/index.html">Wayfinder</option><option value="../spring/index.html">Spring</option><option value="index.html" selected>Parcel</option><option value="../tempo/index.html">Tempo</option><option value="../ledger/index.html">Ledger</option><option value="../keepsake/index.html">Keepsake</option><option value="../sift/index.html">Sift</option><option value="../mothlight/index.html">Mothlight</option><option value="../afterglow/index.html">Afterglow</option></select><a href="../index.html">All documentation →</a></aside><main class="docs-main" id="main-content"><header class="docs-heading"><p class="docs-eyebrow">INDEPENDENT TOOL / v0.1.0</p><h1>Parcel<span>Overview</span></h1><p class="docs-lede">A treasure foundry at the edge of the sky. Follow the odds and bring the whole system into your game.</p></header><article class="docs-prose"><p><strong>A little chance. A dependable stream.</strong> <code>@cranberry-forge/parcel</code> is an independent, zero-dependency loot-table runtime: seeded weighted selection, inclusive item quantities, explicit hard pity, current probabilities, and portable random state.</p>
+<p>Version <strong>0.1.0</strong> · ESM + TypeScript declarations · MIT · No Three.js, renderer, storage, global randomness, or Cranberry Forge imports.</p>
+<p>Run the repository locally and open <code>/parcel.html</code> for Starlight Salvage. <a href="api/index.html">API</a> · <a href="tutorial/index.html">Integration tutorial</a></p>
+
+<h2 id="the-laboratory">The laboratory</h2>
+<p>Starlight Salvage is a live Three.js treasure foundry: a hinged chest reveals a rarity-colored crystal over a floating astrolabe. Opening, current odds, guarantee progress and a 1,000-roll distribution experiment all use the public package. Resetting the seed replays the stream; the distribution experiment forks the current state and leaves live progress unchanged. Edit/import/export the table or save its complete stream. The page supports reduced motion, mobile controls and a working data interface when WebGL is unavailable. The Three.js scene is application code, not a runtime dependency.</p>
+
+<h2 id="existing-alternatives">Existing alternatives</h2>
+<p>Weighted selection and loot systems are established categories. Parcel packages a narrow policy and inspectable save contract for small JavaScript games.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Alternative</th>
+<th>Documented focus</th>
+<th>Useful when</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://chancejs.com/miscellaneous/weighted.html">Chance weighted</a></td>
+<td>Relative weighted selection, including fractional weights, in a broader random-data toolkit</td>
+<td>You need general random data helpers and a weighted picker.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/silvermine/weighted-random-selection">Silvermine weighted-random-selection</a></td>
+<td>Weighted items with configurable repeat distance</td>
+<td>You want weighted rotation with recent-repeat controls.</td>
+</tr>
+<tr>
+<td><a href="https://docs.unity.com/en-us/services/solutions/loot-boxes">Unity's Loot Boxes sample</a></td>
+<td>Cloud Code chooses rewards and Economy grants currency</td>
+<td>You need a Unity service-backed reward flow.</td>
+</tr>
+<tr>
+<td>Parcel</td>
+<td>Flat integer-weight tables, explicit hard pity, current odds and deterministic local saves</td>
+<td>Your host already owns inventory and persistence and needs a small reward-selection component.</td>
+</tr>
+</tbody></table></div>
+<p>These are differences in documented scope, not claims of feature exclusivity. Primary sources reviewed September 8, 2026. See <a href="api/index.html">the API reference</a> for bounds and guarantees.</p>
+</article><div class="docs-grid"><a class="docs-card" href="guide/index.html"><h2>Integration guide →</h2><p>Install the package and connect the pieces.</p></a><a class="docs-card" href="api/index.html"><h2>API reference →</h2><p>Explore the contract, methods, and constraints.</p></a><a class="docs-card" href="tutorial/index.html"><h2>Tutorial →</h2><p>Follow a worked example, step by step.</p></a></div><footer class="docs-pagination"><span></span><a href="guide/index.html"><small>Next →</small><strong>Integration guide</strong></a></footer><p class="docs-source"><a href="https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/parcel">View versioned source on GitHub ↗</a></p></main><aside class="docs-toc"><nav aria-label="On this page"><strong>On this page</strong><a href="#the-laboratory">The laboratory</a><a href="#existing-alternatives">Existing alternatives</a></nav></aside></div><footer class="forge-site-footer"><a class="forge-source-brand" href="../../catalog.html"><img src="../../assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="../index.html">Documentation</a><a href="../../catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a></nav></footer></body></html>

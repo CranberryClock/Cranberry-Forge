@@ -1,0 +1,145 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101817"><title>Spring API reference — Cranberry Forge</title><meta name="description" content="The public Spring API: inputs, outputs, behavior, and constraints."><link rel="icon" type="image/svg+xml" href="../../../assets/branding/forge-mark.svg"><link rel="stylesheet" href="../../../showcase-shell.css"><link rel="stylesheet" href="../../../syntax.css"><link rel="stylesheet" href="../../docs.css"><script src="../../docs.js" defer></script></head><body class="forge-docs" data-forge-tool="spring"><a class="docs-skip" href="#main-content">Skip to documentation</a><header class="forge-site-header"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a class="forge-home" href="../../../catalog.html">Forge</a><span aria-hidden="true">/</span><a href="../../index.html">Documentation</a><span aria-hidden="true">/</span><span>Spring</span></nav><div class="docs-layout"><aside class="docs-sidebar"><a class="docs-product" href="../index.html"><img src="../../../assets/identities/spring.svg" alt="" width="88" height="88"><strong>Spring</strong><small>Responsive motion</small></a><nav aria-label="Spring documentation"><a href="../index.html">Overview</a><a href="../guide/index.html">Integration guide</a><a href="index.html" aria-current="page">API reference</a><a href="../tutorial/index.html">Tutorial</a></nav><a class="docs-demo-link" href="../../../spring.html">Open the showcase ↗</a><label for="docs-system-select">Explore another system</label><select id="docs-system-select" class="docs-system-select"><option value="../../biome/index.html">Biome</option><option value="../../flux/index.html">Flux</option><option value="../../signal/index.html">Signal</option><option value="../../latch/index.html">Latch</option><option value="../../loom/index.html">Loom</option><option value="../../satchel/index.html">Satchel</option><option value="../../chatter/index.html">Chatter</option><option value="../../trailmark/index.html">Trailmark</option><option value="../../wayfinder/index.html">Wayfinder</option><option value="../index.html" selected>Spring</option><option value="../../parcel/index.html">Parcel</option><option value="../../tempo/index.html">Tempo</option><option value="../../ledger/index.html">Ledger</option><option value="../../keepsake/index.html">Keepsake</option><option value="../../sift/index.html">Sift</option><option value="../../mothlight/index.html">Mothlight</option><option value="../../afterglow/index.html">Afterglow</option></select><a href="../../index.html">All documentation →</a></aside><main class="docs-main" id="main-content"><header class="docs-heading"><p class="docs-eyebrow">INDEPENDENT TOOL / v0.1.0</p><h1>Spring<span>API reference</span></h1><p class="docs-lede">The public Spring API: inputs, outputs, behavior, and constraints.</p></header><article class="docs-prose"><p>All exports are available from <code>@cranberry-forge/spring</code>. The package has no runtime dependencies and performs no implicit work between calls.</p>
+<h2 id="types-and-defaults">Types and defaults</h2>
+<div class="code-example"><div class="code-toolbar"><span>typescript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-typescript"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">SpringState</span> {
+  <span class="hljs-attr">value</span>: <span class="hljs-built_in">number</span>;
+  <span class="hljs-attr">target</span>: <span class="hljs-built_in">number</span>;
+  <span class="hljs-attr">velocity</span>: <span class="hljs-built_in">number</span>;
+}
+<span class="hljs-keyword">type</span> <span class="hljs-title class_">Vec3</span> = <span class="hljs-keyword">readonly</span> [<span class="hljs-built_in">number</span>, <span class="hljs-built_in">number</span>, <span class="hljs-built_in">number</span>];
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">SpringOptions</span> {
+  <span class="hljs-attr">frequency</span>?: <span class="hljs-built_in">number</span>; <span class="hljs-comment">// default 2 Hz</span>
+  <span class="hljs-attr">dampingRatio</span>?: <span class="hljs-built_in">number</span>; <span class="hljs-comment">// default 0.65</span>
+}</code></pre></div>
+<p><code>frequency</code> means natural frequency before damping; <code>velocity</code> and <code>impulse</code> use value units per second. Damping ratio is dimensionless. XYZ axes are independent and share the same frequency and damping. VectorSpring does not interpret components as angles or normalize them.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Export</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>VERSION</code></td>
+<td><code>"0.1.0"</code></td>
+</tr>
+<tr>
+<td><code>SPRING_DEFAULTS</code></td>
+<td>Frozen default frequency and damping ratio.</td>
+</tr>
+<tr>
+<td><code>SPRING_LIMITS</code></td>
+<td>Frozen numeric validation limits.</td>
+</tr>
+<tr>
+<td><code>normalizeSpringOptions(options = {})</code></td>
+<td>Validate options and return a fresh fully specified object. Unknown fields reject.</td>
+</tr>
+</tbody></table></div>
+<h2 id="pure-function">Pure function</h2>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript"><span class="hljs-title function_">stepSpring</span>({ value, target, velocity }, dt, (options = {}));
+<span class="hljs-comment">// → { value, velocity, target }</span></code></pre></div>
+<p>All three state fields are required. Returns a fresh state and does not mutate the input. The target stays constant during the step. <code>dt = 0</code> returns an equivalent detached state after validating both state and options.</p>
+<p>This function is convenient for explicit game-state stores or worker messages:</p>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript">state.<span class="hljs-property">recoil</span> = <span class="hljs-title function_">stepSpring</span>(state.<span class="hljs-property">recoil</span>, dt, {
+  <span class="hljs-attr">frequency</span>: <span class="hljs-number">4</span>,
+  <span class="hljs-attr">dampingRatio</span>: <span class="hljs-number">0.8</span>,
+});</code></pre></div>
+<h2 id="scalar-class">Scalar class</h2>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> spring = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Spring</span>({
+  <span class="hljs-attr">value</span>: <span class="hljs-number">0</span>, <span class="hljs-comment">// default 0</span>
+  <span class="hljs-attr">target</span>: <span class="hljs-number">1</span>, <span class="hljs-comment">// defaults to initial value</span>
+  <span class="hljs-attr">velocity</span>: <span class="hljs-number">0</span>, <span class="hljs-comment">// default 0</span>
+  <span class="hljs-attr">frequency</span>: <span class="hljs-number">2</span>,
+  <span class="hljs-attr">dampingRatio</span>: <span class="hljs-number">0.65</span>,
+});</code></pre></div>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Result and behavior</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>value</code>, <code>velocity</code>, <code>target</code></td>
+<td>Read-only scalar getters.</td>
+</tr>
+<tr>
+<td><code>state</code></td>
+<td>Fresh <code>{value, target, velocity}</code> object.</td>
+</tr>
+<tr>
+<td><code>options</code></td>
+<td>Fresh <code>{frequency, dampingRatio}</code> object.</td>
+</tr>
+<tr>
+<td><code>step(dt)</code></td>
+<td>Advance by seconds and return the new scalar value.</td>
+</tr>
+<tr>
+<td><code>setTarget(value)</code></td>
+<td>Change only the target; preserve value and velocity. Returns <code>this</code>.</td>
+</tr>
+<tr>
+<td><code>impulse(deltaVelocity)</code></td>
+<td>Add velocity immediately; preserve position and target. Returns <code>this</code>.</td>
+</tr>
+<tr>
+<td><code>configure(options)</code></td>
+<td>Merge and validate frequency/damping changes without changing state. Returns <code>this</code>.</td>
+</tr>
+<tr>
+<td><code>snap(value = target)</code></td>
+<td>Set both value and target to the supplied position; zero velocity. Returns <code>this</code>.</td>
+</tr>
+<tr>
+<td><code>reset()</code></td>
+<td>Restore the original constructor state <strong>and</strong> original frequency/damping. Returns <code>this</code>.</td>
+</tr>
+</tbody></table></div>
+<p>Do not assign to getter properties. To replace a full state, construct a new Spring using <code>{...savedState, ...settings}</code>; state serialization and storage remain the host’s responsibility.</p>
+<h2 id="vector-class">Vector class</h2>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> spring = <span class="hljs-keyword">new</span> <span class="hljs-title class_">VectorSpring</span>({
+  <span class="hljs-attr">value</span>: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>],
+  <span class="hljs-attr">target</span>: [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>], <span class="hljs-comment">// defaults to value</span>
+  <span class="hljs-attr">velocity</span>: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>],
+  <span class="hljs-attr">frequency</span>: <span class="hljs-number">2</span>,
+  <span class="hljs-attr">dampingRatio</span>: <span class="hljs-number">0.65</span>,
+});</code></pre></div>
+<p>It has the same methods and getters as Spring, using <code>[x,y,z]</code> arrays for value, target, velocity, impulses, and the return value of <code>step</code>. Arrays must contain exactly three own numeric entries. Sparse arrays, typed arrays, and <code>{x,y,z}</code> objects are deliberately not accepted. Convert a Three.js Vector3 with <code>.toArray()</code> or an explicit tuple.</p>
+<p>All inputs are copied. All returned arrays are detached. If any axis fails validation or exceeds an output limit, no axis commits.</p>
+<h2 id="validation-and-limits">Validation and limits</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Allowed range</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>frequency</code></td>
+<td>Finite <code>0.01..100</code> Hz</td>
+</tr>
+<tr>
+<td><code>dampingRatio</code></td>
+<td>Finite <code>0..10</code></td>
+</tr>
+<tr>
+<td><code>dt</code></td>
+<td>Finite <code>0..60</code> seconds</td>
+</tr>
+<tr>
+<td>State/impulse scalar or vector component</td>
+<td>Finite <code>−1e12..1e12</code></td>
+</tr>
+<tr>
+<td>Computed value/velocity component</td>
+<td>Finite <code>−1e12..1e12</code></td>
+</tr>
+</tbody></table></div>
+<p>Objects must be plain objects. Unknown keys throw <code>TypeError</code>. Nonfinite or out-of-range numbers throw <code>RangeError</code>; wrong vector shape throws <code>TypeError</code>. An explicitly supplied <code>undefined</code> state/configuration field is invalid. Optional omitted fields use their documented defaults; omitted arguments to <code>snap()</code> use the current target.</p>
+<p>There is no maximum-speed clamp or hidden rest epsilon. Large legal input displacement and frequency can produce an output velocity outside the numeric safety limit; that step throws atomically. This is a validation boundary, not a collision response.</p>
+<h2 id="timing-contract">Timing contract</h2>
+<p>The target and coefficients are constant during a call. To apply an impulse 0.04 seconds into a 0.1-second frame, call <code>step(0.04)</code>, <code>impulse(...)</code>, then <code>step(0.06)</code>. Applying the impulse before the whole frame describes a different motion.</p>
+<p>Sample a moving target at your chosen simulation times. Different sampling schedules for a moving target need not produce the same result. The analytic solver guarantees constant-coefficient evolution between those changes, not invariance to different input histories.</p>
+<p>Repeated undamped motion keeps energy up to floating-point error. Damped motion approaches its target asymptotically and may eventually round to it. Use <code>snap()</code> explicitly when exact rest matters to your application.</p>
+</article><footer class="docs-pagination"><a href="../guide/index.html"><small>← Previous</small><strong>Integration guide</strong></a><a href="../tutorial/index.html"><small>Next →</small><strong>Tutorial</strong></a></footer><p class="docs-source"><a href="https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/spring">View versioned source on GitHub ↗</a></p></main><aside class="docs-toc"><nav aria-label="On this page"><strong>On this page</strong><a href="#types-and-defaults">Types and defaults</a><a href="#pure-function">Pure function</a><a href="#scalar-class">Scalar class</a><a href="#vector-class">Vector class</a><a href="#validation-and-limits">Validation and limits</a><a href="#timing-contract">Timing contract</a></nav></aside></div><footer class="forge-site-footer"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="../../index.html">Documentation</a><a href="../../../catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a></nav></footer></body></html>

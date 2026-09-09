@@ -1,0 +1,77 @@
+/* Shared, local-only syntax palette. Code remains selectable and copyable text. */
+.hljs {
+  color: #e2e7ed;
+  tab-size: 2;
+  text-shadow: none;
+}
+.hljs .hljs-comment,
+.hljs .hljs-quote {
+  color: #98aaa8;
+  font-style: italic;
+}
+.hljs .hljs-keyword,
+.hljs .hljs-selector-tag,
+.hljs .hljs-doctag {
+  color: #d4adf7;
+}
+.hljs .hljs-string,
+.hljs .hljs-regexp,
+.hljs .hljs-addition,
+.hljs .hljs-template-tag {
+  color: #b1d995;
+}
+.hljs .hljs-number,
+.hljs .hljs-literal,
+.hljs .hljs-symbol,
+.hljs .hljs-bullet {
+  color: #efb67e;
+}
+.hljs .hljs-title,
+.hljs .hljs-section,
+.hljs .hljs-selector-id,
+.hljs .hljs-selector-class {
+  color: #90d5ee;
+}
+.hljs .hljs-title.class_,
+.hljs .hljs-type,
+.hljs .hljs-built_in {
+  color: #f0d28c;
+}
+.hljs .hljs-attr,
+.hljs .hljs-attribute,
+.hljs .hljs-property,
+.hljs .hljs-name {
+  color: #98dbc8;
+}
+.hljs .hljs-variable,
+.hljs .hljs-template-variable,
+.hljs .hljs-params {
+  color: #efb5cc;
+}
+.hljs .hljs-meta,
+.hljs .hljs-meta .hljs-keyword {
+  color: #a8bdfa;
+}
+.hljs .hljs-subst,
+.hljs .hljs-punctuation,
+.hljs .hljs-operator {
+  color: #d5dee3;
+}
+.hljs .hljs-deletion {
+  color: #f5a39b;
+}
+.hljs .hljs-emphasis {
+  font-style: italic;
+}
+.hljs .hljs-strong {
+  font-weight: 700;
+}
+.hljs a {
+  color: inherit;
+}
+@media (forced-colors: active) {
+  .hljs,
+  .hljs span {
+    color: CanvasText;
+  }
+}

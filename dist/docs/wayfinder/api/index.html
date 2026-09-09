@@ -1,0 +1,175 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101817"><title>Wayfinder API reference — Cranberry Forge</title><meta name="description" content="The public Wayfinder API: inputs, outputs, behavior, and constraints."><link rel="icon" type="image/svg+xml" href="../../../assets/branding/forge-mark.svg"><link rel="stylesheet" href="../../../showcase-shell.css"><link rel="stylesheet" href="../../../syntax.css"><link rel="stylesheet" href="../../docs.css"><script src="../../docs.js" defer></script></head><body class="forge-docs" data-forge-tool="wayfinder"><a class="docs-skip" href="#main-content">Skip to documentation</a><header class="forge-site-header"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a class="forge-home" href="../../../catalog.html">Forge</a><span aria-hidden="true">/</span><a href="../../index.html">Documentation</a><span aria-hidden="true">/</span><span>Wayfinder</span></nav><div class="docs-layout"><aside class="docs-sidebar"><a class="docs-product" href="../index.html"><img src="../../../assets/identities/wayfinder.svg" alt="" width="88" height="88"><strong>Wayfinder</strong><small>Grid pathfinding</small></a><nav aria-label="Wayfinder documentation"><a href="../index.html">Overview</a><a href="../guide/index.html">Integration guide</a><a href="index.html" aria-current="page">API reference</a><a href="../tutorial/index.html">Tutorial</a></nav><a class="docs-demo-link" href="../../../wayfinder.html">Open the showcase ↗</a><label for="docs-system-select">Explore another system</label><select id="docs-system-select" class="docs-system-select"><option value="../../biome/index.html">Biome</option><option value="../../flux/index.html">Flux</option><option value="../../signal/index.html">Signal</option><option value="../../latch/index.html">Latch</option><option value="../../loom/index.html">Loom</option><option value="../../satchel/index.html">Satchel</option><option value="../../chatter/index.html">Chatter</option><option value="../../trailmark/index.html">Trailmark</option><option value="../index.html" selected>Wayfinder</option><option value="../../spring/index.html">Spring</option><option value="../../parcel/index.html">Parcel</option><option value="../../tempo/index.html">Tempo</option><option value="../../ledger/index.html">Ledger</option><option value="../../keepsake/index.html">Keepsake</option><option value="../../sift/index.html">Sift</option><option value="../../mothlight/index.html">Mothlight</option><option value="../../afterglow/index.html">Afterglow</option></select><a href="../../index.html">All documentation →</a></aside><main class="docs-main" id="main-content"><header class="docs-heading"><p class="docs-eyebrow">INDEPENDENT TOOL / v0.1.0</p><h1>Wayfinder<span>API reference</span></h1><p class="docs-lede">The public Wayfinder API: inputs, outputs, behavior, and constraints.</p></header><article class="docs-prose"><p>Import every runtime export from <code>@cranberry-forge/wayfinder</code>. The package is native ESM, runs on Node.js 18+ and modern browsers, and has no runtime dependencies.</p>
+<h2 id="exports">Exports</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Export</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Wayfinder</code></td>
+<td>Grid constructor and navigation API.</td>
+</tr>
+<tr>
+<td><code>WayfinderError</code></td>
+<td>Error subclass with stable <code>code</code>.</td>
+</tr>
+<tr>
+<td><code>VERSION</code></td>
+<td><code>"0.1.0"</code>.</td>
+</tr>
+<tr>
+<td><code>SNAPSHOT_VERSION</code></td>
+<td><code>1</code>.</td>
+</tr>
+<tr>
+<td><code>LIMITS</code></td>
+<td>Frozen public validation bounds.</td>
+</tr>
+</tbody></table></div>
+<h2 id="constructor-and-configuration">Constructor and configuration</h2>
+<div class="code-example"><div class="code-toolbar"><span>typescript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-typescript"><span class="hljs-keyword">new</span> <span class="hljs-title class_">Wayfinder</span>({
+  <span class="hljs-attr">width</span>: <span class="hljs-built_in">number</span>,       <span class="hljs-comment">// integer 1..128</span>
+  <span class="hljs-attr">height</span>: <span class="hljs-built_in">number</span>,      <span class="hljs-comment">// integer 1..128</span>
+  <span class="hljs-attr">cellSize</span>?: <span class="hljs-built_in">number</span>,   <span class="hljs-comment">// default 1; 0.001..1000</span>
+  <span class="hljs-attr">origin</span>?: { <span class="hljs-attr">x</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">z</span>: <span class="hljs-built_in">number</span> }, <span class="hljs-comment">// default { x: 0, z: 0 }</span>
+  <span class="hljs-attr">diagonal</span>?: <span class="hljs-string">'never'</span> | <span class="hljs-string">'no-cut'</span> | <span class="hljs-string">'always'</span>, <span class="hljs-comment">// default 'no-cut'</span>
+  <span class="hljs-attr">defaultCost</span>?: <span class="hljs-built_in">number</span> <span class="hljs-comment">// default 1; 1..1000</span>
+});</code></pre></div>
+<p>All cells initially have <code>blocked: false</code> and the configured <code>defaultCost</code>. Configuration is immutable for the lifetime of the instance. To change dimensions, scale, origin, default weight, or diagonal policy, construct a new grid and explicitly transfer the desired cell state. The showcase preserves terrain when switching movement policy and starts a new revision history.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>config</code></td>
+<td>Detached normalized configuration, with all optional fields filled in.</td>
+</tr>
+<tr>
+<td><code>size</code></td>
+<td>Width × height.</td>
+</tr>
+<tr>
+<td><code>revision</code></td>
+<td>Current logical terrain revision, initially 0.</td>
+</tr>
+</tbody></table></div>
+<p>Inputs are plain data records with only the documented fields. NaN, infinities, unsupported keys, custom prototypes, noninteger cell coordinates, and sparse arrays are rejected. Accessors and proxies are outside the JSON-data contract. Data passed from another JavaScript realm should be serialized/parsed into the receiving realm first.</p>
+<h2 id="cell-access-and-atomic-edits">Cell access and atomic edits</h2>
+<h3 id="getcellcell-x-z-cellstate"><code>getCell(cell: {x, z}): CellState</code></h3>
+<p>Returns a detached <code>{ x, z, blocked, cost }</code>. Coordinates outside the grid throw <code>OUTSIDE_GRID</code>.</p>
+<h3 id="setcellcell-patch-number"><code>setCell(cell, patch): number</code></h3>
+<p><code>patch</code> has <code>blocked?: boolean</code> and/or <code>cost?: number</code>. At least one field is required. Returns the resulting revision. This is a one-entry atomic batch.</p>
+<h3 id="setcellsedits-readonly-celledit-number"><code>setCells(edits: readonly CellEdit[]): number</code></h3>
+<p>Each edit is <code>{ x, z, blocked?, cost? }</code>. A batch can contain at most <code>size</code> entries; each cell may occur once. An empty array is allowed. The entire dense batch is validated before any mutation. One or more changed values increments revision once; an unchanged batch returns the existing revision. The original inputs are not stored as live state.</p>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript">grid.<span class="hljs-title function_">setCells</span>([
+  { <span class="hljs-attr">x</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">z</span>: <span class="hljs-number">4</span>, <span class="hljs-attr">blocked</span>: <span class="hljs-literal">true</span> },
+  { <span class="hljs-attr">x</span>: <span class="hljs-number">3</span>, <span class="hljs-attr">z</span>: <span class="hljs-number">4</span>, <span class="hljs-attr">cost</span>: <span class="hljs-number">2.5</span> },
+  { <span class="hljs-attr">x</span>: <span class="hljs-number">4</span>, <span class="hljs-attr">z</span>: <span class="hljs-number">4</span>, <span class="hljs-attr">blocked</span>: <span class="hljs-literal">false</span>, <span class="hljs-attr">cost</span>: <span class="hljs-number">1</span> },
+]);</code></pre></div>
+<p>Blocked cells retain weights. A failed batch never partly edits the grid. Revision exhaustion throws before applying changes; unchanged batches still succeed at the maximum revision.</p>
+<h2 id="world-mapping">World mapping</h2>
+<h3 id="worldtocellpoint-x-z-cell--null"><code>worldToCell(point: {x, z}): Cell | null</code></h3>
+<p>Maps a finite world XZ point into the cell containing it. The rectangle is <code>[origin.x, origin.x + width × cellSize)</code> by <code>[origin.z, origin.z + height × cellSize)</code>. Outside points return <code>null</code>. This is ordinary floating-point mapping without a configurable tolerance. Cell boundaries may inherit representation rounding for noninteger scales; keep gameplay points away from ambiguous boundaries when exact classification matters.</p>
+<h3 id="celltoworldcell-y--0-x-y-z"><code>cellToWorld(cell, y = 0): {x, y, z}</code></h3>
+<p>Returns the cell center. X is <code>origin.x + (cell.x + 0.5) × cellSize</code>; Z is analogous. Y must be finite and within ±1,000,000; it is a presentation height, not a navigated dimension. Outside cells throw.</p>
+<h2 id="search">Search</h2>
+<h3 id="findpathstart-cell-goal-cell-options-routeresult"><code>findPath(start: Cell, goal: Cell, options?): RouteResult</code></h3>
+<p><code>options</code> supports <code>maxVisited?: number</code> (integer 1..size, default size) and <code>y?: number</code> (default 0). Search is synchronous and never mutates terrain/revision. All returned objects and arrays are detached.</p>
+<div class="code-example"><div class="code-toolbar"><span>typescript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-typescript"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">RouteResult</span> {
+  <span class="hljs-attr">status</span>: <span class="hljs-string">'found'</span> | <span class="hljs-string">'outside-grid'</span> | <span class="hljs-string">'blocked-start'</span> | <span class="hljs-string">'blocked-goal'</span>
+        | <span class="hljs-string">'unreachable'</span> | <span class="hljs-string">'budget-exceeded'</span>;
+  <span class="hljs-attr">cells</span>: { <span class="hljs-attr">x</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">z</span>: <span class="hljs-built_in">number</span> }[];
+  <span class="hljs-attr">points</span>: { <span class="hljs-attr">x</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">y</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">z</span>: <span class="hljs-built_in">number</span> }[];
+  <span class="hljs-attr">cost</span>: <span class="hljs-built_in">number</span> | <span class="hljs-literal">null</span>;
+  <span class="hljs-attr">visited</span>: <span class="hljs-built_in">number</span>;
+  <span class="hljs-attr">revision</span>: <span class="hljs-built_in">number</span>;
+}</code></pre></div>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>found</code></td>
+<td>A complete route including both endpoints; cost is numeric.</td>
+</tr>
+<tr>
+<td><code>outside-grid</code></td>
+<td>At least one valid integer endpoint lies outside bounds.</td>
+</tr>
+<tr>
+<td><code>blocked-start</code></td>
+<td>Start cell is blocked; takes precedence if both endpoints are blocked.</td>
+</tr>
+<tr>
+<td><code>blocked-goal</code></td>
+<td>Goal cell is blocked.</td>
+</tr>
+<tr>
+<td><code>unreachable</code></td>
+<td>The reachable frontier was exhausted.</td>
+</tr>
+<tr>
+<td><code>budget-exceeded</code></td>
+<td>The expansion limit was reached while frontier work remained. A route may still exist.</td>
+</tr>
+</tbody></table></div>
+<p>All unsuccessful statuses have empty <code>cells</code>/<code>points</code> and <code>cost: null</code>. Endpoint failures report <code>visited: 0</code>. A valid open start equal to goal is found with one cell, cost 0, and one visited cell. <code>visited</code> counts expanded heap entries, including the goal when found. <code>maxVisited</code> bounds search expansion; it is not elapsed time. There is no nearest reachable endpoint or partial path fallback.</p>
+<p>Costs use <strong>destination</strong> weights. A route's cost is the sum over its edges of <code>destination.cost × cellSize × (diagonal ? √2 : 1)</code>. Weights need not be integers. Costs are directional: entering an expensive endpoint costs more than leaving it, and starting-cell weight is excluded.</p>
+<p><code>no-cut</code> checks both cardinal neighbors for diagonal clearance. <code>always</code> intentionally permits squeezing through diagonally touching blocked cells; use it only when that matches your game's movement rules. No policy accounts for actor radius.</p>
+<p>Ties compare <code>g+h</code>, then <code>h</code>, then <code>z × width + x</code>. On equal tentative cost, the previous parent is retained. Neighbor enumeration is north, west, east, south, then northwest, northeast, southwest, southeast for diagonal policies. An indexed heap supports decrease-key without accumulating stale duplicate nodes. Closed cells are not reopened because the chosen lower-bound heuristic is consistent with allowed weights, subject to floating-point precision.</p>
+<h3 id="findworldpathstart-worldxz-goal-worldxz-options-routeresult"><code>findWorldPath(start: WorldXZ, goal: WorldXZ, options?): RouteResult</code></h3>
+<p>Maps both world endpoints using <code>worldToCell()</code> and delegates to cell search. Outside world points return <code>outside-grid</code>. Pass <code>{ x, z }</code> records; extra Y fields and Three.js instances are not accepted by this strict runtime. Output points are cell centers. The input's fractional in-cell offset is not retained.</p>
+<h2 id="snapshots">Snapshots</h2>
+<h3 id="snapshot-wayfindersnapshot"><code>snapshot(): WayfinderSnapshot</code></h3>
+<div class="code-example"><div class="code-toolbar"><span>typescript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-typescript"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">WayfinderSnapshot</span> {
+  <span class="hljs-attr">version</span>: <span class="hljs-number">1</span>;
+  <span class="hljs-attr">config</span>: {
+    <span class="hljs-attr">width</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">height</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">cellSize</span>: <span class="hljs-built_in">number</span>;
+    <span class="hljs-attr">origin</span>: { <span class="hljs-attr">x</span>: <span class="hljs-built_in">number</span>; <span class="hljs-attr">z</span>: <span class="hljs-built_in">number</span> };
+    <span class="hljs-attr">diagonal</span>: <span class="hljs-string">'never'</span> | <span class="hljs-string">'no-cut'</span> | <span class="hljs-string">'always'</span>;
+    <span class="hljs-attr">defaultCost</span>: <span class="hljs-built_in">number</span>;
+  };
+  <span class="hljs-attr">revision</span>: <span class="hljs-built_in">number</span>;
+  <span class="hljs-attr">cells</span>: { <span class="hljs-attr">blocked</span>: <span class="hljs-built_in">boolean</span>; <span class="hljs-attr">cost</span>: <span class="hljs-built_in">number</span> }[];
+}</code></pre></div>
+<p>Cells are dense and row-major: index <code>z × width + x</code>. A snapshot stores terrain, not search internals, actors, cached routes, or history. The returned value is suitable for <code>JSON.stringify()</code> and safe to edit without affecting the grid.</p>
+<h3 id="restoresnapshot-unknown-this"><code>restore(snapshot: unknown): this</code></h3>
+<p>Checks schema, complete configuration, cell count, dense arrays, every blocked flag/weight, and revision bounds before replacing terrain. The normalized saved configuration must equal this instance's configuration. Unknown fields and missing snapshot fields reject. Failure leaves the current instance unchanged. Success restores the saved revision rather than incrementing it.</p>
+<h3 id="wayfinderfromsnapshotsnapshot-unknown-wayfinder"><code>Wayfinder.fromSnapshot(snapshot: unknown): Wayfinder</code></h3>
+<p>Constructs a new grid with the saved configuration, then runs the same restore validation. Use it when the current application has no matching grid yet. There is no implicit migration, format guessing, or integrity signature.</p>
+<h2 id="errors">Errors</h2>
+<p><code>WayfinderError</code> has <code>name: 'WayfinderError'</code> and one of:</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Cause</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>INVALID_INPUT</code></td>
+<td>Malformed data, unknown/missing fields, sparse arrays, out-of-range values, duplicate edits, or invalid options.</td>
+</tr>
+<tr>
+<td><code>OUTSIDE_GRID</code></td>
+<td>An accessor/editor or <code>cellToWorld()</code> references an out-of-bounds cell. Search reports this condition as a result instead.</td>
+</tr>
+<tr>
+<td><code>INCOMPATIBLE_SNAPSHOT</code></td>
+<td>Unsupported schema version or a saved configuration different from the current grid.</td>
+</tr>
+<tr>
+<td><code>LIMIT_REACHED</code></td>
+<td>A changed edit would advance revision past <code>Number.MAX_SAFE_INTEGER</code>.</td>
+</tr>
+</tbody></table></div>
+<p>Catch <code>code</code> rather than parsing message text. Application code owns file-size checks, JSON parsing, persistent storage, network transport, actor movement, collision safety, and presentation.</p>
+</article><footer class="docs-pagination"><a href="../guide/index.html"><small>← Previous</small><strong>Integration guide</strong></a><a href="../tutorial/index.html"><small>Next →</small><strong>Tutorial</strong></a></footer><p class="docs-source"><a href="https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/wayfinder">View versioned source on GitHub ↗</a></p></main><aside class="docs-toc"><nav aria-label="On this page"><strong>On this page</strong><a href="#exports">Exports</a><a href="#constructor-and-configuration">Constructor and configuration</a><a href="#cell-access-and-atomic-edits">Cell access and atomic edits</a><a href="#getcellcell-x-z-cellstate" class="docs-toc-sub">getCell(cell: {x, z}): CellState</a><a href="#setcellcell-patch-number" class="docs-toc-sub">setCell(cell, patch): number</a><a href="#setcellsedits-readonly-celledit-number" class="docs-toc-sub">setCells(edits: readonly CellEdit[]): number</a><a href="#world-mapping">World mapping</a><a href="#worldtocellpoint-x-z-cell--null" class="docs-toc-sub">worldToCell(point: {x, z}): Cell | null</a><a href="#celltoworldcell-y--0-x-y-z" class="docs-toc-sub">cellToWorld(cell, y = 0): {x, y, z}</a><a href="#search">Search</a><a href="#findpathstart-cell-goal-cell-options-routeresult" class="docs-toc-sub">findPath(start: Cell, goal: Cell, options?): RouteResult</a><a href="#findworldpathstart-worldxz-goal-worldxz-options-routeresult" class="docs-toc-sub">findWorldPath(start: WorldXZ, goal: WorldXZ, options?): RouteResult</a><a href="#snapshots">Snapshots</a><a href="#snapshot-wayfindersnapshot" class="docs-toc-sub">snapshot(): WayfinderSnapshot</a><a href="#restoresnapshot-unknown-this" class="docs-toc-sub">restore(snapshot: unknown): this</a><a href="#wayfinderfromsnapshotsnapshot-unknown-wayfinder" class="docs-toc-sub">Wayfinder.fromSnapshot(snapshot: unknown): Wayfinder</a><a href="#errors">Errors</a></nav></aside></div><footer class="forge-site-footer"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="../../index.html">Documentation</a><a href="../../../catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a></nav></footer></body></html>

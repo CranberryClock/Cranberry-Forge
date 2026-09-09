@@ -1,0 +1,76 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101817"><title>Signal API reference — Cranberry Forge</title><meta name="description" content="The public Signal API: inputs, outputs, behavior, and constraints."><link rel="icon" type="image/svg+xml" href="../../../assets/branding/forge-mark.svg"><link rel="stylesheet" href="../../../showcase-shell.css"><link rel="stylesheet" href="../../../syntax.css"><link rel="stylesheet" href="../../docs.css"><script src="../../docs.js" defer></script></head><body class="forge-docs" data-forge-tool="signal"><a class="docs-skip" href="#main-content">Skip to documentation</a><header class="forge-site-header"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a class="forge-home" href="../../../catalog.html">Forge</a><span aria-hidden="true">/</span><a href="../../index.html">Documentation</a><span aria-hidden="true">/</span><span>Signal</span></nav><div class="docs-layout"><aside class="docs-sidebar"><a class="docs-product" href="../index.html"><img src="../../../assets/identities/signal.svg" alt="" width="88" height="88"><strong>Signal</strong><small>Combat telegraphs</small></a><nav aria-label="Signal documentation"><a href="../index.html">Overview</a><a href="../guide/index.html">Integration guide</a><a href="index.html" aria-current="page">API reference</a><a href="../tutorial/index.html">Tutorial</a></nav><a class="docs-demo-link" href="../../../signal.html">Open the showcase ↗</a><label for="docs-system-select">Explore another system</label><select id="docs-system-select" class="docs-system-select"><option value="../../biome/index.html">Biome</option><option value="../../flux/index.html">Flux</option><option value="../index.html" selected>Signal</option><option value="../../latch/index.html">Latch</option><option value="../../loom/index.html">Loom</option><option value="../../satchel/index.html">Satchel</option><option value="../../chatter/index.html">Chatter</option><option value="../../trailmark/index.html">Trailmark</option><option value="../../wayfinder/index.html">Wayfinder</option><option value="../../spring/index.html">Spring</option><option value="../../parcel/index.html">Parcel</option><option value="../../tempo/index.html">Tempo</option><option value="../../ledger/index.html">Ledger</option><option value="../../keepsake/index.html">Keepsake</option><option value="../../sift/index.html">Sift</option><option value="../../mothlight/index.html">Mothlight</option><option value="../../afterglow/index.html">Afterglow</option></select><a href="../../index.html">All documentation →</a></aside><main class="docs-main" id="main-content"><header class="docs-heading"><p class="docs-eyebrow">INDEPENDENT TOOL / v0.1.0</p><h1>Signal<span>API reference</span></h1><p class="docs-lede">The public Signal API: inputs, outputs, behavior, and constraints.</p></header><article class="docs-prose"><h2 id="options">Options</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>shape</code></td>
+<td><code>circle</code></td>
+<td><code>circle</code>, <code>cone</code> or <code>beam</code>.</td>
+</tr>
+<tr>
+<td><code>radius</code> / <code>innerRadius</code></td>
+<td><code>5</code> / <code>0</code></td>
+<td>Outer radius and safe center for circle/cone. Inner must be smaller.</td>
+</tr>
+<tr>
+<td><code>angle</code></td>
+<td><code>70</code></td>
+<td>Cone opening in degrees, 1–359.</td>
+</tr>
+<tr>
+<td><code>length</code> / <code>width</code></td>
+<td><code>10</code> / <code>3</code></td>
+<td>Beam dimensions in local world units.</td>
+</tr>
+<tr>
+<td><code>segments</code></td>
+<td><code>48</code></td>
+<td>Terrain grid resolution, integer 2–128.</td>
+</tr>
+<tr>
+<td><code>color</code></td>
+<td><code>#ffb48a</code></td>
+<td>Six-digit sRGB hex.</td>
+</tr>
+<tr>
+<td><code>opacity</code> / <code>intensity</code></td>
+<td><code>0.85</code> / <code>1.7</code></td>
+<td>Additive alpha and HDR color intensity.</td>
+</tr>
+<tr>
+<td><code>edgeWidth</code></td>
+<td><code>0.055</code></td>
+<td>Border width relative to footprint dimensions.</td>
+</tr>
+<tr>
+<td><code>offset</code></td>
+<td><code>0.045</code></td>
+<td>World Y offset above sampled ground, to reduce z-fighting.</td>
+</tr>
+</tbody></table></div>
+<h3 id="geometry-and-heightfields">Geometry and heightfields</h3>
+<p><code>project(surface)</code> updates the warning's geometry against world-space <code>surface(x,z) → height</code>. Call it after a transform or heightfield change. The surface must provide finite heights across the entire rectangular geometry domain, including masked parts outside a circle/cone. Projection is an authoring/update operation, not a screen-space decal pass.</p>
+<p>The scene must be Y-up. Translation, yaw and positive nonzero scale are supported; pitch/roll and sheared parents are outside the contract. Cones and beams extend along local <strong>−Z</strong>. Positions/radii are local units, while <code>offset</code> is a world-space height. <code>configure()</code> reprojects against the last surface callback; shape dimension changes reallocate geometry.</p>
+<h3 id="timing">Timing</h3>
+<ul>
+<li><code>arm(time,duration)</code> sets visible, resets progress and starts a charge. Emits <code>armed</code>.</li>
+<li><code>update(time)</code> advances progress and emits <code>complete</code> exactly once when progress reaches 1. It does not loop automatically. Times must be finite, monotonically increasing seconds after an arm.</li>
+<li><code>progress</code> can be manually set from 0 to 1 for editor previews. An active arm overwrites it on the next update.</li>
+<li><code>state</code>: <code>idle</code>, <code>charging</code>, <code>complete</code> or <code>cancelled</code>.</li>
+<li><code>cancel()</code> sets cancelled and hides the mesh. Arm again to reuse it.</li>
+<li>Completion does not hide the warning; the game controls that behavior.</li>
+</ul>
+<h3 id="gameplay-area-tests">Gameplay area tests</h3>
+<p><code>containsPoint(worldVector3)</code> checks the full XZ footprint under the warning's current transform. It includes boundaries and honors ring holes. It intentionally ignores altitude, visibility, lifecycle state, progress, armor and physics. Use at the appropriate gameplay moment and apply your own vertical tolerance when an arena has overlapping floors. <code>containsLocalPoint(options,x,z)</code> exposes the same footprint for data-only calculations.</p>
+<h3 id="serialization-and-ownership">Serialization and ownership</h3>
+<p><code>toRecipe()</code> returns <code>{schema:'cranberry-forge.signal/1',options}</code>. <code>Telegraph.fromRecipe(jsonOrObject)</code> validates and creates a new warning. Recipes do not include transforms, surface functions, progress or timers. <code>normalizeSignalOptions()</code> validates without allocating geometry. <code>dispose()</code> releases owned geometry/material and removes the mesh from its parent; it is idempotent.</p>
+
+<h2 id="limits-and-visual-tradeoffs">Limits and visual tradeoffs</h2>
+<p>The footprint test is exact in XZ; the visible mesh approximates the surface with a grid. Increase segments for sharper terrain, within your budget. The warning is transparent, depth-tested, and additive. It can be hidden by occluders and may need a different offset at extreme scale. Multiple overlapping warnings brighten each other. Bloom is a showcase effect, not a dependency. No collision engine, navmesh, skill system, network authority or damage system is included.</p>
+<p>See the main repository's research notes for existing decal/indicator approaches. This is a focused integration utility, not a claim that combat indicators are a new invention.</p>
+</article><footer class="docs-pagination"><a href="../guide/index.html"><small>← Previous</small><strong>Integration guide</strong></a><a href="../tutorial/index.html"><small>Next →</small><strong>Tutorial</strong></a></footer><p class="docs-source"><a href="https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/signal">View versioned source on GitHub ↗</a></p></main><aside class="docs-toc"><nav aria-label="On this page"><strong>On this page</strong><a href="#options">Options</a><a href="#geometry-and-heightfields" class="docs-toc-sub">Geometry and heightfields</a><a href="#timing" class="docs-toc-sub">Timing</a><a href="#gameplay-area-tests" class="docs-toc-sub">Gameplay area tests</a><a href="#serialization-and-ownership" class="docs-toc-sub">Serialization and ownership</a><a href="#limits-and-visual-tradeoffs">Limits and visual tradeoffs</a></nav></aside></div><footer class="forge-site-footer"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="../../index.html">Documentation</a><a href="../../../catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a></nav></footer></body></html>

@@ -1,0 +1,66 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101817"><title>Spring Integration guide — Cranberry Forge</title><meta name="description" content="Install Spring, connect it to your project, and understand the integration boundaries."><link rel="icon" type="image/svg+xml" href="../../../assets/branding/forge-mark.svg"><link rel="stylesheet" href="../../../showcase-shell.css"><link rel="stylesheet" href="../../../syntax.css"><link rel="stylesheet" href="../../docs.css"><script src="../../docs.js" defer></script></head><body class="forge-docs" data-forge-tool="spring"><a class="docs-skip" href="#main-content">Skip to documentation</a><header class="forge-site-header"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a class="forge-home" href="../../../catalog.html">Forge</a><span aria-hidden="true">/</span><a href="../../index.html">Documentation</a><span aria-hidden="true">/</span><span>Spring</span></nav><div class="docs-layout"><aside class="docs-sidebar"><a class="docs-product" href="../index.html"><img src="../../../assets/identities/spring.svg" alt="" width="88" height="88"><strong>Spring</strong><small>Responsive motion</small></a><nav aria-label="Spring documentation"><a href="../index.html">Overview</a><a href="index.html" aria-current="page">Integration guide</a><a href="../api/index.html">API reference</a><a href="../tutorial/index.html">Tutorial</a></nav><a class="docs-demo-link" href="../../../spring.html">Open the showcase ↗</a><label for="docs-system-select">Explore another system</label><select id="docs-system-select" class="docs-system-select"><option value="../../biome/index.html">Biome</option><option value="../../flux/index.html">Flux</option><option value="../../signal/index.html">Signal</option><option value="../../latch/index.html">Latch</option><option value="../../loom/index.html">Loom</option><option value="../../satchel/index.html">Satchel</option><option value="../../chatter/index.html">Chatter</option><option value="../../trailmark/index.html">Trailmark</option><option value="../../wayfinder/index.html">Wayfinder</option><option value="../index.html" selected>Spring</option><option value="../../parcel/index.html">Parcel</option><option value="../../tempo/index.html">Tempo</option><option value="../../ledger/index.html">Ledger</option><option value="../../keepsake/index.html">Keepsake</option><option value="../../sift/index.html">Sift</option><option value="../../mothlight/index.html">Mothlight</option><option value="../../afterglow/index.html">Afterglow</option></select><a href="../../index.html">All documentation →</a></aside><main class="docs-main" id="main-content"><header class="docs-heading"><p class="docs-eyebrow">INDEPENDENT TOOL / v0.1.0</p><h1>Spring<span>Integration guide</span></h1><p class="docs-lede">Install Spring, connect it to your project, and understand the integration boundaries.</p></header><div class="docs-callout"><strong>Start with the package archive.</strong><p><a href="../../../downloads/cranberry-forge-spring-0.1.0.tgz" download>Download Spring v0.1.0 ↓</a>, then follow the installation instructions below. Commands that pack source files run from the public repository checkout.</p></div><article class="docs-prose"><h2 id="install">Install</h2>
+<p>Download <code>cranberry-forge-spring-0.1.0.tgz</code> from the Spring page, then install the local archive:</p>
+<div class="code-example"><div class="code-toolbar"><span>bash</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-bash">npm install ./cranberry-forge-spring-0.1.0.tgz</code></pre></div>
+<p>The archive is an ES module with TypeScript declarations. You can also copy <code>index.js</code> into your project and import that file directly. This repository does not imply that the package is published to the public npm registry.</p>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Spring</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@cranberry-forge/spring"</span>;
+
+<span class="hljs-keyword">const</span> recoil = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Spring</span>({ <span class="hljs-attr">frequency</span>: <span class="hljs-number">3</span>, <span class="hljs-attr">dampingRatio</span>: <span class="hljs-number">0.65</span> });
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">onAction</span>(<span class="hljs-params"></span>) {
+  recoil.<span class="hljs-title function_">impulse</span>(<span class="hljs-number">8</span>); <span class="hljs-comment">// velocity units per second</span>
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">update</span>(<span class="hljs-params">dt</span>) {
+  mesh.<span class="hljs-property">position</span>.<span class="hljs-property">y</span> = restY + recoil.<span class="hljs-title function_">step</span>(dt); <span class="hljs-comment">// dt in seconds</span>
+}</code></pre></div>
+
+<h2 id="what-the-two-controls-mean">What the two controls mean</h2>
+<p><code>frequency</code> is the <strong>undamped natural frequency in hertz</strong>, not a duration. <code>dampingRatio</code> is dimensionless:</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Ratio</th>
+<th>Motion</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>0</code></td>
+<td>Undamped; oscillation continues.</td>
+</tr>
+<tr>
+<td>Between <code>0</code> and <code>1</code></td>
+<td>Underdamped; decaying oscillation.</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>Critical damping. A target change from rest approaches without overshoot.</td>
+</tr>
+<tr>
+<td>Above <code>1</code></td>
+<td>Overdamped; two decaying modes, without sustained oscillation.</td>
+</tr>
+</tbody></table></div>
+<p>An existing velocity can carry even a critically damped or overdamped spring across the target. Spring preserves that velocity. It does not silently clamp crossings or snap at a hidden rest threshold.</p>
+<p>The implementation evaluates the closed-form solution of <code>x″ + 2ζω x′ + ω²(x − target) = 0</code>, with <code>ω = 2π × frequency</code>. These are the standard damped-oscillator regimes described in <a href="https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-ii-second-order-constant-coefficient-linear-equations/damped-harmonic-oscillators/">MIT OpenCourseWare’s damped harmonic oscillator lesson</a>.</p>
+
+<h2 id="guarantees-and-boundaries">Guarantees and boundaries</h2>
+<ul>
+<li>For a constant target and unchanged settings, one step and several steps totaling the same time agree up to floating-point rounding. If target changes or impulses happen between steps, split at those event times for equivalent results.</li>
+<li>Under-, critical-, and overdamping use analytic formulas. Near-critical damping uses stable <code>sinc</code>/<code>expm1</code> forms; overdamping avoids overflowing <code>sinh</code> intermediates.</li>
+<li>Scalar and XYZ operations validate finite inputs. Failed configuration, impulses, or numerical-limit checks preserve the previous state. XYZ stepping commits all three axes together.</li>
+<li>Getters return detached data. The object supplied to the pure <code>stepSpring</code> function is not mutated.</li>
+<li>Time steps are <code>0..60</code> seconds; frequency is <code>0.01..100</code> Hz; ratio is <code>0..10</code>. Each scalar value, target, velocity, and impulse component must have magnitude at most <code>1e12</code>. Computed states exceeding that limit throw rather than clip.</li>
+<li>Spring owns no resources to dispose. Stop calling <code>step</code> to pause. Call <code>snap()</code> when your product wants reduced motion, and stop applying decorative impulses.</li>
+</ul>
+<p>Read the <a href="../api/index.html">API reference</a> or follow the <a href="../tutorial/index.html">integration tutorial</a>. The repository’s nine focused tests cover analytic reference values, energy, timestep equivalence, momentum, XYZ parity, resets, and atomic rejection.</p>
+
+<h2 id="optional-local-http-endpoint">Optional local HTTP endpoint</h2>
+<p>The Cranberry Forge repository server also exposes <code>POST /api/v1/spring/step</code> for explicit numeric requests:</p>
+<div class="code-example"><div class="code-toolbar"><span>json</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">"state"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">"value"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"target"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"velocity"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span> <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"dt"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0.016</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">"options"</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span> <span class="hljs-attr">"frequency"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">2</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">"dampingRatio"</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0.65</span> <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span></code></pre></div>
+<p>It returns <code>{ "state": { "value": ..., "velocity": ..., "target": ... } }</code>. This optional repository service is separate from the standalone package; ordinary animation should step locally in its own frame loop. See the repository’s <a href="../../http/index.html">HTTP API documentation</a>.</p>
+<p>Original implementation and Jellyworks procedural toys: MIT. No third-party animation code is bundled.</p>
+</article><footer class="docs-pagination"><a href="../index.html"><small>← Previous</small><strong>Overview</strong></a><a href="../api/index.html"><small>Next →</small><strong>API reference</strong></a></footer><p class="docs-source"><a href="https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/spring">View versioned source on GitHub ↗</a></p></main><aside class="docs-toc"><nav aria-label="On this page"><strong>On this page</strong><a href="#install">Install</a><a href="#what-the-two-controls-mean">What the two controls mean</a><a href="#guarantees-and-boundaries">Guarantees and boundaries</a><a href="#optional-local-http-endpoint">Optional local HTTP endpoint</a></nav></aside></div><footer class="forge-site-footer"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="../../index.html">Documentation</a><a href="../../../catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a></nav></footer></body></html>

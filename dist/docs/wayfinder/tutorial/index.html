@@ -1,0 +1,139 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101817"><title>Wayfinder Tutorial — Cranberry Forge</title><meta name="description" content="Work through the Wayfinder example and adapt the pattern to your own project."><link rel="icon" type="image/svg+xml" href="../../../assets/branding/forge-mark.svg"><link rel="stylesheet" href="../../../showcase-shell.css"><link rel="stylesheet" href="../../../syntax.css"><link rel="stylesheet" href="../../docs.css"><script src="../../docs.js" defer></script></head><body class="forge-docs" data-forge-tool="wayfinder"><a class="docs-skip" href="#main-content">Skip to documentation</a><header class="forge-site-header"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a class="forge-home" href="../../../catalog.html">Forge</a><span aria-hidden="true">/</span><a href="../../index.html">Documentation</a><span aria-hidden="true">/</span><span>Wayfinder</span></nav><div class="docs-layout"><aside class="docs-sidebar"><a class="docs-product" href="../index.html"><img src="../../../assets/identities/wayfinder.svg" alt="" width="88" height="88"><strong>Wayfinder</strong><small>Grid pathfinding</small></a><nav aria-label="Wayfinder documentation"><a href="../index.html">Overview</a><a href="../guide/index.html">Integration guide</a><a href="../api/index.html">API reference</a><a href="index.html" aria-current="page">Tutorial</a></nav><a class="docs-demo-link" href="../../../wayfinder.html">Open the showcase ↗</a><label for="docs-system-select">Explore another system</label><select id="docs-system-select" class="docs-system-select"><option value="../../biome/index.html">Biome</option><option value="../../flux/index.html">Flux</option><option value="../../signal/index.html">Signal</option><option value="../../latch/index.html">Latch</option><option value="../../loom/index.html">Loom</option><option value="../../satchel/index.html">Satchel</option><option value="../../chatter/index.html">Chatter</option><option value="../../trailmark/index.html">Trailmark</option><option value="../index.html" selected>Wayfinder</option><option value="../../spring/index.html">Spring</option><option value="../../parcel/index.html">Parcel</option><option value="../../tempo/index.html">Tempo</option><option value="../../ledger/index.html">Ledger</option><option value="../../keepsake/index.html">Keepsake</option><option value="../../sift/index.html">Sift</option><option value="../../mothlight/index.html">Mothlight</option><option value="../../afterglow/index.html">Afterglow</option></select><a href="../../index.html">All documentation →</a></aside><main class="docs-main" id="main-content"><header class="docs-heading"><p class="docs-eyebrow">INDEPENDENT TOOL / v0.1.0</p><h1>Wayfinder<span>Tutorial</span></h1><p class="docs-lede">Work through the Wayfinder example and adapt the pattern to your own project.</p></header><article class="docs-prose"><p>The package decides which cells form a route. Your application decides how the route is displayed and how a courier moves. This separation keeps the same grid useful in Three.js, a tactical board, or a server-side planner.</p>
+<h2 id="1-describe-the-playable-rectangle">1. Describe the playable rectangle</h2>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Wayfinder</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'@cranberry-forge/wayfinder'</span>;
+
+<span class="hljs-keyword">const</span> grid = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Wayfinder</span>({
+  <span class="hljs-attr">width</span>: <span class="hljs-number">12</span>,
+  <span class="hljs-attr">height</span>: <span class="hljs-number">10</span>,
+  <span class="hljs-attr">cellSize</span>: <span class="hljs-number">1.35</span>,
+  <span class="hljs-attr">origin</span>: { <span class="hljs-attr">x</span>: -<span class="hljs-number">8.1</span>, <span class="hljs-attr">z</span>: -<span class="hljs-number">6.75</span> },
+  <span class="hljs-attr">diagonal</span>: <span class="hljs-string">'no-cut'</span>,
+});
+<span class="hljs-keyword">let</span> courier = { <span class="hljs-attr">x</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">z</span>: <span class="hljs-number">8</span> };
+<span class="hljs-keyword">let</span> destination = { <span class="hljs-attr">x</span>: <span class="hljs-number">10</span>, <span class="hljs-attr">z</span>: <span class="hljs-number">1</span> };</code></pre></div>
+<p>The grid spans 16.2 by 13.5 world units. Its origin is the minimum corner. Tile centers are half a cell inward. The <code>no-cut</code> rule allows diagonals while requiring both neighboring cardinal tiles to be clear. Model obstacles conservatively if your character needs clearance; the navigator treats it as a point.</p>
+<h2 id="2-add-barriers-and-costly-terrain">2. Add barriers and costly terrain</h2>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript">grid.<span class="hljs-title function_">setCells</span>([
+  { <span class="hljs-attr">x</span>: <span class="hljs-number">3</span>, <span class="hljs-attr">z</span>: <span class="hljs-number">2</span>, <span class="hljs-attr">blocked</span>: <span class="hljs-literal">true</span> },
+  { <span class="hljs-attr">x</span>: <span class="hljs-number">3</span>, <span class="hljs-attr">z</span>: <span class="hljs-number">3</span>, <span class="hljs-attr">blocked</span>: <span class="hljs-literal">true</span> },
+  { <span class="hljs-attr">x</span>: <span class="hljs-number">5</span>, <span class="hljs-attr">z</span>: <span class="hljs-number">6</span>, <span class="hljs-attr">cost</span>: <span class="hljs-number">5</span> },
+  { <span class="hljs-attr">x</span>: <span class="hljs-number">6</span>, <span class="hljs-attr">z</span>: <span class="hljs-number">6</span>, <span class="hljs-attr">cost</span>: <span class="hljs-number">5</span> },
+]);</code></pre></div>
+<p>Planters block cells. Lavender is passable but multiplies the cost of entering its cell by five. A* may choose a longer geometric route if its total weighted cost is lower. The package does not slow your actor automatically; planning cost and animation speed are separate choices. Moonpost uses constant geometric courier speed and uses lavender weights to choose the route.</p>
+<p>Use one batch for an editor transaction. Invalid edits do not leave a partially modified map. Clear a cell with <code>grid.setCell(cell, { blocked: false, cost: 1 })</code>. Blocking a cell alone does not erase its stored cost.</p>
+<h2 id="3-turn-a-threejs-raycast-into-a-destination">3. Turn a Three.js raycast into a destination</h2>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript"><span class="hljs-comment">// raycaster and tileMeshes belong to your application.</span>
+<span class="hljs-keyword">const</span> hit = raycaster.<span class="hljs-title function_">intersectObjects</span>(tileMeshes)[<span class="hljs-number">0</span>];
+<span class="hljs-keyword">if</span> (hit) {
+  <span class="hljs-keyword">const</span> cell = grid.<span class="hljs-title function_">worldToCell</span>({ <span class="hljs-attr">x</span>: hit.<span class="hljs-property">point</span>.<span class="hljs-property">x</span>, <span class="hljs-attr">z</span>: hit.<span class="hljs-property">point</span>.<span class="hljs-property">z</span> });
+  <span class="hljs-keyword">if</span> (cell &amp;&amp; !grid.<span class="hljs-title function_">getCell</span>(cell).<span class="hljs-property">blocked</span>) {
+    destination = cell;
+  }
+}
+
+<span class="hljs-keyword">const</span> route = grid.<span class="hljs-title function_">findPath</span>(courier, destination, { <span class="hljs-attr">y</span>: <span class="hljs-number">1.05</span> });</code></pre></div>
+<p>Do not pass <code>hit.point</code> directly: it is a Three.js vector with Y and a custom prototype, while Wayfinder expects a plain XZ record. A search result has plain world points suitable for your own line geometry or actor controller. The showcase's pick meshes also carry <code>userData.cell</code>, which avoids floating-point boundary ambiguity when a pointer directly selects a rendered tile.</p>
+<h2 id="4-handle-every-outcome">4. Handle every outcome</h2>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">switch</span> (route.<span class="hljs-property">status</span>) {
+  <span class="hljs-keyword">case</span> <span class="hljs-string">'found'</span>:
+    <span class="hljs-title function_">displayRoute</span>(route.<span class="hljs-property">points</span>);
+    <span class="hljs-title function_">showCost</span>(route.<span class="hljs-property">cost</span>);
+    <span class="hljs-keyword">break</span>;
+  <span class="hljs-keyword">case</span> <span class="hljs-string">'budget-exceeded'</span>:
+    <span class="hljs-title function_">showMessage</span>(<span class="hljs-string">'Search budget reached. Try a larger budget.'</span>);
+    <span class="hljs-keyword">break</span>;
+  <span class="hljs-attr">default</span>:
+    <span class="hljs-title function_">displayRoute</span>([]);
+    <span class="hljs-title function_">showMessage</span>(<span class="hljs-string">'This destination is not currently reachable.'</span>);
+}</code></pre></div>
+<p><code>displayRoute</code>, <code>showCost</code>, and <code>showMessage</code> are application functions. An unsuccessful result contains no partial route. Do not animate toward an unreachable goal using a stale previous path. A same-cell result is valid with zero cost; your UI can treat it as already delivered.</p>
+<h2 id="5-replan-when-the-garden-changes">5. Replan when the garden changes</h2>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">let</span> currentRoute = grid.<span class="hljs-title function_">findPath</span>(courier, destination);
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">paintPlanter</span>(<span class="hljs-params">cell</span>) {
+  <span class="hljs-comment">// Application rule: protect the courier and destination from blocking edits.</span>
+  <span class="hljs-keyword">if</span> ((cell.<span class="hljs-property">x</span> === courier.<span class="hljs-property">x</span> &amp;&amp; cell.<span class="hljs-property">z</span> === courier.<span class="hljs-property">z</span>) ||
+      (cell.<span class="hljs-property">x</span> === destination.<span class="hljs-property">x</span> &amp;&amp; cell.<span class="hljs-property">z</span> === destination.<span class="hljs-property">z</span>)) <span class="hljs-keyword">return</span>;
+  grid.<span class="hljs-title function_">setCell</span>(cell, { <span class="hljs-attr">blocked</span>: <span class="hljs-literal">true</span> });
+  currentRoute = grid.<span class="hljs-title function_">findPath</span>(courier, destination);
+  <span class="hljs-title function_">displayRoute</span>(currentRoute.<span class="hljs-property">points</span>);
+}</code></pre></div>
+<p>Wayfinder does not retain routes or invoke callbacks. A terrain edit increments its revision, which lets you recognize routes produced before that edit in the same history. The Moonpost demo cancels a courier's current trip when terrain changes and replans from its last completed delivery stop. A production movement controller may instead choose the current safe cell, finish the current segment, or pause until an authoritative update.</p>
+<p>The API does not model collisions, moving crowds, acceleration, multiple floors, slopes, or stairs. The showcase keeps buildings, arcades, stairs, and satellite terraces beyond the playable rectangle so the visuals agree with the single-layer grid contract.</p>
+<h2 id="6-save-terrain-and-application-state-separately">6. Save terrain and application state separately</h2>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> save = {
+  <span class="hljs-attr">version</span>: <span class="hljs-number">1</span>,
+  <span class="hljs-attr">grid</span>: grid.<span class="hljs-title function_">snapshot</span>(),
+  courier,
+  destination,
+};
+<span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">setItem</span>(<span class="hljs-string">'my-courier-garden'</span>, <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(save));
+
+<span class="hljs-comment">// At an application load boundary:</span>
+<span class="hljs-keyword">const</span> input = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(<span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">getItem</span>(<span class="hljs-string">'my-courier-garden'</span>));
+<span class="hljs-keyword">const</span> restoredGrid = <span class="hljs-title class_">Wayfinder</span>.<span class="hljs-title function_">fromSnapshot</span>(input.<span class="hljs-property">grid</span>);
+<span class="hljs-comment">// Validate your own wrapper version, courier, and destination before committing.</span>
+restoredGrid.<span class="hljs-title function_">getCell</span>(input.<span class="hljs-property">courier</span>);
+restoredGrid.<span class="hljs-title function_">getCell</span>(input.<span class="hljs-property">destination</span>);</code></pre></div>
+<p>The package validates its grid snapshot. Your wrapper must validate its own fields and gameplay requirements, including whether endpoints may be blocked. Validate everything before replacing live application state. Handle JSON and storage failures. The demo enforces a 2 MB input limit and its fixed scene dimensions; the runtime itself supports up to 16,384 cells. A reset or restored older save can reuse revision numbers, so use an application-owned map identity when comparing separate histories.</p>
+<h2 id="7-use-the-renderer-free-sample-scene">7. Use the renderer-free sample scene</h2>
+<p>The scene factory is separate showcase source (<code>dist/wayfinder-scene.js</code>), not part of the standalone npm runtime exports:</p>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> <span class="hljs-variable constant_">THREE</span> <span class="hljs-keyword">from</span> <span class="hljs-string">'three'</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">Wayfinder</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">'./packages/wayfinder/index.js'</span>;
+<span class="hljs-keyword">import</span> { createWayfinderScene, <span class="hljs-variable constant_">MOONPOST_CONFIG</span>, moonpostPreset }
+  <span class="hljs-keyword">from</span> <span class="hljs-string">'./wayfinder-scene.js'</span>;
+
+<span class="hljs-keyword">const</span> grid = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Wayfinder</span>(<span class="hljs-variable constant_">MOONPOST_CONFIG</span>);
+grid.<span class="hljs-title function_">setCells</span>(<span class="hljs-title function_">moonpostPreset</span>(<span class="hljs-string">'garden'</span>));
+<span class="hljs-keyword">const</span> result = grid.<span class="hljs-title function_">findPath</span>({ <span class="hljs-attr">x</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">z</span>: <span class="hljs-number">8</span> }, { <span class="hljs-attr">x</span>: <span class="hljs-number">10</span>, <span class="hljs-attr">z</span>: <span class="hljs-number">1</span> });
+
+<span class="hljs-keyword">const</span> scene = <span class="hljs-keyword">new</span> <span class="hljs-variable constant_">THREE</span>.<span class="hljs-title class_">Scene</span>();
+<span class="hljs-keyword">const</span> camera = <span class="hljs-keyword">new</span> <span class="hljs-variable constant_">THREE</span>.<span class="hljs-title class_">PerspectiveCamera</span>(<span class="hljs-number">38</span>, <span class="hljs-number">16</span> / <span class="hljs-number">9</span>, <span class="hljs-number">.1</span>, <span class="hljs-number">350</span>);
+<span class="hljs-keyword">const</span> world = <span class="hljs-title function_">createWayfinderScene</span>({ scene, camera, <span class="hljs-attr">bloom</span>: {} }, {
+  <span class="hljs-attr">snapshot</span>: grid.<span class="hljs-title function_">snapshot</span>(),
+  <span class="hljs-attr">route</span>: result.<span class="hljs-property">points</span>,
+  <span class="hljs-attr">reducedMotion</span>: <span class="hljs-literal">true</span>,
+});</code></pre></div>
+<p>The factory creates geometry/lights and configures the camera/background/fog, but creates no renderer, DOM, or animation loop. It expects the fixed Moonpost 12×10 configuration with cell size 1.35 and origin (−8.1, −6.75). The npm runtime has no such fixed scene requirement. <code>moonpostPreset()</code> returns edits for <code>garden</code>, <code>switchback</code>, <code>sealed</code>, or <code>clear</code>.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Scene member</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>root</code>, <code>pickables</code>, <code>courier</code></td>
+<td>Scene group, cell pick meshes, and visible courier group.</td>
+</tr>
+<tr>
+<td><code>setGrid(snapshot)</code></td>
+<td>Reconcile terrain and stop any active journey.</td>
+</tr>
+<tr>
+<td><code>setRoute(points)</code></td>
+<td>Replace the route visualization with exact straight segments.</td>
+</tr>
+<tr>
+<td><code>setCourier(point)</code>, <code>setGoal(point)</code></td>
+<td>Place presentation objects at world XZ positions.</td>
+</tr>
+<tr>
+<td><code>travel(points, onArrive?)</code></td>
+<td>Follow a detached point list at a fixed geometric speed.</td>
+</tr>
+<tr>
+<td><code>stop()</code> / <code>delivering</code></td>
+<td>Cancel a trip / inspect whether a trip is active.</td>
+</tr>
+<tr>
+<td><code>update(dt, elapsed)</code></td>
+<td>Advance scene decoration and the courier; call from your render loop.</td>
+</tr>
+<tr>
+<td><code>dispose()</code></td>
+<td>Release owned scene resources and remove the group.</td>
+</tr>
+</tbody></table></div>
+<p>With <code>reducedMotion: true</code>, decoration stays static and dispatch places the courier at its destination immediately. The browser honors the user's reduced-motion setting, provides a keyboard/touch map, and avoids disposing its renderer during a back/forward-cache transition. The demo uses actual Three.js 0.180.0. Trailmark, inventory, and other Cranberry Forge tools are not runtime dependencies of Wayfinder.</p>
+</article><footer class="docs-pagination"><a href="../api/index.html"><small>← Previous</small><strong>API reference</strong></a><span></span></footer><p class="docs-source"><a href="https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/wayfinder">View versioned source on GitHub ↗</a></p></main><aside class="docs-toc"><nav aria-label="On this page"><strong>On this page</strong><a href="#1-describe-the-playable-rectangle">1. Describe the playable rectangle</a><a href="#2-add-barriers-and-costly-terrain">2. Add barriers and costly terrain</a><a href="#3-turn-a-threejs-raycast-into-a-destination">3. Turn a Three.js raycast into a destination</a><a href="#4-handle-every-outcome">4. Handle every outcome</a><a href="#5-replan-when-the-garden-changes">5. Replan when the garden changes</a><a href="#6-save-terrain-and-application-state-separately">6. Save terrain and application state separately</a><a href="#7-use-the-renderer-free-sample-scene">7. Use the renderer-free sample scene</a></nav></aside></div><footer class="forge-site-footer"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="../../index.html">Documentation</a><a href="../../../catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a></nav></footer></body></html>

@@ -1,0 +1,55 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101817"><title>Afterglow Overview — Cranberry Forge</title><meta name="description" content="Read the warning. Find your opening. Survive three rounds in a forgotten temple."><link rel="icon" type="image/svg+xml" href="../../assets/branding/forge-mark.svg"><link rel="stylesheet" href="../../showcase-shell.css"><link rel="stylesheet" href="../../syntax.css"><link rel="stylesheet" href="../docs.css"><script src="../docs.js" defer></script></head><body class="forge-docs" data-forge-tool="afterglow"><a class="docs-skip" href="#main-content">Skip to documentation</a><header class="forge-site-header"><a class="forge-source-brand" href="../../catalog.html"><img src="../../assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a class="forge-home" href="../../catalog.html">Forge</a><span aria-hidden="true">/</span><a href="../index.html">Documentation</a><span aria-hidden="true">/</span><span>Afterglow</span></nav><div class="docs-layout"><aside class="docs-sidebar"><a class="docs-product" href="index.html"><img src="../../assets/identities/afterglow.svg" alt="" width="88" height="88"><strong>Afterglow</strong><small>Playable combat</small></a><nav aria-label="Afterglow documentation"><a href="index.html" aria-current="page">Overview</a><a href="guide/index.html">Integration guide</a></nav><a class="docs-demo-link" href="../../templates/afterglow">Open the game ↗</a><label for="docs-system-select">Explore another system</label><select id="docs-system-select" class="docs-system-select"><option value="../biome/index.html">Biome</option><option value="../flux/index.html">Flux</option><option value="../signal/index.html">Signal</option><option value="../latch/index.html">Latch</option><option value="../loom/index.html">Loom</option><option value="../satchel/index.html">Satchel</option><option value="../chatter/index.html">Chatter</option><option value="../trailmark/index.html">Trailmark</option><option value="../wayfinder/index.html">Wayfinder</option><option value="../spring/index.html">Spring</option><option value="../parcel/index.html">Parcel</option><option value="../tempo/index.html">Tempo</option><option value="../ledger/index.html">Ledger</option><option value="../keepsake/index.html">Keepsake</option><option value="../sift/index.html">Sift</option><option value="../mothlight/index.html">Mothlight</option><option value="index.html" selected>Afterglow</option></select><a href="../index.html">All documentation →</a></aside><main class="docs-main" id="main-content"><header class="docs-heading"><p class="docs-eyebrow">GAME TEMPLATE / v0.1.0</p><h1>Afterglow<span>Overview</span></h1><p class="docs-lede">Read the warning. Find your opening. Survive three rounds in a forgotten temple.</p></header><article class="docs-prose"><p><strong>Keep the last light alive.</strong> A complete 54-second arena survival game in an original floating sun temple, made with native Three.js, Cranberry Forge Signal and Cranberry Forge Flux. Read a charged warning, move into safety, or dash through the moment of impact. Survive three rounds to win; spend all three light charges and try another sunrise.</p>
+<p>The portable download includes the game, official Three.js 0.180.0, its required addons, the two independent Cranberry Forge packages, and a small local web server. It needs no build step, npm install, external artwork, API key, account, or network service at runtime. All art is original procedural Three.js geometry. Signal supplies real warning meshes and the matching footprint query; Flux supplies the actual dash ribbon.</p>
+
+<h2 id="play">Play</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Keyboard</th>
+<th>Touch</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Move relative to the fixed camera</td>
+<td>WASD or arrow keys</td>
+<td>Direction pad</td>
+</tr>
+<tr>
+<td>Dash in the current or last movement direction</td>
+<td>Space</td>
+<td>Dash button</td>
+</tr>
+<tr>
+<td>Pause / resume</td>
+<td>P; Escape also opens pause</td>
+<td>Pause button</td>
+</tr>
+<tr>
+<td>Read the rules</td>
+<td>How to play</td>
+<td>? button on small screens</td>
+</tr>
+<tr>
+<td>Reduce decorative motion</td>
+<td>Calm visuals</td>
+<td>Calm visuals</td>
+</tr>
+</tbody></table></div>
+<ul>
+<li><strong>Sunfall:</strong> leave the circle before it fills.</li>
+<li><strong>Solar fan:</strong> cross either side of the wedge.</li>
+<li><strong>Light lance:</strong> sidestep the straight lane.</li>
+<li><strong>Corona:</strong> move into the ring's empty center.</li>
+<li><strong>Twin sunfall:</strong> later rounds can charge two circles together.</li>
+</ul>
+<p>Only the instant a warning finishes can deal damage. The drawn fill communicates charge progress, while its full boundary communicates the entire danger area. Warm colors indicate danger; the thin mint floor ring marks the movement limit. There is no damage-over-time zone after the brief impact flash.</p>
+<p>A dash lasts 0.22 seconds and provides protection for that interval. Its 1.25-second cooldown begins when the dash starts. A hit consumes one light charge and grants 0.75 seconds of protection against stacked impacts. The controller treats the keeper as a point on the XZ floor; the character's hat, staff and body do not enlarge its hitbox.</p>
+<p>Each survived strike earns 100 points, including strikes blocked by dash or post-hit protection. Survival time earns 10 points per second. Winning adds 250 points for each remaining light charge. The optional personal best is stored only in this browser's local storage; denied storage never prevents play.</p>
+<p>Opening help, switching tabs, or losing window focus pauses gameplay. Calm visuals follows the device preference initially and can be changed in the page. It stops decorative animation, player blinking and Flux ribbons, and reduces bloom. Essential warning progress remains visible. There is no camera shake, sound dependency or timed dialogue.</p>
+
+<h2 id="scope-and-verification">Scope and verification</h2>
+<p>This is a complete small survival game and an editable integration example. It uses kinematic movement constrained to a circular floor; there is no physics engine, obstacle collision, jump, pathfinding, enemy AI, networking, audio system, authoritative score verification or general save/load layer. The decorative pillars sit outside the default movement boundary. Scores are local and can be edited by a device owner.</p>
+<p>Seven targeted Node tests cover a full public-input win loop, a finite loss/restart loop, pause immutability, dash protection/recharge, every warning kind's footprint agreement against actual Signal transforms, malformed inputs, detached state, and renderer-free scene/reset/disposal. The repository's portable archive check also verifies local imports and HTTP assets after extraction. Browser visual QA was unavailable in the build environment; offline geometry illustrations are labeled accordingly. Try your target devices before shipping a customized game.</p>
+<p>The code and procedural art are MIT licensed. Keep this template's license and the included third-party license files when redistributing.</p>
+</article><div class="docs-grid"><a class="docs-card" href="guide/index.html"><h2>Integration guide →</h2><p>Install the package and connect the pieces.</p></a></div><footer class="docs-pagination"><span></span><a href="guide/index.html"><small>Next →</small><strong>Integration guide</strong></a></footer><p class="docs-source"><a href="https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/templates/afterglow">View versioned source on GitHub ↗</a></p></main><aside class="docs-toc"><nav aria-label="On this page"><strong>On this page</strong><a href="#play">Play</a><a href="#scope-and-verification">Scope and verification</a></nav></aside></div><footer class="forge-site-footer"><a class="forge-source-brand" href="../../catalog.html"><img src="../../assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="../index.html">Documentation</a><a href="../../catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a></nav></footer></body></html>

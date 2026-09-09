@@ -190,7 +190,7 @@ export function mountKit({ world, panel }) {
   $("#integration-description").textContent =
     "A data-only inventory you can connect to any Three.js scene. Stacks, grid placement, weight limits and crafting use atomic operations, so a failed action leaves the inventory intact.";
   $("#kit-download").href = "/downloads/cranberry-forge-satchel-0.1.0.tgz";
-  $("#kit-api").href = "/packages/satchel/README.md";
+  $("#kit-api").href = "/docs/satchel/api/index.html";
   $("#kit-code").textContent =
     `import { Inventory } from '@cranberry-forge/satchel';
 
@@ -232,6 +232,6 @@ saveGame(pack.toSnapshot());`;
     },
     guide: `<h2>Satchel / from pickup to inventory</h2><p>Define items once, create a grid and add loot from your interaction handler. All normal gameplay failures return <code>{ok:false,reason}</code>; bad API inputs throw.</p><pre>const result = pack.add('copper', 1);
 if (result.ok) worldPickup.removeFromParent();</pre><p>Only remove the Three.js object after the inventory confirms success. <code>move</code>, <code>rotate</code>, <code>split</code> and <code>merge</code> operate on stack IDs. <code>transfer</code> changes both inventories together. <code>craft</code> plans all ingredients and outputs before committing.</p><h3>Save and restore</h3><pre>const json = pack.toSnapshot();
-const restored = Inventory.fromSnapshot(json, { catalog });</pre><p>Save files contain item IDs and layout, not item definitions. Supply the same catalog when loading. A snapshot with overlapping cells, too much weight or invalid quantities is rejected.</p><p><a href="/packages/satchel/README.md" target="_blank" rel="noopener">Full tutorial, methods and limits ↗</a></p>`,
+const restored = Inventory.fromSnapshot(json, { catalog });</pre><p>Save files contain item IDs and layout, not item definitions. Supply the same catalog when loading. A snapshot with overlapping cells, too much weight or invalid quantities is rejected.</p><p><a href="/docs/satchel/api/index.html" target="_blank" rel="noopener">Full tutorial, methods and limits ↗</a></p>`,
   };
 }

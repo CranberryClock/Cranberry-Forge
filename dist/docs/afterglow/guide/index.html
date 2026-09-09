@@ -1,0 +1,239 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101817"><title>Afterglow Integration guide — Cranberry Forge</title><meta name="description" content="Install Afterglow, connect it to your project, and understand the integration boundaries."><link rel="icon" type="image/svg+xml" href="../../../assets/branding/forge-mark.svg"><link rel="stylesheet" href="../../../showcase-shell.css"><link rel="stylesheet" href="../../../syntax.css"><link rel="stylesheet" href="../../docs.css"><script src="../../docs.js" defer></script></head><body class="forge-docs" data-forge-tool="afterglow"><a class="docs-skip" href="#main-content">Skip to documentation</a><header class="forge-site-header"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a class="forge-home" href="../../../catalog.html">Forge</a><span aria-hidden="true">/</span><a href="../../index.html">Documentation</a><span aria-hidden="true">/</span><span>Afterglow</span></nav><div class="docs-layout"><aside class="docs-sidebar"><a class="docs-product" href="../index.html"><img src="../../../assets/identities/afterglow.svg" alt="" width="88" height="88"><strong>Afterglow</strong><small>Playable combat</small></a><nav aria-label="Afterglow documentation"><a href="../index.html">Overview</a><a href="index.html" aria-current="page">Integration guide</a></nav><a class="docs-demo-link" href="../../../templates/afterglow">Open the game ↗</a><label for="docs-system-select">Explore another system</label><select id="docs-system-select" class="docs-system-select"><option value="../../biome/index.html">Biome</option><option value="../../flux/index.html">Flux</option><option value="../../signal/index.html">Signal</option><option value="../../latch/index.html">Latch</option><option value="../../loom/index.html">Loom</option><option value="../../satchel/index.html">Satchel</option><option value="../../chatter/index.html">Chatter</option><option value="../../trailmark/index.html">Trailmark</option><option value="../../wayfinder/index.html">Wayfinder</option><option value="../../spring/index.html">Spring</option><option value="../../parcel/index.html">Parcel</option><option value="../../tempo/index.html">Tempo</option><option value="../../ledger/index.html">Ledger</option><option value="../../keepsake/index.html">Keepsake</option><option value="../../sift/index.html">Sift</option><option value="../../mothlight/index.html">Mothlight</option><option value="../index.html" selected>Afterglow</option></select><a href="../../index.html">All documentation →</a></aside><main class="docs-main" id="main-content"><header class="docs-heading"><p class="docs-eyebrow">GAME TEMPLATE / v0.1.0</p><h1>Afterglow<span>Integration guide</span></h1><p class="docs-lede">Install Afterglow, connect it to your project, and understand the integration boundaries.</p></header><article class="docs-prose"><h2 id="run-the-download">Run the download</h2>
+<p>Extract <code>afterglow-template-0.1.0.tgz</code>, open a terminal in the extracted folder, and run:</p>
+<div class="code-example"><div class="code-toolbar"><span>bash</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-bash">node server.mjs</code></pre></div>
+<p>Open the localhost address printed by the server. Node.js 22 or later is recommended. <code>npm start</code> runs the same server. Use <code>PORT=4180 node server.mjs</code> to change the port on a POSIX shell. You can also place the whole extracted folder on an ordinary static web host. Keep its relative paths intact. Use HTTP; directly opening <code>index.html</code> as a <code>file:</code> URL does not reliably support browser module loading.</p>
+<p>The source repository assembles the portable runtime during its root <code>npm run build</code>. The authored template omits generated <code>vendor/</code>, <code>packages/</code>, and <code>lib/</code> copies. The build copies official Three.js, Signal, Flux and Cranberry Forge's shared <code>createStage</code> helper. Those copies and the authored portable server are included in the downloadable archive. No other Cranberry Forge package is required.</p>
+
+<h2 id="how-the-template-is-divided">How the template is divided</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>File</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>game.js</code></td>
+<td>Renderer-free game state, encounter schedule, movement, dash, exact impact checks, lifecycle and score</td>
+</tr>
+<tr>
+<td><code>scene.js</code></td>
+<td>Original Three.js temple and keeper, Signal warning instances, Flux dash trail, visual cleanup</td>
+</tr>
+<tr>
+<td><code>app.js</code></td>
+<td>DOM HUD, input, camera-relative movement mapping, dialogs, optional best score and lifecycle</td>
+</tr>
+<tr>
+<td><code>game.css</code> / <code>index.html</code></td>
+<td>Responsive presentation, touch controls, accessible labels, import map</td>
+</tr>
+<tr>
+<td><code>lib/scene.js</code></td>
+<td>Shared native Three.js renderer, lighting pipeline, resize handling and frame loop</td>
+</tr>
+<tr>
+<td><code>packages/signal</code> / <code>packages/flux</code></td>
+<td>Independent MIT toolkits with their own API documentation and declarations</td>
+</tr>
+<tr>
+<td><code>server.mjs</code></td>
+<td>Small local static web server; not an application backend</td>
+</tr>
+</tbody></table></div>
+<p>There are no HTTP game endpoints. The public API is a direct JavaScript controller, suitable for an existing Three.js game loop, a unit test or a separate frontend. A backend would need its own authoritative simulation and protocol.</p>
+
+<h2 id="controller-tutorial">Controller tutorial</h2>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">AfterglowGame</span>, attackContains } <span class="hljs-keyword">from</span> <span class="hljs-string">"./game.js"</span>;
+
+<span class="hljs-keyword">const</span> game = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AfterglowGame</span>();
+game.<span class="hljs-title function_">start</span>();
+
+<span class="hljs-comment">// World coordinates: +X is right, +Z is forward on the XZ floor.</span>
+<span class="hljs-comment">// The shipped app converts camera-relative keyboard/touch input to these axes.</span>
+<span class="hljs-keyword">const</span> events = game.<span class="hljs-title function_">step</span>(<span class="hljs-number">1</span> / <span class="hljs-number">60</span>, { <span class="hljs-attr">x</span>: <span class="hljs-number">1</span>, <span class="hljs-attr">z</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">dash</span>: <span class="hljs-literal">false</span> });
+<span class="hljs-keyword">const</span> view = game.<span class="hljs-property">view</span>;
+
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> event <span class="hljs-keyword">of</span> events) {
+  <span class="hljs-keyword">if</span> (event.<span class="hljs-property">type</span> === <span class="hljs-string">"impact"</span> &amp;&amp; event.<span class="hljs-property">damaged</span>) {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">"Light remaining:"</span>, view.<span class="hljs-property">health</span>);
+  }
+}
+
+<span class="hljs-comment">// Use this exact shared query when adding another gameplay reaction.</span>
+<span class="hljs-keyword">const</span> warning = view.<span class="hljs-property">attacks</span>[<span class="hljs-number">0</span>];
+<span class="hljs-keyword">if</span> (warning) <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">attackContains</span>(warning, view.<span class="hljs-property">position</span>));
+
+game.<span class="hljs-title function_">pause</span>(); <span class="hljs-comment">// step() now leaves all gameplay state unchanged</span>
+game.<span class="hljs-title function_">resume</span>();
+game.<span class="hljs-title function_">restart</span>(); <span class="hljs-comment">// returns a fresh READY view; call start() to begin again</span></code></pre></div>
+<p><code>game.view</code> is a detached structured clone. Editing it does not move the player or change the controller. This API does not accept arbitrary state restoration; it avoids silently trusting imported combat state. Restarting is explicit. The optional best score is the only persisted value.</p>
+<h3 id="public-api">Public API</h3>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>API</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>new AfterglowGame(options?)</code></td>
+<td>New controller in <code>ready</code> phase; validates configuration</td>
+</tr>
+<tr>
+<td><code>.options</code></td>
+<td>Frozen normalized configuration</td>
+</tr>
+<tr>
+<td><code>.phase</code></td>
+<td><code>ready</code>, <code>playing</code>, <code>paused</code>, <code>won</code> or <code>lost</code></td>
+</tr>
+<tr>
+<td><code>.view</code></td>
+<td>Detached current state, including attacks, position, score and clocks</td>
+</tr>
+<tr>
+<td><code>.start()</code></td>
+<td><code>true</code> only when transitioning from <code>ready</code> to <code>playing</code></td>
+</tr>
+<tr>
+<td><code>.pause()</code> / <code>.resume()</code></td>
+<td><code>true</code> only when performing the requested valid transition</td>
+</tr>
+<tr>
+<td><code>.restart()</code></td>
+<td>Resets all attacks, timers, position, score and lifecycle; returns the ready view</td>
+</tr>
+<tr>
+<td><code>.step(dt, input?)</code></td>
+<td>Advances playing state and returns the events created during this call</td>
+</tr>
+<tr>
+<td><code>attackContains(attack, {x,z})</code></td>
+<td>Inclusive point-in-footprint check with the same Y rotation and XZ shape semantics as Signal</td>
+</tr>
+</tbody></table></div>
+<p><code>dt</code> must be finite in <code>[0, 0.25]</code> seconds. <code>input.x</code> and <code>input.z</code> default to zero and must be finite in <code>[-1,1]</code>. Diagonal input is normalized. <code>input.dash</code> defaults to false and must be a boolean. Send it as a one-frame press request. A sustained <code>true</code> intentionally requests another dash as soon as the cooldown ends; the shipped keyboard adapter ignores key-repeat and the touch adapter uses button activation.</p>
+<p>The controller advances in at most 1/120-second movement slices and splits at warning starts, impacts, and dash ends. All movement occurs before checking an impact at the new time. Protection is exclusive at its end: a dash that has just reached zero no longer blocks that instant's impact. A call with <code>dt = 0</code>, a paused controller or a terminal phase performs no gameplay work. A frame hitch is capped by the supplied stage helper rather than fast-forwarding the game while a tab is hidden.</p>
+<p><code>view</code> includes <code>phase</code>, <code>time</code>, <code>duration</code>, <code>round</code>, <code>health</code>, <code>position</code>, normalized <code>facing</code>, <code>dashRemaining</code>, <code>cooldown</code>, <code>invulnerability</code>, <code>attacks</code>, <code>resolved</code>, <code>avoided</code>, <code>hits</code> and <code>score</code>. Positions use world XZ units; clocks use seconds. <code>attacks</code> contain <code>id</code>, <code>round</code>, <code>label</code>, world <code>x/z</code>, Y <code>rotation</code> in radians, <code>armedAt</code>, <code>impactAt</code>, <code>duration</code>, and Signal <code>options</code>.</p>
+<h3 id="returned-events">Returned events</h3>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Extra fields</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>armed</code></td>
+<td><code>attack</code></td>
+<td>A warning locked its location and facing</td>
+</tr>
+<tr>
+<td><code>dash</code></td>
+<td><code>position</code></td>
+<td>A valid dash request began</td>
+</tr>
+<tr>
+<td><code>impact</code></td>
+<td><code>attack</code>, <code>inside</code>, <code>damaged</code>, <code>dashed</code></td>
+<td>One footprint resolved exactly once; <code>dashed</code> means the point was inside while dash protection was active</td>
+</tr>
+<tr>
+<td><code>round</code></td>
+<td><code>round</code></td>
+<td>The next round began</td>
+</tr>
+<tr>
+<td><code>won</code> / <code>lost</code></td>
+<td>—</td>
+<td>A terminal transition occurred once</td>
+</tr>
+</tbody></table></div>
+<p>Events are returned as plain detached data. There are no callbacks inside the controller, so a HUD or scene cannot re-enter an unfinished damage update. Once terminal, subsequent steps return an empty array and preserve the final state.</p>
+
+<h2 id="put-the-scene-in-an-existing-threejs-stage">Put the scene in an existing Three.js stage</h2>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> <span class="hljs-variable constant_">THREE</span> <span class="hljs-keyword">from</span> <span class="hljs-string">"three"</span>;
+<span class="hljs-keyword">import</span> { createAfterglowScene } <span class="hljs-keyword">from</span> <span class="hljs-string">"./scene.js"</span>;
+<span class="hljs-keyword">import</span> { <span class="hljs-title class_">AfterglowGame</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"./game.js"</span>;
+
+<span class="hljs-keyword">const</span> scene = <span class="hljs-keyword">new</span> <span class="hljs-variable constant_">THREE</span>.<span class="hljs-title class_">Scene</span>();
+<span class="hljs-keyword">const</span> camera = <span class="hljs-keyword">new</span> <span class="hljs-variable constant_">THREE</span>.<span class="hljs-title class_">PerspectiveCamera</span>(<span class="hljs-number">38</span>, width / height, <span class="hljs-number">0.1</span>, <span class="hljs-number">200</span>);
+<span class="hljs-keyword">const</span> world = <span class="hljs-title function_">createAfterglowScene</span>({ scene, camera });
+<span class="hljs-keyword">const</span> game = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AfterglowGame</span>();
+game.<span class="hljs-title function_">start</span>();
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">update</span>(<span class="hljs-params">dt, input</span>) {
+  <span class="hljs-keyword">const</span> events = game.<span class="hljs-title function_">step</span>(<span class="hljs-title class_">Math</span>.<span class="hljs-title function_">min</span>(dt, <span class="hljs-number">0.25</span>), input);
+  world.<span class="hljs-title function_">setState</span>(game.<span class="hljs-property">view</span>, events);
+  world.<span class="hljs-title function_">update</span>(dt);
+  <span class="hljs-comment">// Your renderer.render(scene, camera) goes here.</span>
+}
+
+<span class="hljs-comment">// On teardown:</span>
+world.<span class="hljs-title function_">dispose</span>();</code></pre></div>
+<p><code>createAfterglowScene(stage, { reducedMotion = false }?)</code> creates no renderer, canvas or DOM. <code>stage.scene</code> and <code>stage.camera</code> are required; an optional <code>stage.bloom</code> is tuned if present. The factory changes the supplied scene's background and fog and positions the supplied camera. It returns <code>root</code>, <code>ground</code>, <code>player</code>, <code>telegraphs</code>, <code>trail</code>, <code>setState(view, events = [])</code>, <code>update(dt = 0)</code>, <code>setReducedMotion(boolean)</code> and idempotent <code>dispose()</code>.</p>
+<p>Pass successive real controller views to <code>setState</code>; event arrays add impact flashes. The scene detects a backward game clock on restart and clears all previous Signal/Flux state. Its warning records expose the actual <code>signal</code> and a companion native geometry <code>fill</code>. That static fill and edge geometry improve legibility and allow honest offline illustrations; they are generated from the same options and do not replace the live Signal shader. The factory also works in a Node process for geometry checks or Three.js SVGRenderer illustrations. Such illustrations are not browser screenshots or proof of WebGL rendering.</p>
+
+<h2 id="customize-an-encounter">Customize an encounter</h2>
+<p>Start by changing a small controller option:</p>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> game = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AfterglowGame</span>({
+  <span class="hljs-attr">rounds</span>: <span class="hljs-number">3</span>,
+  <span class="hljs-attr">roundDuration</span>: <span class="hljs-number">24</span>,
+  <span class="hljs-attr">health</span>: <span class="hljs-number">4</span>,
+  <span class="hljs-attr">dashCooldown</span>: <span class="hljs-number">1.6</span>,
+});</code></pre></div>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>Accepted range</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>rounds</code></td>
+<td>3</td>
+<td>Integer 1–5</td>
+</tr>
+<tr>
+<td><code>roundDuration</code></td>
+<td>18 seconds</td>
+<td>12–60 seconds</td>
+</tr>
+<tr>
+<td><code>health</code></td>
+<td>3</td>
+<td>Integer 1–10</td>
+</tr>
+<tr>
+<td><code>arenaRadius</code></td>
+<td>8.8 units</td>
+<td>7–12 units</td>
+</tr>
+<tr>
+<td><code>moveSpeed</code></td>
+<td>4.8 units/second</td>
+<td>1–12</td>
+</tr>
+<tr>
+<td><code>dashSpeed</code></td>
+<td>18 units/second</td>
+<td>8–30</td>
+</tr>
+<tr>
+<td><code>dashDuration</code></td>
+<td>0.22 seconds</td>
+<td>0.1–0.5</td>
+</tr>
+<tr>
+<td><code>dashCooldown</code></td>
+<td>1.25 seconds</td>
+<td>0.5–5</td>
+</tr>
+</tbody></table></div>
+<p>The shipped HTML introduction, help text and three round indicators describe the default 3×18-second game. Update that copy and indicator count when tuning rounds, duration, health or dash timing. <strong>The temple geometry and mint movement ring are authored for <code>arenaRadius: 8.8</code>; changing the controller radius does not resize the island or props.</strong> Update the geometry in <code>scene.js</code> alongside any radius change. Other option combinations are validated numerically but are not guaranteed to preserve the default difficulty or solvability.</p>
+<p>The encounter schedule is built in <code>restart()</code> using six warning times per round. <code>#arm()</code> chooses the circle, fan, lane or ring and snapshots the player's location/facing at warning start. Later rounds shorten the warning duration and add a twin circle. To create a new pattern, change that method, keep its Signal <code>options</code> and transform as the single source of truth, and keep its impact before the round's end. Add a test that drives the resulting encounter to completion.</p>
+<p>Colors, column arrangement, halo, banners and character geometry live in <code>scene.js</code>. Flux's constructor near the keeper controls ribbon capacity, life, color and width. Signal's normalizer documents shape limits in <code>packages/signal/README.md</code>. A native Three.js <code>Telegraph</code> uses the same local -Z direction as <code>attackContains</code>; do not change one orientation convention without the other.</p>
+</article><footer class="docs-pagination"><a href="../index.html"><small>← Previous</small><strong>Overview</strong></a><span></span></footer><p class="docs-source"><a href="https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/templates/afterglow">View versioned source on GitHub ↗</a></p></main><aside class="docs-toc"><nav aria-label="On this page"><strong>On this page</strong><a href="#run-the-download">Run the download</a><a href="#how-the-template-is-divided">How the template is divided</a><a href="#controller-tutorial">Controller tutorial</a><a href="#public-api" class="docs-toc-sub">Public API</a><a href="#returned-events" class="docs-toc-sub">Returned events</a><a href="#put-the-scene-in-an-existing-threejs-stage">Put the scene in an existing Three.js stage</a><a href="#customize-an-encounter">Customize an encounter</a></nav></aside></div><footer class="forge-site-footer"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="../../index.html">Documentation</a><a href="../../../catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a></nav></footer></body></html>

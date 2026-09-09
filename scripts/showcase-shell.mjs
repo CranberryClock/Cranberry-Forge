@@ -128,9 +128,8 @@ for (let [path, id] of pages) {
         version: pkg.version,
         mark: `${assets}assets/identities/${key}.svg`,
         download: `${prefix}downloads/${file}`,
-        docs: portable
-          ? `${prefix}templates/${key}/README.md`
-          : `${prefix}packages/${key}/README.md`,
+        docs: `${prefix}docs/${key}/index.html`,
+        guide: `${prefix}docs/${key}/guide/index.html`,
         command: portable
           ? "Extract the archive and serve the folder."
           : `npm install ./${file}${pkg.peerDependencies?.three ? " three@0.180.0" : ""}`,
@@ -161,7 +160,7 @@ for (let [path, id] of pages) {
       box.append(...counters);
       (portable ? main : demo).insertAdjacentElement("afterend", box);
     }
-    const use = `<section class="forge-use-product"><div><p class="forge-product-eyebrow">FROM SHOWCASE TO YOUR PROJECT</p><h2>Take the good parts with you.</h2><p data-product-use>${escape(p.use)}</p></div><div class="forge-install"><p>${portable ? "A complete starting point" : "Download the archive, then install locally."}</p><code data-product-command>${escape(p.command)}</code><div><a data-product-download href="${p.download}" download>Download ${portable ? "template" : "archive"} ↓</a><a data-product-docs href="${p.docs}">Read the integration guide ↗</a></div></div></section>`;
+    const use = `<section class="forge-use-product"><div><p class="forge-product-eyebrow">FROM SHOWCASE TO YOUR PROJECT</p><h2>Take the good parts with you.</h2><p data-product-use>${escape(p.use)}</p></div><div class="forge-install"><p>${portable ? "A complete starting point" : "Download the archive, then install locally."}</p><code data-product-command>${escape(p.command)}</code><div><a data-product-download href="${p.download}" download>Download ${portable ? "template" : "archive"} ↓</a><a data-product-guide href="${p.guide}">Read the integration guide ↗</a></div></div></section>`;
     if (portable) main.insertAdjacentHTML("afterend", use);
     else main.insertAdjacentHTML("beforeend", use);
     const data = doc.createElement("script");

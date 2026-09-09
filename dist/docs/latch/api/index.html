@@ -1,0 +1,205 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101817"><title>Latch API reference — Cranberry Forge</title><meta name="description" content="The public Latch API: inputs, outputs, behavior, and constraints."><link rel="icon" type="image/svg+xml" href="../../../assets/branding/forge-mark.svg"><link rel="stylesheet" href="../../../showcase-shell.css"><link rel="stylesheet" href="../../../syntax.css"><link rel="stylesheet" href="../../docs.css"><script src="../../docs.js" defer></script></head><body class="forge-docs" data-forge-tool="latch"><a class="docs-skip" href="#main-content">Skip to documentation</a><header class="forge-site-header"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a class="forge-home" href="../../../catalog.html">Forge</a><span aria-hidden="true">/</span><a href="../../index.html">Documentation</a><span aria-hidden="true">/</span><span>Latch</span></nav><div class="docs-layout"><aside class="docs-sidebar"><a class="docs-product" href="../index.html"><img src="../../../assets/identities/latch.svg" alt="" width="88" height="88"><strong>Latch</strong><small>Contextual interactions</small></a><nav aria-label="Latch documentation"><a href="../index.html">Overview</a><a href="../guide/index.html">Integration guide</a><a href="index.html" aria-current="page">API reference</a><a href="../tutorial/index.html">Tutorial</a></nav><a class="docs-demo-link" href="../../../latch.html">Open the showcase ↗</a><label for="docs-system-select">Explore another system</label><select id="docs-system-select" class="docs-system-select"><option value="../../biome/index.html">Biome</option><option value="../../flux/index.html">Flux</option><option value="../../signal/index.html">Signal</option><option value="../index.html" selected>Latch</option><option value="../../loom/index.html">Loom</option><option value="../../satchel/index.html">Satchel</option><option value="../../chatter/index.html">Chatter</option><option value="../../trailmark/index.html">Trailmark</option><option value="../../wayfinder/index.html">Wayfinder</option><option value="../../spring/index.html">Spring</option><option value="../../parcel/index.html">Parcel</option><option value="../../tempo/index.html">Tempo</option><option value="../../ledger/index.html">Ledger</option><option value="../../keepsake/index.html">Keepsake</option><option value="../../sift/index.html">Sift</option><option value="../../mothlight/index.html">Mothlight</option><option value="../../afterglow/index.html">Afterglow</option></select><a href="../../index.html">All documentation →</a></aside><main class="docs-main" id="main-content"><header class="docs-heading"><p class="docs-eyebrow">INDEPENDENT TOOL / v0.1.0</p><h1>Latch<span>API reference</span></h1><p class="docs-lede">The public Latch API: inputs, outputs, behavior, and constraints.</p></header><article class="docs-prose"><h2 id="api">API</h2>
+<h3 id="new-latchoptions"><code>new Latch(options?)</code></h3>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>reach</code></td>
+<td><code>3</code></td>
+<td>Default maximum actor-to-hit surface distance, world units; finite and nonnegative.</td>
+</tr>
+<tr>
+<td><code>aimFar</code></td>
+<td><code>Infinity</code></td>
+<td>Maximum intersection distance from the aim origin; nonnegative. This is separate from actor reach.</td>
+</tr>
+<tr>
+<td><code>focusTolerance</code></td>
+<td><code>0.015</code></td>
+<td>Keep current focus when its nearest eligible surface is within this many world units of the nearest aim hit. Finite and nonnegative.</td>
+</tr>
+</tbody></table></div>
+<p><code>options</code> is a read-only normalized snapshot. <code>size</code> is the current target count.</p>
+<h3 id="registeroptions-target"><code>register(options): Target</code></h3>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>id</code></td>
+<td>required</td>
+<td>Unique nonempty string.</td>
+</tr>
+<tr>
+<td><code>root</code></td>
+<td>required</td>
+<td>Three.Object3D; an individual root can be registered once.</td>
+</tr>
+<tr>
+<td><code>label</code></td>
+<td><code>id</code></td>
+<td>Prompt text.</td>
+</tr>
+<tr>
+<td><code>mode</code></td>
+<td><code>'press'</code></td>
+<td><code>'press'</code> or <code>'hold'</code>.</td>
+</tr>
+<tr>
+<td><code>holdDuration</code></td>
+<td><code>1</code></td>
+<td>Duration in seconds; finite and at least <code>0.000001</code>. Used for hold targets.</td>
+</tr>
+<tr>
+<td><code>reach</code></td>
+<td>controller reach</td>
+<td>Per-target finite nonnegative world-space reach.</td>
+</tr>
+<tr>
+<td><code>condition</code></td>
+<td>always available</td>
+<td>Pure synchronous predicate, described below.</td>
+</tr>
+</tbody></table></div>
+<p>The returned frozen <code>Target</code> has the normalized fields above, including <code>condition</code> when supplied. Configuration is copied; scene objects remain host-owned references. To change registration settings, remove and register the target again. Re-registering the same id creates a new target and cancels an old hold on the next update.</p>
+<p><code>condition({ context, actorPosition, target, hit })</code> returns <code>true</code> to permit activation, <code>false</code> for a generic “Unavailable” reason, or a string describing the block. An empty string also produces “Unavailable”. The predicate receives a copy of actor position and a shallow intersection copy with a copied hit point. Treat all referenced host objects as read-only. Conditions may run multiple times per update, including immediately before completion. Do not consume inventory, change scene state, register/remove targets, or call <code>update()</code> from a condition. Reentrant controller mutation throws; predicate exceptions propagate to the host. If an update throws, Latch restores its prior interaction state, so a retry does not consume a press or silently lose a cancellation. Host-side predicate or custom-raycast side effects cannot be rolled back.</p>
+<h3 id="target-and-occluder-lifecycle">Target and occluder lifecycle</h3>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>remove(id)</code></td>
+<td>Returns whether a target was removed. Pending cancel/blur events are returned at the next update.</td>
+</tr>
+<tr>
+<td><code>clear()</code></td>
+<td>Unregisters all targets; cancellation/blur appears at the next update. Occluders and input history remain.</td>
+</tr>
+<tr>
+<td><code>setOccluders(roots = [])</code></td>
+<td>Copies and deduplicates an array of Object3D roots; returns the controller. An empty array disables explicit occlusion.</td>
+</tr>
+</tbody></table></div>
+<p>Removing a target never removes, hides, or disposes the corresponding scene object. Merely detaching an object from its scene does not unregister it: call <code>remove</code>, hide it, or clear its registration. To dispose a controller, stop sending updates and release it; it owns no GPU resources or DOM listeners. Release host geometry, materials, and listeners separately.</p>
+<h3 id="updateframe-interactionresult"><code>update(frame): InteractionResult</code></h3>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Frame field</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>dt</code></td>
+<td>Finite, nonnegative elapsed seconds since the previous update.</td>
+</tr>
+<tr>
+<td><code>aimRay</code></td>
+<td>Three.Ray with finite origin and nonzero Vector3 direction. Direction is copied and normalized.</td>
+</tr>
+<tr>
+<td><code>actorPosition</code></td>
+<td>Finite Three.Vector3 in world coordinates.</td>
+</tr>
+<tr>
+<td><code>pressed</code></td>
+<td>Boolean current button state; a press means a false-to-true transition.</td>
+</tr>
+<tr>
+<td><code>suspended</code></td>
+<td>Optional boolean, default false. Cancels work and clears focus.</td>
+</tr>
+<tr>
+<td><code>context</code></td>
+<td>Optional host data for conditions; not copied or modified.</td>
+</tr>
+<tr>
+<td><code>camera</code></td>
+<td>Optional Three.Camera for view-dependent raycasting.</td>
+</tr>
+</tbody></table></div>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Result field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>focus</code></td>
+<td><code>Focus</code> snapshot or <code>null</code>.</td>
+</tr>
+<tr>
+<td><code>progress</code></td>
+<td>Hold fraction from 0 to 1; resets to 0 after activation or cancellation.</td>
+</tr>
+<tr>
+<td><code>holding</code></td>
+<td>Whether a hold is currently in progress.</td>
+</tr>
+<tr>
+<td><code>requiresRelease</code></td>
+<td>A held input cannot start another action until an update observes <code>pressed: false</code>.</td>
+</tr>
+<tr>
+<td><code>events</code></td>
+<td>Fresh ordered, frozen array of interaction events. Process after the update returns.</td>
+</tr>
+</tbody></table></div>
+<p><code>Focus</code> includes <code>id</code>, <code>root</code>, <code>label</code>, <code>mode</code>, <code>holdDuration</code>, <code>point</code>, <code>distance</code>, <code>available</code>, and <code>reason</code>. <code>point</code> is a copy in world space; <code>distance</code> is actor-to-hit distance. <code>reason</code> is <code>null</code> when available. Snapshot objects are shallow-frozen; Three vectors and host object references are not deep-frozen. Changing a snapshot's point does not change raycast geometry or the controller's hit point, but may change other references to that same snapshot.</p>
+<h3 id="events">Events</h3>
+<p>Every event includes <code>type</code> and a <code>target: Focus</code> snapshot.</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Additional data</th>
+<th>When returned</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>focus</code></td>
+<td>—</td>
+<td>A new reachable target is selected.</td>
+</tr>
+<tr>
+<td><code>blur</code></td>
+<td><code>reason</code></td>
+<td>Previous focus is lost, removed, or suspended.</td>
+</tr>
+<tr>
+<td><code>start</code></td>
+<td>—</td>
+<td>A fresh press begins a hold.</td>
+</tr>
+<tr>
+<td><code>cancel</code></td>
+<td><code>reason</code></td>
+<td>An in-progress hold is interrupted.</td>
+</tr>
+<tr>
+<td><code>activate</code></td>
+<td>—</td>
+<td>A press or a completed hold passes its final availability check.</td>
+</tr>
+<tr>
+<td><code>blocked</code></td>
+<td><code>reason</code></td>
+<td>A fresh press attempts an unavailable target, or a press fails its completion check.</td>
+</tr>
+</tbody></table></div>
+<p>Cancellation reasons are <code>'focus-lost'</code>, <code>'removed'</code>, <code>'suspended'</code>, <code>'released'</code>, and <code>'unavailable'</code>. Blur uses the first three. A target switch returns <code>cancel</code> if holding, then <code>blur</code>, then <code>focus</code>. A new hold returns <code>start</code>; a successful press returns <code>activate</code>. A hold that loses availability returns <code>cancel</code>, with the current blocked reason also available on <code>result.focus.reason</code>. No progress events are emitted; read the result once per frame.</p>
+</article><footer class="docs-pagination"><a href="../guide/index.html"><small>← Previous</small><strong>Integration guide</strong></a><a href="../tutorial/index.html"><small>Next →</small><strong>Tutorial</strong></a></footer><p class="docs-source"><a href="https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/latch">View versioned source on GitHub ↗</a></p></main><aside class="docs-toc"><nav aria-label="On this page"><strong>On this page</strong><a href="#api">API</a><a href="#new-latchoptions" class="docs-toc-sub">new Latch(options?)</a><a href="#registeroptions-target" class="docs-toc-sub">register(options): Target</a><a href="#target-and-occluder-lifecycle" class="docs-toc-sub">Target and occluder lifecycle</a><a href="#updateframe-interactionresult" class="docs-toc-sub">update(frame): InteractionResult</a><a href="#events" class="docs-toc-sub">Events</a></nav></aside></div><footer class="forge-site-footer"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="../../index.html">Documentation</a><a href="../../../catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a></nav></footer></body></html>

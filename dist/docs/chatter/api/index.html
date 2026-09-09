@@ -1,0 +1,99 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101817"><title>Chatter API reference — Cranberry Forge</title><meta name="description" content="The public Chatter API: inputs, outputs, behavior, and constraints."><link rel="icon" type="image/svg+xml" href="../../../assets/branding/forge-mark.svg"><link rel="stylesheet" href="../../../showcase-shell.css"><link rel="stylesheet" href="../../../syntax.css"><link rel="stylesheet" href="../../docs.css"><script src="../../docs.js" defer></script></head><body class="forge-docs" data-forge-tool="chatter"><a class="docs-skip" href="#main-content">Skip to documentation</a><header class="forge-site-header"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a class="forge-home" href="../../../catalog.html">Forge</a><span aria-hidden="true">/</span><a href="../../index.html">Documentation</a><span aria-hidden="true">/</span><span>Chatter</span></nav><div class="docs-layout"><aside class="docs-sidebar"><a class="docs-product" href="../index.html"><img src="../../../assets/identities/chatter.svg" alt="" width="88" height="88"><strong>Chatter</strong><small>Branching dialogue</small></a><nav aria-label="Chatter documentation"><a href="../index.html">Overview</a><a href="../guide/index.html">Integration guide</a><a href="index.html" aria-current="page">API reference</a><a href="../tutorial/index.html">Tutorial</a></nav><a class="docs-demo-link" href="../../../play.html?kit=chatter">Open the showcase ↗</a><label for="docs-system-select">Explore another system</label><select id="docs-system-select" class="docs-system-select"><option value="../../biome/index.html">Biome</option><option value="../../flux/index.html">Flux</option><option value="../../signal/index.html">Signal</option><option value="../../latch/index.html">Latch</option><option value="../../loom/index.html">Loom</option><option value="../../satchel/index.html">Satchel</option><option value="../index.html" selected>Chatter</option><option value="../../trailmark/index.html">Trailmark</option><option value="../../wayfinder/index.html">Wayfinder</option><option value="../../spring/index.html">Spring</option><option value="../../parcel/index.html">Parcel</option><option value="../../tempo/index.html">Tempo</option><option value="../../ledger/index.html">Ledger</option><option value="../../keepsake/index.html">Keepsake</option><option value="../../sift/index.html">Sift</option><option value="../../mothlight/index.html">Mothlight</option><option value="../../afterglow/index.html">Afterglow</option></select><a href="../../index.html">All documentation →</a></aside><main class="docs-main" id="main-content"><header class="docs-heading"><p class="docs-eyebrow">INDEPENDENT TOOL / v0.1.0</p><h1>Chatter<span>API reference</span></h1><p class="docs-lede">The public Chatter API: inputs, outputs, behavior, and constraints.</p></header><article class="docs-prose"><h2 id="story-schema">Story schema</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>id</code>, <code>start</code></td>
+<td>Story ID and initial node ID.</td>
+</tr>
+<tr>
+<td><code>variables</code></td>
+<td>Optional map of number, boolean or string defaults. Types stay fixed throughout the conversation.</td>
+</tr>
+<tr>
+<td><code>nodes</code></td>
+<td>Map of node IDs to <code>{speaker?,text,choices?,next?,onEnter?}</code>.</td>
+</tr>
+<tr>
+<td><code>choices</code></td>
+<td>Array of <code>{id,text,target,when?,effects?,once?}</code>. <code>target:null</code> ends immediately.</td>
+</tr>
+<tr>
+<td><code>next</code></td>
+<td>Next node for a line with no choices. Omit or set <code>null</code> to end when advanced.</td>
+</tr>
+<tr>
+<td><code>when</code></td>
+<td>All conditions must pass. Each is <code>{variable,op,value}</code>.</td>
+</tr>
+<tr>
+<td><code>effects</code>, <code>onEnter</code></td>
+<td>Array of `{op:'set'</td>
+</tr>
+</tbody></table></div>
+<p>IDs use lowercase letters, digits, <code>_</code>, <code>-</code>, begin with a letter and have at most 64 characters. Reserved prototype keys are rejected. Story limits: 256 nodes, 64 variables, 12 choices per node, 16 conditions per choice, 32 effects per transition/entry list. Node text is up to 8,000 characters; speaker names up to 120; choice text up to 500. Numeric variables and results must be finite within ±1e9; strings up to 1,000 characters. Visits are capped at 1,000,000 per node.</p>
+<p>Condition operators: <code>eq</code>, <code>ne</code>, <code>gt</code>, <code>gte</code>, <code>lt</code>, <code>lte</code>. Ordered comparisons and <code>add</code> require numbers. Comparisons and assignments must use the variable's declared type. Text interpolation supports <code>{{variable}}</code> and performs plain-text substitution.</p>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript">{ <span class="hljs-attr">id</span>: <span class="hljs-string">'buy'</span>, <span class="hljs-attr">text</span>: <span class="hljs-string">'Buy tonic · 2 coins'</span>, <span class="hljs-attr">target</span>: <span class="hljs-string">'thanks'</span>, <span class="hljs-attr">once</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">when</span>: [{ <span class="hljs-attr">variable</span>: <span class="hljs-string">'coins'</span>, <span class="hljs-attr">op</span>: <span class="hljs-string">'gte'</span>, <span class="hljs-attr">value</span>: <span class="hljs-number">2</span> }],
+  <span class="hljs-attr">effects</span>: [{ <span class="hljs-attr">op</span>: <span class="hljs-string">'add'</span>, <span class="hljs-attr">variable</span>: <span class="hljs-string">'coins'</span>, <span class="hljs-attr">value</span>: -<span class="hljs-number">2</span> }] }</code></pre></div>
+<p><code>once</code> is scoped to the node and choice ID for this conversation. Hidden branches are not skipped automatically. Disabled choices remain in <code>view.choices</code> with <code>enabled:false</code>; your UI decides how to present them. Always provide an exit when all choices could become unavailable. Graph cycles are allowed because progress is explicit; there is no automatic traversal loop.</p>
+
+<h2 id="runtime-api">Runtime API</h2>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>Method / getter</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>new Conversation(story)</code></td>
+<td>Validate, enter the start node and apply its entry effects once.</td>
+</tr>
+<tr>
+<td><code>validateStory(value)</code></td>
+<td>Return a normalized graph or throw. Checks targets, duplicate IDs, types and limits.</td>
+</tr>
+<tr>
+<td><code>view</code></td>
+<td>Detached current speaker/text/choices, nodeId, ended and canAdvance.</td>
+</tr>
+<tr>
+<td><code>variables</code>, <code>nodeId</code>, <code>ended</code></td>
+<td>Inspect current state; variables are copied.</td>
+</tr>
+<tr>
+<td><code>choose(choiceId)</code></td>
+<td>Recheck availability; apply choice and target entry effects together.</td>
+</tr>
+<tr>
+<td><code>advance()</code></td>
+<td>Follow <code>next</code> on a node without choices, or end at its final line.</td>
+</tr>
+<tr>
+<td><code>setVariables(values)</code></td>
+<td>Atomically update existing variables with values of their declared types.</td>
+</tr>
+<tr>
+<td><code>end()</code></td>
+<td>Explicitly end the conversation.</td>
+</tr>
+<tr>
+<td><code>subscribe(listener)</code></td>
+<td>Notify after a state change; returns unsubscribe.</td>
+</tr>
+<tr>
+<td><code>toSnapshot()</code></td>
+<td>Return an <code>cranberry-forge.chatter/1</code> save.</td>
+</tr>
+<tr>
+<td><code>Conversation.fromSnapshot(story,save)</code></td>
+<td>Resume without replaying entry or choice effects.</td>
+</tr>
+</tbody></table></div>
+<p>Actions return <code>{ok:true}</code> or <code>{ok:false,reason}</code> for <code>ended</code>, <code>not-found</code>, <code>unavailable</code>, or <code>choice-required</code>. Invalid schemas, argument values or overflowing effects throw. Failed effect transitions leave node, variables, visits and one-time choices unchanged. Subscriber errors are logged after commit. Avoid reentrant writes in a subscriber.</p>
+</article><footer class="docs-pagination"><a href="../guide/index.html"><small>← Previous</small><strong>Integration guide</strong></a><a href="../tutorial/index.html"><small>Next →</small><strong>Tutorial</strong></a></footer><p class="docs-source"><a href="https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/chatter">View versioned source on GitHub ↗</a></p></main><aside class="docs-toc"><nav aria-label="On this page"><strong>On this page</strong><a href="#story-schema">Story schema</a><a href="#runtime-api">Runtime API</a></nav></aside></div><footer class="forge-site-footer"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="../../index.html">Documentation</a><a href="../../../catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a></nav></footer></body></html>

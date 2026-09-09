@@ -1,0 +1,105 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101817"><title>Spring Tutorial — Cranberry Forge</title><meta name="description" content="Work through the Spring example and adapt the pattern to your own project."><link rel="icon" type="image/svg+xml" href="../../../assets/branding/forge-mark.svg"><link rel="stylesheet" href="../../../showcase-shell.css"><link rel="stylesheet" href="../../../syntax.css"><link rel="stylesheet" href="../../docs.css"><script src="../../docs.js" defer></script></head><body class="forge-docs" data-forge-tool="spring"><a class="docs-skip" href="#main-content">Skip to documentation</a><header class="forge-site-header"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="38" height="38" alt=""><span>CRANBERRY <b>FORGE</b></span></a><nav aria-label="Site navigation"><a href="https://cranberryclock.com/">CranberryClock</a><a href="https://github.com/CranberryClock/Cranberry-Forge">Source on GitHub ↗</a></nav></header><nav class="docs-breadcrumb" aria-label="Breadcrumb"><a class="forge-home" href="../../../catalog.html">Forge</a><span aria-hidden="true">/</span><a href="../../index.html">Documentation</a><span aria-hidden="true">/</span><span>Spring</span></nav><div class="docs-layout"><aside class="docs-sidebar"><a class="docs-product" href="../index.html"><img src="../../../assets/identities/spring.svg" alt="" width="88" height="88"><strong>Spring</strong><small>Responsive motion</small></a><nav aria-label="Spring documentation"><a href="../index.html">Overview</a><a href="../guide/index.html">Integration guide</a><a href="../api/index.html">API reference</a><a href="index.html" aria-current="page">Tutorial</a></nav><a class="docs-demo-link" href="../../../spring.html">Open the showcase ↗</a><label for="docs-system-select">Explore another system</label><select id="docs-system-select" class="docs-system-select"><option value="../../biome/index.html">Biome</option><option value="../../flux/index.html">Flux</option><option value="../../signal/index.html">Signal</option><option value="../../latch/index.html">Latch</option><option value="../../loom/index.html">Loom</option><option value="../../satchel/index.html">Satchel</option><option value="../../chatter/index.html">Chatter</option><option value="../../trailmark/index.html">Trailmark</option><option value="../../wayfinder/index.html">Wayfinder</option><option value="../index.html" selected>Spring</option><option value="../../parcel/index.html">Parcel</option><option value="../../tempo/index.html">Tempo</option><option value="../../ledger/index.html">Ledger</option><option value="../../keepsake/index.html">Keepsake</option><option value="../../sift/index.html">Sift</option><option value="../../mothlight/index.html">Mothlight</option><option value="../../afterglow/index.html">Afterglow</option></select><a href="../../index.html">All documentation →</a></aside><main class="docs-main" id="main-content"><header class="docs-heading"><p class="docs-eyebrow">INDEPENDENT TOOL / v0.1.0</p><h1>Spring<span>Tutorial</span></h1><p class="docs-lede">Work through the Spring example and adapt the pattern to your own project.</p></header><article class="docs-prose"><p>This tutorial uses native Three.js, but Spring works equally well with DOM styles, canvas drawings, or ordinary numeric state. Install the package from its local archive as described in <a href="../index.html">README.md</a>.</p>
+<h2 id="1-keep-the-resting-transform-separate">1. Keep the resting transform separate</h2>
+<p>Create a scalar spring whose zero means “no recoil.” Apply the output relative to a stable resting position; do not repeatedly add the output to the already animated transform.</p>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">Spring</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@cranberry-forge/spring"</span>;
+
+<span class="hljs-keyword">const</span> restY = mesh.<span class="hljs-property">position</span>.<span class="hljs-property">y</span>;
+<span class="hljs-keyword">const</span> recoil = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Spring</span>({ <span class="hljs-attr">frequency</span>: <span class="hljs-number">3.5</span>, <span class="hljs-attr">dampingRatio</span>: <span class="hljs-number">0.55</span> });
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">onAction</span>(<span class="hljs-params"></span>) {
+  recoil.<span class="hljs-title function_">impulse</span>(<span class="hljs-number">5</span>); <span class="hljs-comment">// additive velocity, not a new position</span>
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">update</span>(<span class="hljs-params">dt</span>) {
+  mesh.<span class="hljs-property">position</span>.<span class="hljs-property">y</span> = restY + recoil.<span class="hljs-title function_">step</span>(dt);
+}</code></pre></div>
+<p>Your game calls <code>update</code>. Spring never starts a frame loop or installs an event listener. A second impulse stacks with the current velocity, producing continuous motion.</p>
+<h2 id="2-move-the-destination-while-preserving-momentum">2. Move the destination while preserving momentum</h2>
+<p>Use targets for hover, focus, doors, floating UI, or follow-through. Start with critical damping when a target change from rest should approach without a bounce.</p>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> lift = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Spring</span>({ <span class="hljs-attr">value</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">frequency</span>: <span class="hljs-number">2.5</span>, <span class="hljs-attr">dampingRatio</span>: <span class="hljs-number">1</span> });
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">setHighlighted</span>(<span class="hljs-params">highlighted</span>) {
+  lift.<span class="hljs-title function_">setTarget</span>(highlighted ? <span class="hljs-number">0.3</span> : <span class="hljs-number">0</span>);
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">update</span>(<span class="hljs-params">dt</span>) {
+  mesh.<span class="hljs-property">position</span>.<span class="hljs-property">y</span> = restY + lift.<span class="hljs-title function_">step</span>(dt);
+}</code></pre></div>
+<p><code>setTarget</code> does not reset velocity. <code>configure({dampingRatio: 0.3})</code> also preserves the current state. For a sharp discontinuity, use <code>snap(position)</code> instead.</p>
+<h2 id="3-follow-an-xyz-target">3. Follow an XYZ target</h2>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">import</span> { <span class="hljs-title class_">VectorSpring</span> } <span class="hljs-keyword">from</span> <span class="hljs-string">"@cranberry-forge/spring"</span>;
+
+<span class="hljs-keyword">const</span> follow = <span class="hljs-keyword">new</span> <span class="hljs-title class_">VectorSpring</span>({
+  <span class="hljs-attr">value</span>: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>],
+  <span class="hljs-attr">frequency</span>: <span class="hljs-number">2</span>,
+  <span class="hljs-attr">dampingRatio</span>: <span class="hljs-number">0.8</span>,
+});
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">update</span>(<span class="hljs-params">dt, destination</span>) {
+  follow.<span class="hljs-title function_">setTarget</span>([destination.<span class="hljs-property">x</span>, destination.<span class="hljs-property">y</span>, destination.<span class="hljs-property">z</span>]);
+  <span class="hljs-keyword">const</span> [x, y, z] = follow.<span class="hljs-title function_">step</span>(dt);
+  follower.<span class="hljs-property">position</span>.<span class="hljs-title function_">set</span>(x, y, z);
+}</code></pre></div>
+<p>The three components are independent scalar oscillators. This is not quaternion interpolation, collision detection, or angular wraparound. For angles crossing ±π, unwrap your target first or use a library designed for rotation interpolation.</p>
+<h2 id="4-own-pause-reset-and-reduced-motion">4. Own pause, reset, and reduced motion</h2>
+<p>Pause by not stepping. Ignore decorative impulses while paused rather than accumulating surprise energy for resume.</p>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">let</span> paused = <span class="hljs-literal">false</span>;
+<span class="hljs-keyword">let</span> calm = <span class="hljs-title function_">matchMedia</span>(<span class="hljs-string">"(prefers-reduced-motion: reduce)"</span>).<span class="hljs-property">matches</span>;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">setTarget</span>(<span class="hljs-params">value</span>) {
+  <span class="hljs-keyword">if</span> (calm) recoil.<span class="hljs-title function_">snap</span>(value);
+  <span class="hljs-keyword">else</span> recoil.<span class="hljs-title function_">setTarget</span>(value);
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">onAction</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">if</span> (!paused &amp;&amp; !calm) recoil.<span class="hljs-title function_">impulse</span>(<span class="hljs-number">5</span>);
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">update</span>(<span class="hljs-params">dt</span>) {
+  <span class="hljs-keyword">if</span> (!paused &amp;&amp; !calm) recoil.<span class="hljs-title function_">step</span>(dt);
+  mesh.<span class="hljs-property">position</span>.<span class="hljs-property">y</span> = restY + recoil.<span class="hljs-property">value</span>;
+}</code></pre></div>
+<p>When reduced motion becomes enabled, call <code>recoil.snap()</code> once to settle at the existing target. When a level teleports an object, <code>snap(newPosition)</code> removes stale momentum. <code>reset()</code> restores the constructor’s complete original state and tuning; it does not mean “stop wherever I am.”</p>
+<h2 id="5-understand-the-timing">5. Understand the timing</h2>
+<p>Each call solves the ordinary damped oscillator analytically for a fixed target. <code>frequency</code> is cycles per second before damping; it is not a millisecond duration. The critical boundary is exactly <code>dampingRatio: 1</code>.</p>
+<p>If input occurs between simulation times, split the interval there:</p>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript">recoil.<span class="hljs-title function_">step</span>(<span class="hljs-number">0.04</span>);
+recoil.<span class="hljs-title function_">impulse</span>(<span class="hljs-number">5</span>);
+recoil.<span class="hljs-title function_">step</span>(<span class="hljs-number">0.06</span>);</code></pre></div>
+<p>This describes the same input history at different frame subdivisions. Moving the impulse to the start of the interval describes a different history, so it should produce a different result.</p>
+<p>The solver uses the classical constant-coefficient solutions taught in <a href="https://ocw.mit.edu/courses/18-03sc-differential-equations-fall-2011/pages/unit-ii-second-order-constant-coefficient-linear-equations/damped-harmonic-oscillators/">MIT’s damped harmonic oscillator course material</a>. The implementation is original; no course code or third-party animation implementation is copied.</p>
+<h2 id="jellyworks-source-tour">Jellyworks source tour</h2>
+<p>The hosted <code>/spring.html</code> lab keeps mechanics and presentation separate:</p>
+<div class="docs-table" tabindex="0" role="region" aria-label="Reference table"><table>
+<thead>
+<tr>
+<th>File</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/packages/spring/index.js</code></td>
+<td>Analytic scalar/XYZ state, finite validation, impulses and targets.</td>
+</tr>
+<tr>
+<td><code>/spring-scene.js</code></td>
+<td>Renderer-free factory creating original procedural toys and applying spring output to transforms.</td>
+</tr>
+<tr>
+<td><code>/spring-app.js</code></td>
+<td>Host frame loop, sliders, pause, reduced motion, pointer raycasts, and live SVG response trace.</td>
+</tr>
+<tr>
+<td><code>/spring.css</code></td>
+<td>Responsive visual presentation.</td>
+</tr>
+</tbody></table></div>
+<p>Mochi uses the selected damping ratio. Pip stays at <code>1</code>; Orbit stays at <code>1.8</code>. Frequency and the “Nudge all” action apply to all three. A pointer tap only nudges the selected toy. The graph shows exact scalar values; the toy assembly uses a bounded height mapping and squash/stretch so repeated nudges do not invert its mesh geometry. Demo impulses cap resulting primary velocity at 24 units/second, while the independent package does not impose that gameplay limit.</p>
+<p>The public scene factory accepts <code>{scene, camera, bloom?}</code> and creates no renderer, DOM, or event listeners:</p>
+<div class="code-example"><div class="code-toolbar"><span>javascript</span><button class="code-copy" data-copy-code="" type="button" aria-label="Copy code example">Copy code</button></div><pre><code class="hljs language-javascript"><span class="hljs-keyword">const</span> world = <span class="hljs-title function_">createSpringScene</span>(stage);
+world.<span class="hljs-title function_">kick</span>(<span class="hljs-number">14</span>);
+world.<span class="hljs-title function_">update</span>(<span class="hljs-number">0.13</span>);
+<span class="hljs-comment">// Render stage.scene with stage.camera using your own renderer.</span>
+world.<span class="hljs-title function_">dispose</span>();</code></pre></div>
+<p>Source-level scene construction and core math are testable without WebGL. Browser/GPU appearance is a separate validation step.</p>
+</article><footer class="docs-pagination"><a href="../api/index.html"><small>← Previous</small><strong>API reference</strong></a><span></span></footer><p class="docs-source"><a href="https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/spring">View versioned source on GitHub ↗</a></p></main><aside class="docs-toc"><nav aria-label="On this page"><strong>On this page</strong><a href="#1-keep-the-resting-transform-separate">1. Keep the resting transform separate</a><a href="#2-move-the-destination-while-preserving-momentum">2. Move the destination while preserving momentum</a><a href="#3-follow-an-xyz-target">3. Follow an XYZ target</a><a href="#4-own-pause-reset-and-reduced-motion">4. Own pause, reset, and reduced motion</a><a href="#5-understand-the-timing">5. Understand the timing</a><a href="#jellyworks-source-tour">Jellyworks source tour</a></nav></aside></div><footer class="forge-site-footer"><a class="forge-source-brand" href="../../../catalog.html"><img src="../../../assets/branding/forge-mark.svg" width="36" height="36" alt=""><span>CRANBERRY <b>FORGE</b><small>SMALL SYSTEMS. PLAYABLE POSSIBILITIES.</small></span></a><p>Designed by CranberryClock.<br>Independent tools. Shared with care.</p><nav aria-label="Footer navigation"><a href="../../index.html">Documentation</a><a href="../../../catalog.html">Explore the collection</a><a href="https://github.com/CranberryClock/Cranberry-Forge">GitHub ↗</a></nav></footer></body></html>
