@@ -75,6 +75,9 @@ for (let [path, id] of pages) {
   ))
     e.remove();
   body.dataset.forgeTool = id;
+  // Parsing a document-ending newline can append a whitespace node to body.
+  // Discard it before adding generated nodes so repeated builds stay stable.
+  while (body.lastChild?.nodeType === 3 && !body.lastChild.textContent.trim()) body.lastChild.remove();
   if (id === 'collection') {
     const jump = doc.querySelector('.collection-jump');
     if (jump) jump.innerHTML = '<a href="#afterglow">Play the templates ↓</a><a href="#tools">Explore all 15 tools ↓</a>';
