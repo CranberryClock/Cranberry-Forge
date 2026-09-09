@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#16252b" />
+    <title>Game kits / Cranberry Forge</title>
+    <meta
+      name="description"
+      content="Playable inventory, dialogue and adventure kits for Three.js. Independent packages with complete source."
+    />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/play.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "/vendor/three/build/three.module.js",
+          "three/addons/": "/vendor/three/addons/",
+          "@cranberry-forge/satchel": "/packages/satchel/index.js",
+          "@cranberry-forge/chatter": "/packages/chatter/index.js",
+          "@cranberry-forge/chatter/dom": "/packages/chatter/dom.js"
+        }
+      }
+    </script>
+  </head>
+  <body class="game-kits">
+    <header class="kit-header">
+      <a class="brand" href="/"
+        ><span class="brand-symbol">✳</span> Cranberry<span class="brand-sub"
+          >/ FORGE</span
+        ></a
+      >
+      <nav aria-label="Game kits">
+        <a href="/play.html?kit=satchel" data-kit="satchel">Satchel</a
+        ><a href="/play.html?kit=chatter" data-kit="chatter">Chatter</a
+        ><a href="/templates/mothlight/" data-kit="mothlight"
+          >Play Mothlight ↗</a
+        >
+      </nav>
+      <a class="kit-back" href="/catalog.html">All tools ↗</a>
+    </header>
+    <nav class="collection-nav" aria-label="Collection">
+      <a href="/catalog.html">Explore all tools ↗</a>
+      <a href="/latch.html">Contextual interactions</a>
+      <a href="/trailmark.html">Objective journal</a>
+    </nav>
+    <main class="kit-main">
+      <div class="kit-heading">
+        <div>
+          <span class="eyebrow" id="kit-eyebrow">GAMEPLAY KIT 04</span>
+          <h1 id="kit-title">
+            Satchel <span>Every little thing, in its place.</span>
+          </h1>
+        </div>
+        <button id="kit-guide" class="text-button">Integration guide ↗</button>
+      </div>
+      <div class="kit-layout">
+        <section class="kit-stage" aria-label="Interactive Three.js camp">
+          <canvas
+            id="kit-canvas"
+            aria-label="3D camp. Drag to orbit, click objects to interact."
+            tabindex="0"
+          ></canvas>
+          <div class="kit-scene-caption">
+            <span id="kit-scene-label">THE COURIER'S CAMP</span>
+            <p id="kit-instruction">Click a treasure to put it in your pack.</p>
+          </div>
+          <div class="kit-stage-tools">
+            <button id="kit-reset-view">Reset view</button
+            ><button id="kit-capture">Save PNG ↓</button>
+          </div>
+          <div id="error" class="scene-error" role="alert" hidden></div>
+        </section>
+        <aside
+          class="kit-panel"
+          id="kit-panel"
+          aria-label="Gameplay controls"
+        ></aside>
+      </div>
+      <section class="kit-integration">
+        <div>
+          <span class="eyebrow">TAKE THE SYSTEM WITH YOU</span>
+          <h2 id="integration-title">A backpack for your next world.</h2>
+          <p id="integration-description"></p>
+          <a id="kit-download" class="primary-button" download
+            >Download package ↓</a
+          ><a id="kit-api" class="text-button" target="_blank" rel="noopener"
+            >Complete API & tutorial ↗</a
+          >
+        </div>
+        <div class="code-card">
+          <div>
+            <span id="code-filename">inventory.js</span
+            ><button id="copy-kit-code">Copy</button>
+          </div>
+          <pre><code id="kit-code"></code></pre>
+        </div>
+      </section>
+      <section class="template-invitation">
+        <img
+          src="/assets/previews/mothlight-sample.png"
+          alt="Mothlight's procedural island, keeper and little courier. Offline geometry illustration."
+          loading="lazy"
+        />
+        <div>
+          <span class="eyebrow">A COMPLETE LITTLE ADVENTURE</span>
+          <h2>Take Mothlight home.</h2>
+          <p>
+            Meet Mira, gather the missing pieces and build a light for the
+            skyships. A playable template using Satchel and Chatter, with
+            original Three.js scenery and a complete save loop.
+          </p>
+          <a class="primary-button" href="/templates/mothlight/"
+            >Play the adventure ↗</a
+          ><a
+            class="text-button"
+            href="/downloads/mothlight-template-0.1.0.tgz"
+            download
+            >Download complete template ↓</a
+          >
+        </div>
+      </section>
+    </main>
+    <footer>
+      <a class="brand" href="/">✳ CRANBERRY FORGE</a>
+      <p>Small systems. Whole new possibilities.</p>
+      <a href="https://github.com/CranberryClock/Cranberry-Forge"
+        >Source on GitHub ↗</a
+      >
+    </footer>
+    <dialog id="kit-docs">
+      <div class="dialog-heading">
+        <span class="eyebrow">CRANBERRY FORGE / FIELD GUIDE</span
+        ><button id="close-kit-docs" aria-label="Close guide">✕</button>
+      </div>
+      <div id="kit-docs-content"></div>
+    </dialog>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="/play-app.js"></script>
+  </body>
+</html>

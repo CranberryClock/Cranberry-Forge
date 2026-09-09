@@ -1,0 +1,38 @@
+{
+  "name": "@cranberry-forge/latch",
+  "version": "0.1.0",
+  "description": "Actor-reachable contextual press and hold interactions for native Three.js",
+  "type": "module",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js"
+    }
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
+  "peerDependencies": {
+    "three": ">=0.180.0 <0.181.0"
+  },
+  "license": "MIT",
+  "keywords": [
+    "threejs",
+    "game-development",
+    "latch"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CranberryClock/Cranberry-Forge.git",
+    "directory": "dist/packages/latch"
+  },
+  "homepage": "https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/latch#readme",
+  "bugs": {
+    "url": "https://github.com/CranberryClock/Cranberry-Forge/issues"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "name": "@cranberry-forge/parcel",
+  "version": "0.1.0",
+  "description": "Seeded weighted loot tables with explicit hard pity, auditable odds and portable deterministic state.",
+  "type": "module",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js"
+    }
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "README.md",
+    "API.md",
+    "TUTORIAL.md",
+    "LICENSE",
+    "media"
+  ],
+  "sideEffects": false,
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "threejs",
+    "game-development",
+    "parcel"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CranberryClock/Cranberry-Forge.git",
+    "directory": "dist/packages/parcel"
+  },
+  "homepage": "https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/parcel#readme",
+  "bugs": {
+    "url": "https://github.com/CranberryClock/Cranberry-Forge/issues"
+  }
+}

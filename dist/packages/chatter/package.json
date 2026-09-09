@@ -1,0 +1,41 @@
+{
+  "name": "@cranberry-forge/chatter",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Validated branching dialogue, durable choices and accessible dialogue boxes for Three.js games",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js"
+    },
+    "./dom": {
+      "types": "./dom.d.ts",
+      "import": "./dom.js"
+    }
+  },
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "dom.js",
+    "dom.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CranberryClock/Cranberry-Forge.git",
+    "directory": "dist/packages/chatter"
+  },
+  "homepage": "https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/chatter#readme",
+  "bugs": {
+    "url": "https://github.com/CranberryClock/Cranberry-Forge/issues"
+  },
+  "keywords": [
+    "threejs",
+    "game-development",
+    "chatter"
+  ]
+}

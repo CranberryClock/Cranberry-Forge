@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#22212e" />
+    <title>Wayfinder — Moonpost Dispatch · Cranberry Forge</title>
+    <meta
+      name="description"
+      content="A moonlit courier garden powered by Wayfinder: bounded weighted grid A*, editable terrain, and deterministic routes."
+    />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/wayfinder.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "/vendor/three/build/three.module.js",
+          "three/addons/": "/vendor/three/addons/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <header class="wf-header">
+      <a class="wf-brand" href="/index.html"><span>✳</span>Cranberry Forge</a>
+      <nav aria-label="Main navigation">
+        <a href="/catalog.html">All tools ↗</a
+        ><a class="wf-play-link" href="/play.html">Playground</a
+        ><a
+          class="wf-download"
+          href="/downloads/cranberry-forge-wayfinder-0.1.0.tgz"
+          download
+          >Download package ↓</a
+        >
+      </nav>
+    </header>
+    <main>
+      <section class="wf-intro">
+        <div>
+          <p class="wf-eyebrow">
+            Cranberry Forge / Worldbuilding tools / Navigation
+          </p>
+          <h1>Wayfinder <span>0.1.0</span></h1>
+          <p>A little direction for worlds worth wandering.</p>
+        </div>
+        <div class="wf-intro-note">
+          <span class="wf-spark">✧</span>
+          <div>One destination.<br /><span>Many ways to get there.</span></div>
+        </div>
+      </section>
+      <section
+        class="wf-workspace"
+        aria-label="Moonpost Dispatch navigation laboratory"
+      >
+        <div class="wf-stage" id="world">
+          <canvas
+            id="garden"
+            tabindex="0"
+            aria-label="Moonpost garden. Select a delivery tile, or choose a terrain brush to paint. The keyboard map provides the same controls."
+          ></canvas>
+          <div class="wf-world-title">
+            <p class="wf-eyebrow">Moonpost / Night shift 023</p>
+            <h2>Moonpost<br />Dispatch</h2>
+            <p>
+              Letters find a way.<br />Help this one find the quietest path.
+            </p>
+          </div>
+          <div class="wf-world-badge"><span></span>12 × 10 COURIER GARDEN</div>
+          <div class="wf-world-bottom">
+            <div class="wf-legend">
+              <span><i class="path"></i>Route</span
+              ><span><i class="wall"></i>Planters</span
+              ><span><i class="slow"></i>Lavender ×5</span>
+            </div>
+            <button id="camera-reset" class="wf-camera">Reset view ↗</button>
+          </div>
+          <div id="error" class="wf-error" role="status" hidden></div>
+        </div>
+        <aside class="wf-panel" aria-label="Dispatch controls">
+          <div class="wf-panel-head">
+            <div>
+              <p class="wf-eyebrow">Dispatch desk</p>
+              <h2>Make a way.</h2>
+            </div>
+            <span class="wf-mail-icon">✉</span>
+          </div>
+          <div class="wf-modebar" role="group" aria-label="Map interaction">
+            <button data-mode="goal" aria-pressed="true">
+              <span>↗</span>Deliver</button
+            ><button data-mode="wall" aria-pressed="false">
+              <span>▦</span>Planter</button
+            ><button data-mode="cost" aria-pressed="false">
+              <span>✾</span>Lavender</button
+            ><button data-mode="erase" aria-pressed="false">
+              <span>◇</span>Erase
+            </button>
+          </div>
+          <p id="mode-help" class="wf-mode-help">
+            Click a pale tile to set the destination. Drag the garden to orbit.
+          </p>
+          <div class="wf-route-card">
+            <div class="wf-route-head">
+              <span id="route-status">Route ready</span
+              ><span id="route-version">REV 01</span>
+            </div>
+            <div class="wf-route-stops">
+              <div>
+                <span class="wf-stop from"></span>
+                <p>From<strong id="from-cell">02 / 09</strong></p>
+              </div>
+              <span class="wf-route-arrow">⟶</span>
+              <div>
+                <span class="wf-stop to"></span>
+                <p>To<strong id="to-cell">11 / 02</strong></p>
+              </div>
+            </div>
+            <div class="wf-route-metrics">
+              <div>
+                <strong id="route-cost">—</strong><span>Travel cost</span>
+              </div>
+              <div>
+                <strong id="route-steps">—</strong><span>Tile steps</span>
+              </div>
+              <div>
+                <strong id="route-visited">—</strong><span>Explored</span>
+              </div>
+            </div>
+          </div>
+          <button id="dispatch" class="wf-primary">Send the moonpost →</button>
+          <p id="delivery-note" class="wf-delivery-note">
+            Your courier is ready at the southern gate.
+          </p>
+          <div class="wf-settings">
+            <label for="preset"
+              >Garden arrangement<select id="preset">
+                <option value="garden">The lavender detour</option>
+                <option value="switchback">A winding way home</option>
+                <option value="sealed">The closed garden</option>
+                <option value="clear">A blank canvas</option>
+              </select></label
+            ><label for="diagonal"
+              >Movement policy<select id="diagonal">
+                <option value="no-cut">Diagonal · keep corners clear</option>
+                <option value="never">Four directions only</option>
+                <option value="always">Diagonal · allow corner cuts</option>
+              </select></label
+            >
+          </div>
+          <details class="wf-access-map">
+            <summary>Keyboard &amp; touch cell map <span>↗</span></summary>
+            <p>
+              Arrow keys move focus. Enter applies your selected brush. Columns
+              and rows start at 1.
+            </p>
+            <div
+              id="cell-map"
+              class="wf-cell-map"
+              aria-label="Accessible garden cells"
+            ></div>
+          </details>
+          <div class="wf-savebar">
+            <button id="export">Export JSON ↓</button
+            ><button id="load">Import JSON ↑</button
+            ><button id="reset">Reset ↺</button
+            ><input
+              id="save-file"
+              type="file"
+              accept=".json,application/json"
+              hidden
+            />
+          </div>
+        </aside>
+      </section>
+      <p id="status" class="wf-status" role="status">
+        A route is waiting. Try a new destination, or plant a little obstacle in
+        its way.
+      </p>
+      <section class="wf-bottom">
+        <article class="wf-code">
+          <div class="wf-section-top">
+            <h2>Grid in. Directions out.</h2>
+            <a href="/packages/wayfinder/TUTORIAL.md"
+              >Integration tutorial ↗</a
+            >
+          </div>
+          <pre><code>const garden = new <b>Wayfinder</b>({ width: 12, height: 10 });
+garden.<b>setCell</b>({ x: 4, z: 3 }, { cost: 5 });
+const route = garden.<b>findPath</b>(courier, destination);
+world.<b>setRoute</b>(route.points); <span>// Plain { x, y, z } coordinates.</span></code></pre>
+          <div class="wf-code-tags">
+            <span>Zero runtime dependencies</span><span>Deterministic A*</span
+            ><span>Atomic grid edits</span>
+          </div>
+        </article>
+        <article class="wf-note">
+          <p class="wf-eyebrow">A map with clear boundaries</p>
+          <h2>The route knows the tiles.</h2>
+          <p>
+            Planters block a cell. Lavender makes entering it cost five times
+            more. Stairs, arches, and buildings decorate the garden’s edge; the
+            navigator operates on one flat XZ grid.
+          </p>
+          <a href="/packages/wayfinder/API.md">Explore the API ↗</a>
+        </article>
+      </section>
+    </main>
+    <footer class="wf-footer">
+      <span>@cranberry-forge/wayfinder · MIT · Framework independent</span
+      ><a href="/packages/wayfinder/README.md">Readme &amp; limits ↗</a
+      ><span id="deliveries">00 letters delivered</span>
+    </footer>
+    <script type="module" src="/wayfinder-app.js"></script>
+  </body>
+</html>

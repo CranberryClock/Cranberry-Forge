@@ -1,0 +1,849 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#111b20" />
+    <title>Trailmark — The returning tide · Cranberry Forge</title>
+    <meta
+      name="description"
+      content="Restore a tiny harbor with Trailmark, an independent objective journal for event-driven games. Explicit quests, clear prerequisites, and portable progress."
+    />
+    <link rel="stylesheet" href="/style.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "/vendor/three/build/three.module.js",
+          "three/addons/": "/vendor/three/addons/"
+        }
+      }
+    </script>
+    <style>
+      :root {
+        --accent: #b9e5bb;
+        --tm-bg: #111b20;
+        --tm-panel: #19262c;
+        --tm-line: #304047;
+        --tm-muted: #95a9ae;
+        --tm-warm: #ebbd89;
+      }
+      body {
+        background: var(--tm-bg);
+      }
+      button:disabled {
+        cursor: default;
+        opacity: 0.46;
+      }
+      .tm-top {
+        height: 76px;
+        padding: 0 3.3%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--tm-line);
+        gap: 22px;
+      }
+      .tm-brand {
+        font-family: var(--heading);
+        font-size: 23px;
+        font-weight: 700;
+        letter-spacing: -1px;
+        white-space: nowrap;
+      }
+      .tm-brand span {
+        color: var(--accent);
+        margin-right: 8px;
+      }
+      .tm-links {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        font-size: 13px;
+      }
+      .tm-download {
+        padding: 10px 14px;
+        border: 1px solid #567060;
+        border-radius: 5px;
+        background: #22392f;
+        color: #d2edc8;
+      }
+      .tm-intro {
+        max-width: 1640px;
+        margin: auto;
+        padding: 28px 3.3% 23px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 25px;
+      }
+      .tm-eyebrow {
+        font: 10px var(--mono);
+        letter-spacing: 2px;
+        color: var(--accent);
+        text-transform: uppercase;
+        margin: 0 0 10px;
+      }
+      .tm-title {
+        font: 500 35px var(--heading);
+        letter-spacing: -1.5px;
+        margin: 0;
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      .tm-title small {
+        font: 11px var(--mono);
+        letter-spacing: 0;
+        color: var(--tm-muted);
+        padding: 5px 7px;
+        border: 1px solid var(--tm-line);
+        border-radius: 4px;
+      }
+      .tm-intro p:not(.tm-eyebrow) {
+        font-size: 13px;
+        color: var(--tm-muted);
+        margin: 8px 0 0;
+      }
+      .tm-metrics {
+        display: flex;
+        gap: 32px;
+      }
+      .tm-metric strong {
+        font: 28px var(--heading);
+        display: block;
+        letter-spacing: -1px;
+      }
+      .tm-metric span {
+        font: 10px var(--mono);
+        color: var(--tm-muted);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      .tm-workspace {
+        max-width: 1640px;
+        padding: 0 3.3%;
+        margin: auto;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 348px;
+        gap: 16px;
+        align-items: stretch;
+      }
+      .tm-world {
+        position: relative;
+        min-height: 654px;
+        border: 1px solid var(--tm-line);
+        border-radius: 10px;
+        overflow: hidden;
+        background: #142c35;
+      }
+      .tm-world canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      .tm-world-copy {
+        position: absolute;
+        top: 26px;
+        left: 27px;
+        pointer-events: none;
+        z-index: 2;
+        max-width: 70%;
+        text-shadow: 0 2px 12px #142c35;
+      }
+      .tm-world-copy h2 {
+        font: 500 30px var(--heading);
+        letter-spacing: -1px;
+        margin: 0 0 7px;
+      }
+      .tm-world-copy p {
+        font-size: 12px;
+        color: #bdd0cf;
+        margin: 0;
+        max-width: 260px;
+        line-height: 1.6;
+      }
+      .tm-world-tag {
+        position: absolute;
+        top: 28px;
+        right: 22px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font: 10px var(--mono);
+        color: #bed3cf;
+      }
+      .tm-dot {
+        width: 6px;
+        height: 6px;
+        background: var(--accent);
+        border-radius: 50%;
+        box-shadow: 0 0 10px #b9e5bb80;
+      }
+      .tm-label-layer {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      .tm-pin {
+        position: absolute;
+        pointer-events: auto;
+        transform: translate(-50%, -50%);
+        padding: 7px 10px 7px 7px;
+        border: 1px solid #70858b75;
+        background: #14262ee8;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        white-space: nowrap;
+        font-size: 10px;
+        box-shadow: 0 5px 18px #071c2444;
+      }
+      .tm-pin span {
+        display: grid;
+        place-items: center;
+        width: 18px;
+        height: 18px;
+        background: #314a4d;
+        color: #d0dfd1;
+        border-radius: 50%;
+        font: 9px var(--mono);
+      }
+      .tm-pin.selected {
+        border-color: var(--accent);
+        background: #263f3aef;
+        color: #e0f1d8;
+      }
+      .tm-pin.done span {
+        background: var(--accent);
+        color: #213b35;
+      }
+      .tm-map-footer {
+        position: absolute;
+        bottom: 20px;
+        left: 22px;
+        right: 22px;
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 14px;
+        pointer-events: none;
+      }
+      .tm-map-footer p {
+        font: 10px var(--mono);
+        color: #c2d6d2;
+        line-height: 1.8;
+        margin: 0;
+        text-shadow: 0 2px 8px #071c24;
+      }
+      .tm-orbit {
+        pointer-events: auto;
+        padding: 9px 11px;
+        border: 1px solid #6b878980;
+        border-radius: 5px;
+        background: #18313ae0;
+        font-size: 11px;
+      }
+      .tm-journal {
+        border: 1px solid var(--tm-line);
+        border-radius: 10px;
+        background: var(--tm-panel);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+      .tm-journal-head {
+        padding: 22px 22px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .tm-journal-head h2 {
+        font: 500 17px var(--heading);
+        margin: 0;
+      }
+      .tm-journal-head span {
+        font: 10px var(--mono);
+        color: var(--tm-muted);
+      }
+      .tm-progress-track {
+        height: 3px;
+        background: #30423e;
+        margin: 0 22px 17px;
+      }
+      .tm-progress-fill {
+        background: var(--accent);
+        height: 100%;
+        width: 0;
+        transition: width 0.45s;
+      }
+      .tm-quests {
+        padding: 0 10px 14px;
+        border-bottom: 1px solid var(--tm-line);
+      }
+      .tm-quest {
+        width: 100%;
+        text-align: left;
+        display: grid;
+        grid-template-columns: 28px 1fr auto;
+        align-items: center;
+        gap: 10px;
+        padding: 12px;
+        border: 1px solid transparent;
+        border-radius: 6px;
+        margin-bottom: 3px;
+      }
+      .tm-quest.selected {
+        border-color: #607b69;
+        background: #273a36;
+      }
+      .tm-quest-number {
+        width: 26px;
+        height: 26px;
+        border: 1px solid #4a5d61;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font: 10px var(--mono);
+        color: var(--tm-muted);
+      }
+      .tm-quest.done .tm-quest-number {
+        background: var(--accent);
+        color: #183129;
+        border-color: var(--accent);
+      }
+      .tm-quest-title {
+        font-size: 12px;
+        display: block;
+      }
+      .tm-quest-status {
+        font: 9px var(--mono);
+        color: var(--tm-muted);
+        display: block;
+        margin-top: 5px;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+      }
+      .tm-quest-right {
+        font: 10px var(--mono);
+        color: #adc3b4;
+      }
+      .tm-detail {
+        padding: 21px 22px 22px;
+        flex: 1;
+      }
+      .tm-detail-label {
+        font: 9px var(--mono);
+        color: var(--tm-warm);
+        letter-spacing: 1.3px;
+        text-transform: uppercase;
+        margin: 0 0 9px;
+      }
+      .tm-detail h3 {
+        font: 500 23px var(--heading);
+        letter-spacing: -0.6px;
+        margin: 0 0 8px;
+      }
+      .tm-description {
+        font-size: 12px;
+        color: #acbdc1;
+        line-height: 1.65;
+        margin: 0 0 18px;
+      }
+      .tm-objective {
+        margin: 12px 0;
+      }
+      .tm-objective-top {
+        display: flex;
+        justify-content: space-between;
+        font-size: 11px;
+        color: #c2cfcb;
+        gap: 12px;
+      }
+      .tm-objective-top span:last-child {
+        font: 10px var(--mono);
+        color: var(--accent);
+      }
+      .tm-objective-track {
+        height: 3px;
+        background: #334449;
+        border-radius: 3px;
+        margin-top: 9px;
+        overflow: hidden;
+      }
+      .tm-objective-track div {
+        height: 100%;
+        background: var(--tm-warm);
+        transition: width 0.25s;
+      }
+      .tm-action {
+        width: 100%;
+        padding: 11px 10px;
+        background: var(--accent);
+        color: #1b302a;
+        border-radius: 5px;
+        font-size: 12px;
+        font-weight: 600;
+        text-align: center;
+      }
+      .tm-action:hover {
+        background: #d0efc8;
+        color: #11281b;
+      }
+      .tm-action.secondary {
+        border: 1px solid #51645c;
+        background: #263b35;
+        color: #c9e6c2;
+      }
+      .tm-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 20px;
+      }
+      .tm-gate {
+        padding: 12px;
+        border: 1px dashed #4a5d61;
+        border-radius: 5px;
+        font-size: 11px;
+        line-height: 1.7;
+        color: #abbabc;
+      }
+      .tm-claim-note {
+        font: 10px var(--mono);
+        line-height: 1.7;
+        color: var(--accent);
+        margin: 17px 0 0;
+      }
+      .tm-toolbar {
+        display: flex;
+        gap: 0;
+        border-top: 1px solid var(--tm-line);
+        padding: 13px 12px;
+      }
+      .tm-toolbar button {
+        flex: 1;
+        font: 10px var(--mono);
+        color: #a9bdbe;
+        padding: 5px;
+      }
+      .tm-toolbar button + button {
+        border-left: 1px solid var(--tm-line);
+      }
+      .tm-status {
+        max-width: 1640px;
+        margin: 13px auto 0;
+        padding: 0 3.3%;
+        min-height: 22px;
+        color: #bdcfc4;
+        font-size: 11px;
+        line-height: 1.6;
+      }
+      .tm-lower {
+        max-width: 1640px;
+        padding: 18px 3.3% 35px;
+        margin: auto;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 348px;
+        gap: 16px;
+      }
+      .tm-code-panel,
+      .tm-event-panel {
+        border: 1px solid var(--tm-line);
+        border-radius: 8px;
+        padding: 20px 23px;
+        min-width: 0;
+      }
+      .tm-panel-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 14px;
+      }
+      .tm-panel-top h3 {
+        font: 500 14px var(--heading);
+        margin: 0;
+      }
+      .tm-panel-top a,
+      .tm-panel-top button {
+        font: 10px var(--mono);
+        color: var(--accent);
+      }
+      .tm-code-panel pre {
+        font: 11px/1.9 var(--mono);
+        color: #9ccac0;
+        overflow: auto;
+        margin: 0;
+      }
+      .tm-code-panel pre b {
+        color: #e9c18e;
+        font-weight: 400;
+      }
+      .tm-code-foot {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-top: 17px;
+        font: 10px var(--mono);
+        color: var(--tm-muted);
+      }
+      .tm-event-panel ol {
+        padding: 0;
+        list-style: none;
+        margin: 0;
+        font: 10px/1.7 var(--mono);
+        color: #a9bcc0;
+      }
+      .tm-event-panel li {
+        padding: 6px 0;
+        border-bottom: 1px solid #2a393e;
+        overflow-wrap: anywhere;
+      }
+      .tm-event-panel li:last-child {
+        border: 0;
+      }
+      .tm-event-panel em {
+        color: var(--tm-warm);
+        font-style: normal;
+      }
+      .tm-footer {
+        max-width: 1640px;
+        padding: 0 3.3% 26px;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        color: var(--tm-muted);
+        font: 10px/1.7 var(--mono);
+      }
+      #error {
+        position: absolute;
+        z-index: 5;
+        left: 20px;
+        right: 20px;
+        top: 125px;
+        background: #24363beb;
+        border: 1px solid #77918e;
+        padding: 16px;
+        border-radius: 6px;
+        font-size: 12px;
+        line-height: 1.7;
+      }
+      @media (min-width: 1500px) {
+        .tm-world {
+          min-height: 740px;
+        }
+        .tm-workspace,
+        .tm-lower {
+          grid-template-columns: minmax(0, 1fr) 385px;
+        }
+        .tm-detail {
+          padding: 25px;
+        }
+        .tm-quest {
+          padding: 14px;
+        }
+      }
+      @media (max-width: 1050px) {
+        .tm-workspace,
+        .tm-lower {
+          grid-template-columns: minmax(0, 1fr) 310px;
+        }
+        .tm-world {
+          min-height: 650px;
+        }
+        .tm-pin {
+          font-size: 9px;
+          padding: 5px;
+          gap: 4px;
+        }
+        .tm-world-copy h2 {
+          font-size: 25px;
+        }
+        .tm-world-tag {
+          display: none;
+        }
+        .tm-quest {
+          gap: 7px;
+          padding: 10px;
+        }
+        .tm-detail {
+          padding: 19px;
+        }
+        .tm-metrics {
+          gap: 20px;
+        }
+      }
+      @media (max-width: 760px) {
+        .tm-top {
+          height: 66px;
+          padding: 0 5%;
+        }
+        .tm-brand {
+          font-size: 20px;
+        }
+        .tm-links {
+          gap: 16px;
+          font-size: 11px;
+        }
+        .tm-links .tm-play {
+          display: none;
+        }
+        .tm-download {
+          padding: 8px 10px;
+          font-size: 10px;
+        }
+        .tm-intro {
+          padding: 24px 5% 20px;
+          align-items: start;
+        }
+        .tm-title {
+          font-size: 30px;
+        }
+        .tm-intro p:not(.tm-eyebrow) {
+          max-width: 240px;
+          line-height: 1.6;
+        }
+        .tm-metrics {
+          gap: 0;
+        }
+        .tm-metric + .tm-metric {
+          display: none;
+        }
+        .tm-metric strong {
+          font-size: 25px;
+        }
+        .tm-metric span {
+          font-size: 8px;
+        }
+        .tm-workspace {
+          padding: 0 4%;
+          grid-template-columns: 1fr;
+        }
+        .tm-world {
+          min-height: 480px;
+        }
+        .tm-world-copy {
+          top: 20px;
+          left: 18px;
+        }
+        .tm-world-copy h2 {
+          font-size: 24px;
+        }
+        .tm-world-copy p {
+          font-size: 11px;
+          max-width: 220px;
+        }
+        .tm-pin {
+          font-size: 9px;
+        }
+        .tm-pin span {
+          width: 16px;
+          height: 16px;
+        }
+        .tm-map-footer {
+          left: 17px;
+          right: 17px;
+          bottom: 16px;
+        }
+        .tm-map-footer p {
+          font-size: 9px;
+        }
+        .tm-journal-head {
+          padding: 20px;
+        }
+        .tm-quests {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          padding-bottom: 12px;
+        }
+        .tm-quest {
+          padding: 10px 7px;
+          gap: 7px;
+        }
+        .tm-quest-title {
+          font-size: 10px;
+        }
+        .tm-quest-status {
+          font-size: 8px;
+        }
+        .tm-quest-right {
+          display: none;
+        }
+        .tm-detail {
+          padding: 22px;
+        }
+        .tm-detail h3 {
+          font-size: 24px;
+        }
+        .tm-actions {
+          flex-direction: row;
+          flex-wrap: wrap;
+        }
+        .tm-actions button {
+          flex: 1;
+          min-width: 125px;
+        }
+        .tm-description {
+          font-size: 13px;
+        }
+        .tm-lower {
+          padding: 16px 4% 25px;
+          grid-template-columns: 1fr;
+        }
+        .tm-status {
+          padding: 0 5%;
+          font-size: 11px;
+        }
+        .tm-footer {
+          padding: 0 5% 25px;
+          flex-direction: column;
+          gap: 8px;
+        }
+        .tm-code-panel pre {
+          font-size: 10px;
+        }
+        .tm-toolbar button {
+          font-size: 11px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          scroll-behavior: auto !important;
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="tm-top">
+      <a class="tm-brand" href="/index.html"
+        ><span>✳</span>Cranberry
+        <span style="color: #c5ceca; font-weight: 400">Forge</span></a
+      >
+      <nav class="tm-links" aria-label="Main navigation">
+        <a href="/catalog.html">All tools ↗</a
+        ><a class="tm-play" href="/play.html">Playground</a
+        ><a
+          class="tm-download"
+          href="/downloads/cranberry-forge-trailmark-0.1.0.tgz"
+          download
+          >Download package ↓</a
+        >
+      </nav>
+    </header>
+    <main>
+      <section class="tm-intro">
+        <div>
+          <p class="tm-eyebrow">
+            Cranberry Forge / Worldbuilding tools / Objective systems
+          </p>
+          <h1 class="tm-title">Trailmark <small>v0.1.0</small></h1>
+          <p>Give every small action a place in a larger story.</p>
+        </div>
+        <div class="tm-metrics">
+          <div class="tm-metric">
+            <strong id="completion">0%</strong><span>Harbor restored</span>
+          </div>
+          <div class="tm-metric">
+            <strong id="receipts">00</strong><span>Receipts claimed</span>
+          </div>
+        </div>
+      </section>
+      <section class="tm-workspace" aria-label="Interactive harbor restoration">
+        <div class="tm-world" id="world">
+          <canvas
+            id="harbor"
+            aria-label="Interactive Three.js harbor. Drag to orbit; select a labeled district. The journal offers equivalent buttons."
+            tabindex="0"
+          ></canvas>
+          <div class="tm-world-copy">
+            <p class="tm-eyebrow">Field journal · 004 / The harbor</p>
+            <h2>The returning tide</h2>
+            <p>
+              A bridge in pieces. A village waiting.<br />Bring the light back,
+              one promise at a time.
+            </p>
+          </div>
+          <div class="tm-world-tag">
+            <span class="tm-dot"></span>PROCEDURAL ARCHIPELAGO
+          </div>
+          <div class="tm-label-layer" id="district-labels"></div>
+          <div class="tm-map-footer">
+            <p>
+              SELECT A DISTRICT TO BEGIN<br />DRAG TO ORBIT · SCROLL TO EXPLORE
+            </p>
+            <button class="tm-orbit" id="camera-reset">Reset view ↗</button>
+          </div>
+          <div id="error" role="status" hidden></div>
+        </div>
+        <aside class="tm-journal" aria-label="Restoration journal">
+          <div class="tm-journal-head">
+            <h2>Restoration journal</h2>
+            <span id="quest-count">0 / 4 complete</span>
+          </div>
+          <div class="tm-progress-track">
+            <div id="overall-progress" class="tm-progress-fill"></div>
+          </div>
+          <div id="quests" class="tm-quests"></div>
+          <section id="detail" class="tm-detail" aria-live="polite"></section>
+          <div class="tm-toolbar">
+            <button id="export">Export save ↓</button
+            ><button id="load">Load save ↑</button
+            ><button id="reset">Start over ↺</button
+            ><input
+              id="save-file"
+              type="file"
+              accept="application/json,.json"
+              hidden
+            />
+          </div>
+        </aside>
+      </section>
+      <p class="tm-status" id="status" role="status">
+        Start at Driftwood Landing. Accept the commission, then gather timber
+        and stone.
+      </p>
+      <section class="tm-lower" aria-label="Developer details">
+        <article class="tm-code-panel">
+          <div class="tm-panel-top">
+            <h3>A journal you can inspect.</h3>
+            <a href="/packages/trailmark/TUTORIAL.md">Read the tutorial ↗</a>
+          </div>
+          <pre><code>const journal = <b>createJournal</b>(quests);
+journal.<b>activate</b>('bridge');
+const result = journal.<b>dispatch</b>({
+  id: 'repair-001', type: 'restore', tags: ['bridge']
+});
+world.<b>setState</b>(journal.list()); <span style="color:#778e95">// derive the scene from progress</span></code></pre>
+          <div class="tm-code-foot">
+            <span>Zero runtime dependencies</span
+            ><span>Typed events + tag matching</span
+            ><span>Versioned JSON saves</span
+            ><a href="/packages/trailmark/API.md">API reference ↗</a>
+          </div>
+        </article>
+        <article class="tm-event-panel">
+          <div class="tm-panel-top">
+            <h3>Event trace</h3>
+            <button id="replay" disabled>Replay last ↺</button>
+          </div>
+          <ol id="trace" aria-live="polite">
+            <li>Waiting for your first action.</li>
+          </ol>
+        </article>
+      </section>
+    </main>
+    <footer class="tm-footer">
+      <span>@cranberry-forge/trailmark · MIT · Framework independent</span
+      ><span
+        >Local dedupe retains 256 event IDs in this demo.
+        <a href="/packages/trailmark/README.md">Read the contract ↗</a></span
+      >
+    </footer>
+    <script type="module" src="/trailmark-app.js"></script>
+  </body>
+</html>

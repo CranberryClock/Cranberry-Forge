@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#17232f" />
+    <meta
+      name="description"
+      content="A tiny Three.js adventure. Gather the pieces, craft a lantern and bring the last light home."
+    />
+    <title>Mothlight / a small adventure</title>
+    <link rel="stylesheet" href="./game.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./vendor/three/build/three.module.js",
+          "three/addons/": "./vendor/three/addons/",
+          "@cranberry-forge/satchel": "./packages/satchel/index.js",
+          "@cranberry-forge/chatter": "./packages/chatter/index.js",
+          "@cranberry-forge/chatter/dom": "./packages/chatter/dom.js"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <main id="world">
+      <canvas
+        id="game-canvas"
+        tabindex="0"
+        aria-label="Mothlight game world. Move with WASD or arrow keys, press E to interact, or click a destination."
+      ></canvas>
+      <div class="game-brand">
+        <span>A SMALL ADVENTURE</span>
+        <h1>Mothlight</h1>
+        <p>One last delivery.</p>
+      </div>
+      <section class="quest-card" aria-label="Current objective">
+        <span class="quest-kicker">THE LAST LIGHT</span>
+        <h2 id="objective">Find Mira at the camp.</h2>
+        <p id="objective-detail">Someone is still waiting for the skyship.</p>
+        <div id="quest-items" class="quest-items"></div>
+        <button id="craft" hidden>Assemble the moth lantern</button>
+      </section>
+      <div class="game-toolbar">
+        <button id="pack-button">Pack <kbd>I</kbd></button
+        ><button id="help-button" aria-label="Open controls and settings">
+          ☰
+        </button>
+      </div>
+      <div class="interact-wrap">
+        <button id="interact" disabled>
+          Walk closer to interact <kbd>E</kbd>
+        </button>
+      </div>
+      <div class="move-hint">
+        WASD / arrows to walk · click to travel · E to interact
+      </div>
+      <div class="touch-pad" aria-label="Movement controls">
+        <button data-move="forward" aria-label="Move forward">↑</button>
+        <div>
+          <button data-move="left" aria-label="Move left">←</button
+          ><button data-move="back" aria-label="Move backward">↓</button
+          ><button data-move="right" aria-label="Move right">→</button>
+        </div>
+      </div>
+      <div id="error" class="error" role="alert" hidden></div>
+      <div id="game-toast" role="status" aria-live="polite"></div>
+    </main>
+    <dialog id="talk-dialog">
+      <button
+        class="dialog-close"
+        id="close-talk"
+        aria-label="Close conversation"
+      >
+        ✕
+      </button>
+      <div id="talk-box"></div>
+    </dialog>
+    <dialog id="pack-dialog">
+      <div class="dialog-top">
+        <h2>Your field pack</h2>
+        <button class="dialog-close" id="close-pack" aria-label="Close pack">
+          ✕
+        </button>
+      </div>
+      <p id="weight"></p>
+      <div id="game-grid"></div>
+      <p>Click an item, then an empty cell to move it.</p>
+      <div id="item-actions"></div>
+    </dialog>
+    <dialog id="help-dialog">
+      <div class="dialog-top">
+        <h2>A little way home</h2>
+        <button
+          class="dialog-close"
+          id="close-help"
+          aria-label="Close settings"
+        >
+          ✕
+        </button>
+      </div>
+      <p>
+        Talk to Mira, collect the seven treasures around the island, make a
+        lantern at her worktable, then carry it to the beacon.
+      </p>
+      <p>
+        Move with WASD or arrows. E interacts. I opens the pack. You can also
+        click or tap a destination or treasure.
+      </p>
+      <p>
+        Your progress is saved on this device when storage is available.
+        Movement pauses while a window is open.
+      </p>
+      <div class="help-actions">
+        <button id="save-file">Export save ↓</button
+        ><button id="load-file">Load save</button
+        ><button id="restart">Start again</button>
+      </div>
+      <p>
+        <a href="./README.md" target="_blank" rel="noopener"
+          >Read the template guide ↗</a
+        >
+        ·
+        <a
+          href="https://github.com/CranberryClock/Cranberry-Forge"
+          target="_blank"
+          rel="noopener"
+          >Cranberry Forge source ↗</a
+        >
+      </p>
+    </dialog>
+    <dialog id="win-dialog">
+      <span class="quest-kicker">DELIVERY COMPLETE</span>
+      <h2>A small light.<br />A way home.</h2>
+      <p>The moths came back. Mira left two cups on the worktable.</p>
+      <p id="finish-time"></p>
+      <button id="keep-exploring">Stay a little longer</button
+      ><button id="play-again">Another little adventure</button>
+    </dialog>
+    <input id="load-input" type="file" accept="application/json,.json" hidden />
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

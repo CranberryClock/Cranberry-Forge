@@ -1,0 +1,42 @@
+{
+  "name": "@cranberry-forge/wayfinder",
+  "version": "0.1.0",
+  "description": "Bounded deterministic weighted XZ grid navigation with A*, world mapping, and validated JSON saves.",
+  "type": "module",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js"
+    }
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "README.md",
+    "API.md",
+    "TUTORIAL.md",
+    "LICENSE",
+    "media"
+  ],
+  "sideEffects": false,
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "threejs",
+    "game-development",
+    "wayfinder"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CranberryClock/Cranberry-Forge.git",
+    "directory": "dist/packages/wayfinder"
+  },
+  "homepage": "https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/wayfinder#readme",
+  "bugs": {
+    "url": "https://github.com/CranberryClock/Cranberry-Forge/issues"
+  }
+}

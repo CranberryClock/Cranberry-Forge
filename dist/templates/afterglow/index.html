@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#132b35" />
+    <meta
+      name="description"
+      content="Keep the last light alive. A complete Three.js survival game template built with Cranberry Forge Signal and Flux."
+    />
+    <title>Afterglow — keep the last light alive</title>
+    <link rel="stylesheet" href="./game.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./vendor/three/build/three.module.js",
+          "three/addons/": "./vendor/three/addons/",
+          "@cranberry-forge/signal": "./packages/signal/index.js",
+          "@cranberry-forge/flux": "./packages/flux/index.js"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <main id="game-shell">
+      <div class="scene">
+        <canvas
+          id="game-canvas"
+          aria-label="Sun temple arena. Move with WASD or arrow keys, and dash with Space."
+          tabindex="0"
+        ></canvas>
+      </div>
+      <header class="topbar">
+        <a class="brand" href="./index.html" aria-label="Afterglow home"
+          ><span class="sun-mark" aria-hidden="true">✳</span
+          ><span>AFTERGLOW<small>A CRANBERRY FORGE GAME</small></span></a
+        >
+        <div class="top-actions">
+          <button id="help-button" class="quiet">How to play</button
+          ><button id="motion-button" class="quiet" aria-pressed="false">
+            Calm visuals</button
+          ><button id="pause-button" class="quiet" disabled>
+            Pause <kbd>P</kbd>
+          </button>
+        </div>
+      </header>
+      <section class="hud" aria-label="Run status">
+        <div class="vitality">
+          <span class="eyebrow">KEEPER’S LIGHT</span>
+          <div
+            id="health"
+            class="health"
+            aria-label="3 of 3 light remaining"
+          ></div>
+        </div>
+        <div class="round-state">
+          <span id="round-name" class="eyebrow">THE FIRST LIGHT</span
+          ><strong id="timer">54<span>s</span></strong>
+          <div class="round-dots" id="round-dots" aria-label="Round 1 of 3">
+            <i class="active"></i><i></i><i></i>
+          </div>
+        </div>
+        <div class="score-state">
+          <span class="eyebrow">SCORE</span><strong id="score">0000</strong
+          ><span id="best">PERSONAL BEST —</span>
+        </div>
+      </section>
+      <div
+        id="announcement"
+        class="announcement"
+        role="status"
+        aria-live="polite"
+      ></div>
+      <aside class="attack-readout" aria-label="Charging attacks">
+        <span class="eyebrow">READ THE LIGHT</span>
+        <div id="attack-list">
+          <p class="quiet-note">Every strike tells you where it will land.</p>
+        </div>
+      </aside>
+      <div class="controls-hint">
+        <span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> Move</span
+        ><span><kbd>SPACE</kbd> Dash through danger</span>
+      </div>
+      <div class="dash-control">
+        <button id="dash-button" disabled>
+          <span class="dash-icon" aria-hidden="true">↗</span
+          ><span>DASH<small id="dash-label">READY</small></span
+          ><span class="dash-meter"><i id="dash-fill"></i></span>
+        </button>
+      </div>
+      <nav class="touch-pad" aria-label="Movement controls">
+        <button data-move="forward" aria-label="Move forward">↑</button
+        ><button data-move="left" aria-label="Move left">←</button
+        ><button data-move="back" aria-label="Move backward">↓</button
+        ><button data-move="right" aria-label="Move right">→</button>
+      </nav>
+      <footer class="build-note">
+        SIGNAL <span>×</span> FLUX <span>·</span> THREE.JS
+      </footer>
+      <div id="error" class="error" role="alert" hidden></div>
+    </main>
+
+    <dialog id="intro-dialog" class="intro-card">
+      <span class="eyebrow coral">A SMALL GAME ABOUT STAYING IN THE LIGHT</span>
+      <h1>The sun has<br />one keeper left.</h1>
+      <p>
+        The temple is waking. Read its warnings, slip between its rays, and
+        carry your light through three rounds.
+      </p>
+      <div class="intro-facts">
+        <span><strong>54</strong> seconds</span
+        ><span><strong>3</strong> rounds</span
+        ><span><strong>1</strong> last light</span>
+      </div>
+      <button id="start-button" class="primary">
+        Enter the afterglow <span aria-hidden="true">↗</span>
+      </button>
+      <p class="fine-print">
+        Move: WASD / arrows · Dash: Space<br />Touch controls appear on touch
+        devices.
+      </p>
+    </dialog>
+    <dialog id="pause-dialog" class="menu-card">
+      <span class="eyebrow coral">TAKE YOUR TIME</span>
+      <h2>A moment of quiet.</h2>
+      <p>The temple waits while the game is paused.</p>
+      <button id="resume-button" class="primary">Return to the light</button
+      ><button id="restart-paused" class="secondary">Start a fresh run</button>
+    </dialog>
+    <dialog id="help-dialog" class="menu-card help-card">
+      <span class="eyebrow coral">THE KEEPER’S FIELD NOTES</span>
+      <h2>Read. Move. Breathe.</h2>
+      <ol>
+        <li>
+          <strong>Leave the warm shapes.</strong> A circle, fan, or lane fills
+          before striking. Only the instant it fills can deal damage.
+        </li>
+        <li>
+          <strong>Dash through danger.</strong> Space or Dash gives 0.22 seconds
+          of protection. It recharges in 1.25 seconds. No movement input? Dash
+          in your last direction.
+        </li>
+        <li>
+          <strong>Find the quiet center.</strong> The large ring has a safe
+          opening. The floor’s thin mint ring marks your movement boundary.
+        </li>
+        <li>
+          <strong>Survive all 54 seconds.</strong> You have three light charges.
+          Every avoided strike earns 100 points; finishing adds 250 per
+          remaining charge.
+        </li>
+      </ol>
+      <p class="fine-print">
+        WASD / arrows move relative to the camera. Space dashes. P or Escape
+        pauses. Losing focus also pauses. Calm visuals disables blinking,
+        decorative motion, and dash ribbons.
+      </p>
+      <button id="close-help" class="primary">Got it</button
+      ><a class="source-link" href="./README.md" target="_blank" rel="noopener"
+        >Read the template tutorial ↗</a
+      >
+    </dialog>
+    <dialog id="finish-dialog" class="menu-card finish-card">
+      <span id="finish-eyebrow" class="eyebrow coral"
+        >THE TEMPLE REMEMBERS</span
+      >
+      <h2 id="finish-title">You kept the light.</h2>
+      <p id="finish-copy"></p>
+      <div class="finish-score">
+        <span>YOUR SCORE</span><strong id="finish-score">0000</strong>
+      </div>
+      <div class="finish-stats">
+        <span id="finish-avoided"></span><span id="finish-time"></span>
+      </div>
+      <button id="play-again" class="primary">
+        One more sunrise <span aria-hidden="true">↗</span>
+      </button>
+      <p class="fine-print">
+        A complete, portable Three.js game.<br />Build your own encounter in
+        <a href="./README.md" target="_blank" rel="noopener"
+          >the template guide</a
+        >.
+      </p>
+    </dialog>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

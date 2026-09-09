@@ -1,0 +1,23 @@
+name: Feature request
+description: Propose a focused capability or independent tool.
+title: "[Idea]: "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Game-development problem
+      description: Describe the recurring workflow or limitation.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed API or experience
+      description: Show how a developer would use it and what a visual demo should demonstrate.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Existing alternatives and remaining gap
+      description: Link relevant tools and explain how the proposal stays independent.

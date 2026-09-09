@@ -1,0 +1,38 @@
+{
+  "name": "@cranberry-forge/biome",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js"
+    }
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
+  "peerDependencies": {
+    "three": ">=0.180.0 <0.181.0"
+  },
+  "license": "MIT",
+  "description": "Deterministic terrain-aware scattering with exclusion corridors and instanced rendering",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CranberryClock/Cranberry-Forge.git",
+    "directory": "dist/packages/biome"
+  },
+  "homepage": "https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/biome#readme",
+  "bugs": {
+    "url": "https://github.com/CranberryClock/Cranberry-Forge/issues"
+  },
+  "keywords": [
+    "threejs",
+    "game-development",
+    "biome"
+  ]
+}

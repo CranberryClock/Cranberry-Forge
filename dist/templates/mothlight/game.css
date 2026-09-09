@@ -1,0 +1,433 @@
+@font-face {
+  font-family: DM;
+  src: url("./vendor/fonts/dm-sans-400.woff2");
+}
+@font-face {
+  font-family: Space;
+  src: url("./vendor/fonts/space-grotesk-500.woff2");
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: #17232f;
+  color: #eceddb;
+  font:
+    16px/1.5 DM,
+    system-ui,
+    sans-serif;
+}
+button,
+a {
+  touch-action: manipulation;
+}
+button {
+  font: inherit;
+  color: inherit;
+  border: 1px solid #65766a;
+  background: #2b4447;
+  border-radius: 7px;
+  padding: 11px 17px;
+  cursor: pointer;
+}
+button:hover:enabled {
+  border-color: #ebd191;
+  background: #3a5655;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid #ffe0a4;
+  outline-offset: 4px;
+}
+button kbd {
+  font: 12px monospace;
+  margin-left: 14px;
+  opacity: 0.7;
+}
+a {
+  color: #efd49a;
+}
+#world {
+  position: fixed;
+  inset: 0;
+}
+canvas {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  inset: 0;
+  touch-action: none;
+}
+.game-brand {
+  position: absolute;
+  left: 35px;
+  top: 27px;
+  pointer-events: none;
+}
+.game-brand span,
+.quest-kicker {
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  color: #d9c694;
+}
+.game-brand h1 {
+  font:
+    500 43px/1 Space,
+    system-ui;
+  margin: 10px 0 8px;
+  letter-spacing: -2px;
+}
+.game-brand p {
+  color: #b6cbc4;
+  font-size: 14px;
+  margin: 0;
+}
+.quest-card {
+  position: absolute;
+  right: 28px;
+  top: 30px;
+  width: 290px;
+  background: #172a30e8;
+  border: 1px solid #526869;
+  border-radius: 10px;
+  padding: 20px 22px;
+  box-shadow: 0 12px 35px #09172144;
+}
+.quest-card h2 {
+  font:
+    500 20px/1.4 Space,
+    system-ui;
+  margin: 9px 0;
+}
+.quest-card p {
+  font-size: 14px;
+  color: #b6c9bf;
+  margin: 0;
+}
+.quest-items {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+}
+.quest-item {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  font-size: 13px;
+}
+.quest-item img {
+  width: 28px;
+  height: 35px;
+  object-fit: contain;
+}
+.quest-card button {
+  font-size: 14px;
+  width: 100%;
+  margin-top: 16px;
+  background: #736b47;
+}
+.game-toolbar {
+  position: absolute;
+  right: 28px;
+  bottom: 30px;
+  display: flex;
+  gap: 8px;
+}
+.interact-wrap {
+  position: absolute;
+  bottom: 72px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+.interact-wrap button {
+  background: #1b3138ef;
+  border-color: #758777;
+  box-shadow: 0 5px 25px #07172077;
+  min-width: 240px;
+}
+.move-hint {
+  position: absolute;
+  bottom: 27px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: #aebfb7;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.touch-pad {
+  display: none;
+  position: absolute;
+  bottom: 30px;
+  left: 22px;
+  text-align: center;
+  touch-action: none;
+}
+.touch-pad button {
+  width: 46px;
+  height: 43px;
+  padding: 5px;
+  background: #1d363ee3;
+}
+.touch-pad div {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+dialog {
+  border: 1px solid #698080;
+  background: #1a3038;
+  color: #e8eedf;
+  padding: 30px;
+  border-radius: 13px;
+  max-width: min(530px, 92vw);
+  max-height: 86vh;
+  overflow: auto;
+  box-shadow: 0 20px 100px #001922aa;
+}
+dialog::backdrop {
+  background: #07151d91;
+  backdrop-filter: blur(4px);
+}
+dialog h2 {
+  font:
+    500 26px/1.3 Space,
+    system-ui;
+  margin: 0 0 15px;
+}
+dialog p {
+  font-size: 15px;
+  color: #bbcec5;
+}
+#talk-dialog {
+  width: 550px;
+  min-height: 260px;
+  padding-top: 45px;
+}
+#talk-dialog .dialog-close {
+  position: absolute;
+  right: 12px;
+  top: 10px;
+}
+.dialog-close {
+  background: transparent;
+  border: 0;
+  padding: 6px 10px;
+}
+.dialog-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: start;
+}
+.help-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.help-actions button {
+  font-size: 14px;
+}
+.error {
+  position: absolute;
+  inset: 30%;
+  padding: 25px;
+  background: #532f2d;
+  border-radius: 10px;
+}
+.error[hidden] {
+  display: none;
+}
+#game-toast {
+  position: absolute;
+  bottom: 125px;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background: #e3d7ae;
+  color: #21383c;
+  padding: 12px 20px;
+  border-radius: 7px;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
+  text-align: center;
+  max-width: 90%;
+}
+#game-toast.visible {
+  opacity: 1;
+  transform: translateX(-50%);
+}
+#win-dialog {
+  text-align: center;
+  padding: 45px;
+  max-width: 480px;
+}
+#win-dialog h2 {
+  font-size: 42px;
+  letter-spacing: -1.5px;
+  margin-top: 22px;
+}
+#win-dialog button {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+}
+#pack-dialog {
+  width: 450px;
+}
+.inventory-grid {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 6/4;
+  background: #10252e;
+  border: 1px solid #577273;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.inventory-cell {
+  position: absolute;
+  border: 1px solid #2a454d;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+.inventory-item {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  border: 1px solid var(--item-color);
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--item-color) 15%, #152c35);
+}
+.inventory-item img {
+  height: 90%;
+  max-width: 90%;
+  object-fit: contain;
+  pointer-events: none;
+}
+.inventory-item.selected {
+  outline: 2px solid #ffdeb1;
+  outline-offset: -3px;
+}
+.item-quantity {
+  position: absolute;
+  right: 5px;
+  bottom: 4px;
+  font-size: 12px;
+  background: #142c36bd;
+  padding: 1px 4px;
+}
+.kit-small-button {
+  font-size: 14px;
+  padding: 8px 12px;
+  margin: 0 8px 8px 0;
+}
+#item-actions {
+  margin-top: 13px;
+}
+.chatter-box {
+  --chatter-accent: #ead393;
+  --chatter-button: #28454a;
+  --chatter-border: #5c7978;
+}
+#weight {
+  font-size: 13px;
+}
+@media (max-width: 760px) {
+  .game-brand {
+    left: 20px;
+    top: 18px;
+  }
+  .game-brand h1 {
+    font-size: 30px;
+  }
+  .game-brand p {
+    display: none;
+  }
+  .game-brand span {
+    font-size: 9px;
+  }
+  .quest-card {
+    right: 16px;
+    top: 16px;
+    width: 215px;
+    padding: 15px;
+  }
+  .quest-card h2 {
+    font-size: 16px;
+  }
+  .quest-card p {
+    font-size: 12px;
+  }
+  .quest-kicker {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+  }
+  .quest-items {
+    gap: 9px;
+  }
+  .quest-item img {
+    width: 21px;
+    height: 26px;
+  }
+  .game-toolbar {
+    right: 16px;
+    bottom: 23px;
+  }
+  .move-hint {
+    display: none;
+  }
+  .touch-pad {
+    display: block;
+  }
+  .interact-wrap {
+    bottom: 150px;
+  }
+  .interact-wrap button {
+    font-size: 14px;
+    min-width: 210px;
+  }
+  .game-toolbar button {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+  .game-toolbar kbd {
+    display: none;
+  }
+  #game-toast {
+    bottom: 207px;
+    width: max-content;
+    font-size: 14px;
+  }
+  dialog {
+    padding: 24px;
+  }
+  .quest-card button {
+    font-size: 12px;
+    padding: 8px;
+    margin-top: 10px;
+  }
+}
+@media (max-width: 420px) {
+  .quest-card {
+    width: 195px;
+  }
+  .game-brand h1 {
+    font-size: 27px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}

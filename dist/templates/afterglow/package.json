@@ -1,0 +1,10 @@
+{
+  "name": "cranberry-forge-afterglow-template",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A portable Three.js arena survival game built with Cranberry Forge Signal and Flux",
+  "scripts": {
+    "start": "node server.mjs"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "name": "@cranberry-forge/satchel",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Atomic grid inventory, stacking and crafting for Three.js games",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js"
+    }
+  },
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CranberryClock/Cranberry-Forge.git",
+    "directory": "dist/packages/satchel"
+  },
+  "homepage": "https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/satchel#readme",
+  "bugs": {
+    "url": "https://github.com/CranberryClock/Cranberry-Forge/issues"
+  },
+  "keywords": [
+    "threejs",
+    "game-development",
+    "satchel"
+  ]
+}

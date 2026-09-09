@@ -1,0 +1,30 @@
+name: Bug report
+description: Report reproducible incorrect behavior in a tool, game, or showcase.
+title: "[Bug]: "
+body:
+  - type: input
+    id: component
+    attributes:
+      label: Affected tool or template
+      placeholder: e.g. Biome, Satchel, Afterglow, or build tooling
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: What happened?
+      description: Include expected behavior and a minimal reproduction. Remove secrets and personal data.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: Package commit/version, browser, Node.js, Three.js, and operating system
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Relevant logs or screenshots
+      description: Do not report vulnerabilities here; consult SECURITY.md.

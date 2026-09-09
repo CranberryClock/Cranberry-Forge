@@ -1,0 +1,36 @@
+{
+  "name": "@cranberry-forge/tempo",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Explicit charge recharge and cooldown clocks for game abilities, without timers or dependencies",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js"
+    }
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "README.md",
+    "TUTORIAL.md",
+    "LICENSE"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "threejs",
+    "game-development",
+    "tempo"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CranberryClock/Cranberry-Forge.git",
+    "directory": "dist/packages/tempo"
+  },
+  "homepage": "https://github.com/CranberryClock/Cranberry-Forge/tree/main/dist/packages/tempo#readme",
+  "bugs": {
+    "url": "https://github.com/CranberryClock/Cranberry-Forge/issues"
+  }
+}

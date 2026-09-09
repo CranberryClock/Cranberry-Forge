@@ -1,0 +1,578 @@
+:root {
+  --accent: #e8cb98;
+}
+body {
+  background: #111b1f;
+}
+.loom-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 22px 3.4%;
+  border-bottom: 1px solid #c4d8ce1c;
+}
+.loom-header nav {
+  display: flex;
+  gap: 28px;
+  font-size: 13px;
+  color: #bed0cf;
+}
+.loom-header nav span {
+  color: #e8cb98;
+}
+.loom-heading {
+  padding: 37px 0 27px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 25px;
+}
+.loom-heading h1 {
+  font-size: clamp(35px, 4.3vw, 56px);
+  letter-spacing: -2.4px;
+  margin-top: 12px;
+}
+.loom-heading h1 em {
+  color: #a4c3bd;
+  font-style: normal;
+}
+.loom-heading p {
+  color: #a6bdbf;
+  font-size: 14px;
+  line-height: 1.7;
+  padding-bottom: 4px;
+}
+.loom-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 304px;
+  border: 1px solid #3b5356;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.loom-view {
+  position: relative;
+  min-height: 745px;
+  background: #233e46;
+  isolation: isolate;
+  overflow: hidden;
+}
+.loom-view::after {
+  position: absolute;
+  content: "";
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    #08222b33,
+    transparent 42%,
+    #09232b22 70%,
+    #0d2938bd
+  );
+}
+.loom-caption {
+  position: absolute;
+  top: 30px;
+  left: 31px;
+  z-index: 2;
+  pointer-events: none;
+}
+.loom-caption h2 {
+  font: 500 clamp(31px, 3.2vw, 46px) / 1.04 var(--heading);
+  letter-spacing: -1.9px;
+  margin: 13px 0 15px;
+}
+.loom-caption p {
+  font-size: 12px;
+  color: #c2d4ce;
+  max-width: 215px;
+  line-height: 1.6;
+}
+.loom-view-tools {
+  position: absolute;
+  top: 23px;
+  right: 20px;
+  display: flex;
+  gap: 7px;
+  z-index: 3;
+}
+.loom-view-tools button {
+  padding: 9px 12px;
+  border: 1px solid #d9e6d937;
+  border-radius: 5px;
+  background: #17323bad;
+  font-size: 11px;
+  color: #d3e1d9;
+  backdrop-filter: blur(8px);
+}
+.rail-ticket {
+  position: absolute;
+  left: 28px;
+  bottom: 51px;
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  z-index: 2;
+  background: #17323cdd;
+  border: 1px solid #b9cabe57;
+  border-radius: 8px;
+  padding: 18px 20px;
+  min-width: 324px;
+  box-shadow: 0 18px 36px #07232a55;
+  backdrop-filter: blur(10px);
+}
+.ticket-symbol {
+  font: 35px var(--heading);
+  color: #e6c896;
+}
+.rail-ticket strong {
+  display: block;
+  font: 500 22px var(--heading);
+  letter-spacing: -0.6px;
+  margin: 4px 0 6px;
+}
+.ticket-kicker,
+.rail-ticket small {
+  font: 8px var(--mono);
+  color: #aac3c2;
+  letter-spacing: 1.2px;
+}
+.ticket-stamp {
+  text-align: center;
+  font: 500 22px var(--heading);
+  color: #e3c899;
+  padding-left: 20px;
+  margin-left: 8px;
+  border-left: 1px dashed #c7d8c942;
+  line-height: 1.1;
+}
+.ticket-stamp span {
+  font: 10px var(--mono);
+  letter-spacing: 1px;
+}
+.loom-orbit-hint {
+  position: absolute;
+  bottom: 22px;
+  left: 29px;
+  right: 20px;
+  z-index: 2;
+  color: #b0c6c4;
+  font: 9px var(--mono);
+  letter-spacing: 0.7px;
+}
+.loom-panel {
+  background: #18292f;
+  padding: 24px 22px 16px;
+  border-left: 1px solid #3b5356;
+}
+.loom-panel-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 19px;
+  border-bottom: 1px solid #bfdbd422;
+}
+.loom-panel-heading h2 {
+  font: 500 16px var(--heading);
+  letter-spacing: -0.4px;
+}
+.loom-control-section {
+  padding: 20px 0 18px;
+  border-bottom: 1px solid #bfdbd422;
+}
+.control-kicker {
+  font: 9px var(--mono);
+  letter-spacing: 1.05px;
+  color: #94b0b2;
+  margin-bottom: 16px;
+}
+.route-presets {
+  display: grid;
+  gap: 7px;
+}
+.route-preset {
+  display: flex;
+  gap: 11px;
+  align-items: center;
+  padding: 9px 10px;
+  border: 1px solid #3c5358;
+  border-radius: 6px;
+  text-align: left;
+  width: 100%;
+  background: #1c3036;
+}
+.route-preset.selected {
+  border-color: #d7bd816e;
+  background: #e8cb9810;
+}
+.preset-path {
+  font: 28px/1 var(--heading);
+  width: 29px;
+  text-align: center;
+  color: #d9c69b;
+}
+.route-preset strong {
+  font-size: 12px;
+  display: block;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.route-preset small {
+  font-size: 10px;
+  color: #9cb5b8;
+}
+.route-preset b {
+  font: 9px var(--mono);
+  color: #9db1ac;
+  margin-left: auto;
+}
+.loom-range {
+  display: block;
+  margin: 17px 0 20px;
+}
+.loom-range:last-child {
+  margin-bottom: 0;
+}
+.loom-range > span {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 12px;
+  color: #c9d7d5;
+  margin-bottom: 13px;
+  gap: 10px;
+}
+.loom-range output {
+  font: 11px var(--mono);
+  color: #e4cc9f;
+}
+.loom-range input {
+  background: #4c6264;
+}
+.loom-check {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  color: #b5c9c8;
+  margin-top: 12px;
+}
+.loom-check input {
+  accent-color: #e8cb98;
+  width: 15px;
+  height: 15px;
+}
+.loom-helper {
+  font-size: 10px;
+  line-height: 1.7;
+  color: #95afb2;
+}
+.loom-recipe-actions {
+  display: flex;
+  gap: 7px;
+  margin-top: 17px;
+}
+.loom-recipe-actions button {
+  font-size: 11px;
+  border: 1px solid #697a684f;
+  border-radius: 5px;
+  padding: 11px 12px;
+}
+.loom-recipe-actions button:first-child {
+  flex: 1;
+  background: #e8cb98;
+  color: #203138;
+  font-weight: 600;
+}
+.loom-recipe-actions button:last-child {
+  color: #d1ded3;
+}
+.loom-status {
+  font-size: 10px;
+  color: #afc6be;
+  line-height: 1.6;
+  min-height: 31px;
+  margin-top: 11px;
+}
+.loom-status[data-error="true"] {
+  color: #f2b39c;
+}
+.loom-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding: 22px 0 25px;
+  border-bottom: 1px solid #bfdbd422;
+}
+.loom-metrics div {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.loom-metrics strong {
+  font: 500 23px var(--heading);
+  color: #d8e6dc;
+  letter-spacing: -0.7px;
+}
+.loom-metrics span {
+  font: 8px var(--mono);
+  letter-spacing: 0.8px;
+  color: #93abad;
+}
+.loom-intro {
+  padding: 47px 0 53px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 65px;
+}
+.loom-intro h2 {
+  font: 500 35px/1.15 var(--heading);
+  letter-spacing: -1.5px;
+  margin: 15px 0 18px;
+}
+.loom-intro p {
+  font-size: 13px;
+  line-height: 1.8;
+  color: #9fb6b9;
+  max-width: 430px;
+}
+.loom-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 21px;
+  margin-top: 22px;
+  font-size: 12px;
+  color: #d3e1d6;
+}
+.loom-download {
+  border: 1px solid #d5bd8b66;
+  background: #e8cb980b;
+  color: #ead3ab;
+  border-radius: 5px;
+  padding: 12px 16px;
+}
+.loom-code {
+  align-self: center;
+  background: #14262d;
+  border: 1px solid #3c5357;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.loom-code > div {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #3c5357;
+  padding: 13px 20px;
+  font: 10px var(--mono);
+  color: #a3bcb9;
+}
+.loom-code pre {
+  margin: 0;
+  padding: 22px;
+  overflow: auto;
+  font: 12px/1.85 var(--mono);
+  color: #c6ddcb;
+}
+.loom-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-top: 1px solid #bfdbd422;
+  padding: 24px 3.4%;
+  font-size: 10px;
+  color: #93adae;
+}
+.loom-footer a {
+  color: #c6d8ca;
+}
+@media (min-width: 1550px) {
+  .loom-view {
+    min-height: 780px;
+  }
+}
+@media (max-width: 1150px) {
+  .loom-workspace {
+    grid-template-columns: minmax(0, 1fr) 280px;
+  }
+  .loom-panel {
+    padding: 23px 17px 14px;
+  }
+  .loom-caption {
+    left: 24px;
+  }
+  .loom-caption h2 {
+    font-size: 36px;
+  }
+  .loom-metrics div {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .loom-intro {
+    gap: 30px;
+  }
+}
+@media (max-width: 850px) {
+  .loom-workspace {
+    grid-template-columns: 1fr;
+  }
+  .loom-view {
+    height: 650px;
+    min-height: 650px;
+  }
+  .loom-panel {
+    border-left: 0;
+    border-top: 1px solid #3b5356;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 24px;
+    padding: 22px;
+  }
+  .loom-panel-heading {
+    grid-column: 1/-1;
+  }
+  .loom-control-section:nth-of-type(3) {
+    grid-row: span 2;
+  }
+  .loom-recipe-actions {
+    align-self: end;
+    margin-top: 0;
+    margin-bottom: 12px;
+  }
+  .loom-status {
+    grid-column: 1/-1;
+    margin-top: 0;
+    min-height: 0;
+  }
+  .loom-heading h1 {
+    font-size: 39px;
+  }
+  .loom-heading p {
+    font-size: 12px;
+  }
+  .loom-intro h2 {
+    font-size: 29px;
+  }
+  .loom-code pre {
+    font-size: 11px;
+  }
+}
+@media (max-width: 560px) {
+  .loom-header {
+    padding: 19px 15px;
+    gap: 14px;
+  }
+  .loom-header nav {
+    font-size: 11px;
+    gap: 15px;
+  }
+  .loom-header nav span,
+  .loom-header .brand-sub {
+    display: none;
+  }
+  .loom-heading {
+    display: block;
+    padding: 27px 0 22px;
+  }
+  .loom-heading h1 {
+    font-size: 36px;
+    letter-spacing: -1.6px;
+  }
+  .loom-heading p {
+    margin-top: 12px;
+  }
+  .loom-heading p br {
+    display: none;
+  }
+  .loom-view {
+    height: 550px;
+    min-height: 550px;
+  }
+  .loom-caption {
+    left: 20px;
+    top: 25px;
+  }
+  .loom-caption h2 {
+    font-size: 31px;
+    letter-spacing: -1.4px;
+  }
+  .loom-caption p {
+    font-size: 10px;
+    max-width: 172px;
+  }
+  .loom-view-tools {
+    right: 13px;
+    top: 20px;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .loom-view-tools button {
+    padding: 8px 9px;
+    font-size: 10px;
+  }
+  .rail-ticket {
+    left: 17px;
+    right: 17px;
+    bottom: 47px;
+    min-width: 0;
+    padding: 15px;
+    gap: 13px;
+  }
+  .rail-ticket strong {
+    font-size: 19px;
+  }
+  .ticket-stamp {
+    margin-left: auto;
+    padding-left: 15px;
+    font-size: 19px;
+  }
+  .ticket-kicker,
+  .rail-ticket small {
+    font-size: 7px;
+  }
+  .loom-orbit-hint {
+    font-size: 8px;
+    letter-spacing: 0.3px;
+    left: 20px;
+    bottom: 20px;
+  }
+  .loom-panel {
+    display: block;
+    padding: 22px;
+  }
+  .loom-recipe-actions {
+    margin-top: 18px;
+  }
+  .loom-status {
+    margin-top: 9px;
+  }
+  .loom-metrics {
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    padding: 22px 4px;
+  }
+  .loom-metrics strong {
+    font-size: 21px;
+  }
+  .loom-intro {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 34px 0;
+  }
+  .loom-intro h2 {
+    font-size: 28px;
+  }
+  .loom-code pre {
+    font-size: 11px;
+    padding: 17px;
+  }
+  .loom-footer {
+    flex-wrap: wrap;
+    padding: 22px 16px;
+    gap: 13px;
+    font-size: 9px;
+  }
+}

@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#101827" />
+    <title>Parcel — Starlight Salvage · Cranberry Forge</title>
+    <meta
+      name="description"
+      content="A celestial treasure foundry powered by Parcel: independent seeded loot tables, visible probabilities, explicit hard pity and portable saves."
+    />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/parcel.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "/vendor/three/build/three.module.js",
+          "three/addons/": "/vendor/three/addons/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <header class="pc-header">
+      <a class="pc-brand" href="/index.html"
+        ><span>✳</span> Cranberry <b>Forge</b></a
+      >
+      <nav aria-label="Main navigation">
+        <a href="/index.html">All tools</a
+        ><a href="/packages/parcel/README.md">Documentation ↗</a
+        ><a
+          class="pc-download"
+          href="/downloads/cranberry-forge-parcel-0.1.0.tgz"
+          >Download Parcel ↓</a
+        >
+      </nav>
+    </header>
+    <main>
+      <section class="pc-intro">
+        <div>
+          <p class="pc-eyebrow">PARCEL / WEIGHTED LOOT TOOLKIT</p>
+          <h1>A little chance.<br /><span>A lot to discover.</span></h1>
+          <p class="pc-lede">
+            A treasure foundry at the edge of the sky. Open a cache,<br
+              class="desktop"
+            />
+            follow the odds, and bring the whole system into your game.
+          </p>
+        </div>
+        <div class="pc-seal" aria-hidden="true">
+          <span>✧</span>
+          <p>STARLIGHT<br />SALVAGE CO.</p>
+          <small>EST. ORBIT 042</small>
+        </div>
+      </section>
+      <section class="pc-workspace" aria-label="Starlight Salvage laboratory">
+        <div class="pc-world" id="world">
+          <canvas
+            id="foundry"
+            aria-label="Three-dimensional celestial treasure chest and crystal foundry"
+          ></canvas>
+          <div class="pc-world-head">
+            <span class="pc-kicker"><i></i> THE CELESTIAL FOUNDRY</span>
+            <p>Recovered from somewhere<br />between the stars.</p>
+          </div>
+          <div class="pc-world-coordinate" aria-hidden="true">
+            SECTOR 04<br />◇ &nbsp; 28.6 / 71.2
+          </div>
+          <div id="error" role="alert" hidden></div>
+          <div class="pc-reveal" id="reveal">
+            <span id="reward-rarity">A NEW DISCOVERY AWAITS</span>
+            <h2 id="reward-name">Starlight cache</h2>
+            <p id="reward-detail">One opening. One weighted discovery.</p>
+          </div>
+          <div class="pc-world-foot">
+            <span>DRAG TO ORBIT · SCROLL TO EXPLORE</span
+            ><button id="camera-reset" aria-label="Reset foundry camera">
+              Reset view ↗
+            </button>
+          </div>
+        </div>
+        <aside class="pc-console" aria-label="Cache controls">
+          <div class="pc-console-head">
+            <span class="pc-eyebrow">SALVAGE MANIFEST</span
+            ><span class="pc-version">v0.1.0</span>
+          </div>
+          <h2>The starlight cache</h2>
+          <p class="pc-muted">A small collection of impossible things.</p>
+          <div class="pc-count">
+            <strong id="roll-count">000</strong><span>CACHES OPENED</span
+            ><span class="pc-spark" aria-hidden="true">✦</span>
+          </div>
+          <button class="pc-open" id="open">
+            Open a cache <span>↗</span>
+          </button>
+          <p class="pc-free">A free, seeded playground. No purchases.</p>
+          <div class="pc-guarantee">
+            <div class="pc-row">
+              <h3 id="pity-heading">Prismatic guarantee</h3>
+              <strong id="pity-count">0 / 7</strong>
+            </div>
+            <div
+              class="pc-pity-track"
+              id="pity-track"
+              role="progressbar"
+              aria-label="Consecutive misses toward a guaranteed rarity"
+              aria-valuemin="0"
+              aria-valuemax="7"
+              aria-valuenow="0"
+            >
+              <span id="pity-fill"></span>
+            </div>
+            <p id="pity-note">Epic or legendary within 8 openings.</p>
+          </div>
+          <div class="pc-odds-head">
+            <h3>Inside your next cache</h3>
+            <span>ACTUAL ODDS</span>
+          </div>
+          <div id="odds" class="pc-odds"></div>
+          <p class="pc-policy" id="policy-note">
+            Weights stay fixed until the guarantee roll. A qualifying discovery
+            resets the counter.
+          </p>
+          <div class="pc-seed">
+            <label for="seed">REPLAY SEED</label>
+            <div>
+              <input
+                id="seed"
+                type="number"
+                min="0"
+                max="4294967295"
+                step="1"
+                value="42"
+                inputmode="numeric"
+              /><button id="reset">Reset & replay ↺</button>
+            </div>
+          </div>
+        </aside>
+      </section>
+      <p id="status" role="status" aria-live="polite" class="pc-status">
+        Every opening goes through the public Parcel API. Your progress is saved
+        on this device.
+      </p>
+      <section class="pc-lower">
+        <article class="pc-log">
+          <div class="pc-section-head">
+            <div>
+              <p class="pc-eyebrow">YOUR RECENT FINDS</p>
+              <h2>The discovery ledger</h2>
+            </div>
+            <span id="ledger-count">0 discoveries</span>
+          </div>
+          <ol id="history">
+            <li class="pc-empty">The ledger is waiting for its first star.</li>
+          </ol>
+          <div class="pc-save-actions">
+            <button id="save-export">Export save ↓</button
+            ><button id="save-import">Load save ↑</button
+            ><input
+              id="save-file"
+              type="file"
+              accept="application/json,.json"
+              hidden
+            />
+          </div>
+        </article>
+        <article class="pc-distribution">
+          <div class="pc-section-head">
+            <div>
+              <p class="pc-eyebrow">TAKE THE LONG VIEW</p>
+              <h2>Chance, in practice.</h2>
+            </div>
+            <button id="simulate">Simulate 1,000 ↗</button>
+          </div>
+          <p class="pc-muted">
+            Run a copy of your current state. Your live cache stays where it is.
+          </p>
+          <div id="distribution" class="pc-bars">
+            <p class="pc-empty">See a thousand discoveries in one glance.</p>
+          </div>
+          <p id="batch-note" class="pc-policy">
+            The simulation uses the same loot table, random generator and
+            guarantee policy.
+          </p>
+        </article>
+      </section>
+      <section class="pc-developer">
+        <div class="pc-dev-intro">
+          <p class="pc-eyebrow">PACK LIGHT. BUILD SOMETHING.</p>
+          <h2>Your table.<br />Your world.</h2>
+          <p>
+            One flat table. A deterministic stream of receipts. Bring your own
+            inventory, renderer, and sense of wonder.
+          </p>
+          <a href="/packages/parcel/TUTORIAL.md"
+            >Read the integration tutorial ↗</a
+          >
+          <pre><code>const parcel = createParcel(table, { seed: 42 });
+const { receipt, snapshot } = parcel.roll();
+
+// Your game decides how to grant the item.
+console.log(receipt.itemId, receipt.quantity);</code></pre>
+        </div>
+        <div class="pc-editor">
+          <div class="pc-section-head">
+            <h3>Loot table · JSON</h3>
+            <div>
+              <button id="table-import">Import ↑</button
+              ><button id="table-export">Export ↓</button>
+            </div>
+          </div>
+          <label class="sr-only" for="table-editor"
+            >Edit the flat loot table JSON</label
+          ><textarea
+            id="table-editor"
+            spellcheck="false"
+            aria-describedby="editor-note"
+          ></textarea
+          ><input
+            id="table-file"
+            type="file"
+            accept="application/json,.json"
+            hidden
+          />
+          <div class="pc-editor-foot">
+            <p id="editor-note">
+              Applying a table starts a new history with your chosen seed.
+            </p>
+            <button id="table-apply">Apply table ↗</button>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="pc-footer">
+      <span>PARCEL · INDEPENDENT BY DESIGN</span>
+      <div>
+        <a href="/packages/parcel/API.md">API reference</a
+        ><a href="/packages/parcel/LICENSE">MIT licensed</a
+        ><a href="/index.html">Back to Cranberry Forge ↗</a>
+      </div>
+    </footer>
+    <script type="module" src="/parcel-app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#101315" />
+    <title>Cranberry Forge — Tools for worlds worth exploring</title>
+    <meta
+      name="description"
+      content="Independent Three.js tools. Build living environments with Biome, motion trails with Flux and combat warnings with Signal. Experiment, export, build."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23101315'/%3E%3Cpath d='M16 4L20 12L28 16L20 20L16 28L12 20L4 16L12 12Z' fill='%23dcf68b'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="/style.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "/vendor/three/build/three.module.js",
+          "three/addons/": "/vendor/three/addons/",
+          "@cranberry-forge/biome": "/packages/biome/index.js",
+          "@cranberry-forge/flux": "/packages/flux/index.js"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#biome" aria-label="Cranberry Forge home"
+        ><span class="brand-symbol">✳</span> Cranberry<span class="brand-sub"
+          >/ FORGE</span
+        ></a
+      >
+      <nav class="tool-nav" aria-label="Tools">
+        <button class="nav-button active" data-tool="biome">
+          <span class="nav-index">01</span> Biome
+        </button>
+        <button class="nav-button" data-tool="flux">
+          <span class="nav-index">02</span> Flux
+        </button>
+        <a class="nav-button signal-nav" href="/signal.html"
+          ><span class="nav-index">03</span> Signal</a
+        >
+      </nav>
+      <div class="header-actions">
+        <a href="/play.html" class="text-button">Game kits ↗</a>
+        <button id="open-docs" class="text-button">
+          Field guide <span>↗</span></button
+        ><a
+          href="https://github.com/CranberryClock/Cranberry-Forge"
+          target="_blank"
+          rel="noopener"
+          class="repo-link"
+          >GitHub ↗</a
+        >
+      </div>
+    </header>
+    <nav class="collection-nav" aria-label="Collection">
+      <a href="/catalog.html">Explore all tools ↗</a>
+      <a href="/play.html">Inventory & dialogue</a>
+      <a href="/templates/mothlight/">Play Mothlight ↗</a>
+      <a href="/templates/afterglow/">Play Afterglow ↗</a>
+    </nav>
+    <main>
+      <div class="workspace-heading">
+        <div>
+          <span class="eyebrow" id="tool-category">ENVIRONMENT TOOLKIT</span>
+          <h1 id="tool-title">Biome <span>Terrain-aware scattering</span></h1>
+        </div>
+        <span class="version">THREE.JS r180 <span> / </span> v0.1</span>
+      </div>
+      <div class="workspace">
+        <section class="viewport" aria-label="Interactive 3D showcase">
+          <canvas
+            id="scene"
+            aria-label="3D scene. Drag to orbit, scroll to zoom. Use controls to change the scene."
+            tabindex="0"
+          ></canvas>
+          <div class="scene-caption">
+            <span class="small-label" id="scene-label"
+              >STUDY 001 / ALPINE SANCTUARY</span
+            >
+            <h2 id="scene-title">Small seed.<br />Whole world.</h2>
+            <p id="scene-description">
+              Shape a landscape. Let the details find their place.
+            </p>
+          </div>
+          <div class="scene-actions">
+            <button
+              id="capture"
+              class="icon-button"
+              aria-label="Save scene as PNG"
+              title="Save PNG"
+            >
+              ▣</button
+            ><button
+              id="fullscreen"
+              class="icon-button"
+              aria-label="Toggle fullscreen"
+              title="Fullscreen"
+            >
+              ⛶
+            </button>
+          </div>
+          <div id="loading" class="loading">
+            Growing your first world<span></span>
+          </div>
+          <div id="error" class="scene-error" role="alert" hidden></div>
+          <div class="scene-bottom">
+            <div class="view-tools">
+              <button id="orbit" class="active">Auto orbit</button
+              ><button id="paint">Add clearing</button
+              ><button id="reset-camera" aria-label="Reset camera">
+                Reset view
+              </button>
+            </div>
+            <span id="gesture-hint">DRAG TO EXPLORE · SCROLL TO ZOOM</span>
+          </div>
+        </section>
+        <aside class="inspector" aria-label="Tool controls">
+          <div class="inspector-header">
+            <h2>The workbench</h2>
+            <span class="live-label">LIVE</span>
+          </div>
+          <div id="controls"></div>
+          <div class="inspector-footer">
+            <button id="export" class="primary-button">
+              Export recipe <span>↓</span>
+            </button>
+            <div class="secondary-actions">
+              <button id="export-glb">Save .glb</button
+              ><button id="import-recipe">Load recipe</button>
+            </div>
+            <p id="export-hint">Portable JSON. Your scene, your engine.</p>
+          </div>
+        </aside>
+      </div>
+      <section class="performance" aria-label="Live scene statistics">
+        <div>
+          <span class="metric-value" id="metric-count">—</span
+          ><span id="metric-label">PLACED OBJECTS</span>
+        </div>
+        <div>
+          <span class="metric-value" id="metric-draws">—</span
+          ><span>SCENE DRAW CALLS</span>
+        </div>
+        <div>
+          <span class="metric-value" id="metric-triangles">—</span
+          ><span>SCENE TRIANGLES</span>
+        </div>
+        <div class="performance-note" id="placement-note">
+          Deterministic by design. Every seed tells the same story.
+        </div>
+        <div class="renderer-tag">WEBGL2 <span> / </span> INSTANCED</div>
+      </section>
+      <section class="studies" aria-label="Scene presets">
+        <div class="section-heading">
+          <h2>A different kind of atmosphere.</h2>
+          <span>CHOOSE A STUDY</span>
+        </div>
+        <div class="preset-grid" id="presets"></div>
+      </section>
+      <section class="integration">
+        <div>
+          <span class="eyebrow">FROM EXPERIMENT TO YOUR GAME</span>
+          <h2>Take the good parts<br />with you.</h2>
+          <p id="integration-description">
+            One small package. Native Three.js objects. A repeatable world you
+            can actually ship.
+          </p>
+          <button id="read-tutorial" class="text-button">
+            Open the integration guide ↗
+          </button>
+        </div>
+        <div class="code-card">
+          <div>
+            <span id="code-filename">world.js</span
+            ><button id="copy-code">Copy code</button>
+          </div>
+          <pre><code id="integration-code"></code></pre>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <a class="brand" href="#biome"
+        ><span class="brand-symbol">✳</span> CRANBERRY FORGE</a
+      >
+      <p>Independent tools for people who build worlds.</p>
+      <span>2026 · CranberryClock × Gizmo</span>
+    </footer>
+    <dialog id="docs-dialog">
+      <div class="dialog-heading">
+        <span class="eyebrow">CRANBERRY FORGE / FIELD GUIDE</span
+        ><button id="close-docs" aria-label="Close guide">✕</button>
+      </div>
+      <div id="docs-content"></div>
+    </dialog>
+    <input
+      id="recipe-file"
+      type="file"
+      accept="application/json,.json"
+      hidden
+    />
+    <input id="asset-file" type="file" accept=".glb" hidden />
+    <div id="toast" role="status" aria-live="polite"></div>
+    <noscript
+      ><p class="noscript">
+        Enable JavaScript to use the Three.js laboratories. Package
+        documentation is available in the GitHub repository.
+      </p></noscript
+    >
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

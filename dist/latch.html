@@ -1,0 +1,875 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#101719" />
+    <meta
+      name="description"
+      content="A playable clockwork observatory demonstrating Latch: independent contextual press and hold interactions for Three.js."
+    />
+    <title>Latch — The Meridian Observatory · Cranberry Forge</title>
+    <link rel="stylesheet" href="/style.css" />
+    <style>
+      :root {
+        --accent: #ebcc91;
+      }
+      body {
+        background: #101719;
+      }
+      .latch-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 21px 3.4%;
+        border-bottom: 1px solid #ffffff12;
+        gap: 16px;
+      }
+      .latch-nav {
+        display: flex;
+        align-items: center;
+        gap: 26px;
+        font-size: 13px;
+        color: #bbc8c8;
+      }
+      .latch-nav .current {
+        color: var(--accent);
+      }
+      .latch-heading {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        align-items: flex-end;
+        padding: 36px 0 26px;
+      }
+      .latch-heading h1 {
+        font-size: clamp(32px, 4vw, 52px);
+        letter-spacing: -2px;
+        margin-top: 11px;
+      }
+      .latch-heading h1 em {
+        font-style: normal;
+        color: #a8c5bf;
+      }
+      .latch-heading p {
+        max-width: 340px;
+        font-size: 14px;
+        color: #9cb1b3;
+        line-height: 1.7;
+        padding-bottom: 3px;
+      }
+      .latch-lab {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 310px;
+        border: 1px solid #385054;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .latch-view {
+        height: 710px;
+        min-height: 710px;
+        position: relative;
+        background: #102632;
+        isolation: isolate;
+      }
+      .latch-view::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        background: linear-gradient(
+          180deg,
+          #061a2733,
+          transparent 40%,
+          #081a2577 84%,
+          #081923d9
+        );
+      }
+      .latch-caption {
+        position: absolute;
+        left: 28px;
+        top: 28px;
+        z-index: 2;
+        pointer-events: none;
+      }
+      .latch-caption h2 {
+        font: 500 31px/1.1 var(--heading);
+        letter-spacing: -1.4px;
+        margin: 9px 0 12px;
+      }
+      .latch-caption p {
+        color: #b6c9ca;
+        font-size: 12px;
+        max-width: 235px;
+        line-height: 1.65;
+      }
+      .latch-scene-tools {
+        position: absolute;
+        right: 20px;
+        top: 22px;
+        display: flex;
+        gap: 8px;
+        z-index: 3;
+      }
+      .latch-scene-tools button {
+        border: 1px solid #e1f6f32b;
+        background: #10232a99;
+        border-radius: 6px;
+        padding: 9px 11px;
+        font-size: 11px;
+        color: #d6e1da;
+        backdrop-filter: blur(8px);
+      }
+      .latch-legend {
+        position: absolute;
+        top: 131px;
+        left: 29px;
+        font: 9px/1.9 var(--mono);
+        letter-spacing: 1.1px;
+        color: #b5cbcc;
+        z-index: 2;
+      }
+      .latch-legend span {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border: 1px solid #d5ecd1;
+        border-radius: 50%;
+        margin-right: 8px;
+      }
+      .latch-prompt {
+        position: absolute;
+        bottom: 58px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: min(480px, calc(100% - 44px));
+        z-index: 3;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 17px 18px;
+        background: #13272cef;
+        border: 1px solid #a7beb64a;
+        border-radius: 10px;
+        box-shadow: 0 18px 50px #06151b88;
+        backdrop-filter: blur(14px);
+      }
+      .latch-prompt[data-available="false"] {
+        border-color: #c99b6055;
+      }
+      #interact {
+        width: 55px;
+        height: 55px;
+        flex: 0 0 55px;
+        background: #ebcc91;
+        color: #283734;
+        font: 500 22px var(--heading);
+        border-radius: 7px;
+        box-shadow: inset 0 -3px 0 #b2996b;
+        touch-action: none;
+        user-select: none;
+      }
+      #interact:active {
+        transform: translateY(1px);
+      }
+      .prompt-copy {
+        flex: 1;
+        min-width: 0;
+      }
+      #prompt-label {
+        font: 500 17px/1.25 var(--heading);
+        letter-spacing: -0.25px;
+      }
+      #prompt-reason {
+        color: #a9c1c1;
+        font-size: 11px;
+        line-height: 1.5;
+        margin-top: 5px;
+      }
+      .hold-track {
+        height: 3px;
+        margin-top: 10px;
+        background: #d2e6df16;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      #hold-progress {
+        height: 100%;
+        width: 0;
+        background: #ebcc91;
+      }
+      .latch-hint {
+        position: absolute;
+        left: 20px;
+        right: 20px;
+        bottom: 22px;
+        z-index: 2;
+        color: #b2c5c6;
+        font: 9px var(--mono);
+        letter-spacing: 0.65px;
+        text-align: center;
+      }
+      .latch-panel {
+        padding: 25px 24px;
+        background: #162125;
+        border-left: 1px solid #385054;
+      }
+      .panel-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 22px;
+        border-bottom: 1px solid #dcebe41a;
+      }
+      .panel-title h2 {
+        font: 500 16px var(--heading);
+        letter-spacing: -0.4px;
+      }
+      .status-chip {
+        font: 9px var(--mono);
+        letter-spacing: 0.8px;
+        padding: 5px 7px;
+        color: #bddfc5;
+        border: 1px solid #bfdcbb33;
+        border-radius: 4px;
+      }
+      .mission {
+        padding: 23px 0 21px;
+      }
+      .mission h3 {
+        font: 500 23px/1.2 var(--heading);
+        letter-spacing: -0.7px;
+        margin: 10px 0;
+      }
+      .mission p {
+        color: #9cb2b5;
+        font-size: 12px;
+        line-height: 1.7;
+      }
+      .station-list {
+        display: grid;
+        gap: 8px;
+      }
+      .station {
+        padding: 12px 11px;
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        width: 100%;
+        border: 1px solid #34484b;
+        border-radius: 7px;
+        text-align: left;
+        background: #1a2a2e;
+      }
+      .station.selected {
+        background: #e5c7860b;
+        border-color: #d7bf7977;
+      }
+      .station-number {
+        border: 1px solid #7e92905a;
+        width: 28px;
+        height: 31px;
+        display: grid;
+        place-items: center;
+        border-radius: 4px;
+        font: 12px var(--mono);
+        color: #d8c28f;
+      }
+      .station-copy {
+        flex: 1;
+      }
+      .station strong {
+        display: block;
+        font-size: 12px;
+        font-weight: 500;
+        margin-bottom: 4px;
+      }
+      .station small {
+        font-size: 10px;
+        color: #9db0b3;
+      }
+      .station-check {
+        font: 13px var(--mono);
+        color: #d8c28f;
+      }
+      .station-help {
+        font-size: 10px;
+        color: #90a6a8;
+        padding: 11px 0 18px;
+        line-height: 1.6;
+      }
+      .world-options {
+        padding: 15px 0 19px;
+        border-top: 1px solid #dcebe41a;
+        border-bottom: 1px solid #dcebe41a;
+      }
+      .world-options label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 11px;
+        color: #bfcccc;
+        gap: 10px;
+      }
+      .world-options input {
+        accent-color: #ebcc91;
+        width: 15px;
+        height: 15px;
+      }
+      .world-options p {
+        color: #839da0;
+        font-size: 10px;
+        line-height: 1.65;
+        margin-top: 7px;
+      }
+      .log-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 18px 0 10px;
+        font: 9px var(--mono);
+        letter-spacing: 1px;
+        color: #91aaac;
+      }
+      #event-log {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        min-height: 93px;
+      }
+      #event-log li {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        font: 9px/1.65 var(--mono);
+        color: #a3bbbe;
+        padding: 3px 0;
+      }
+      #event-log b {
+        color: #d6c394;
+        font-weight: 400;
+      }
+      .latch-metrics {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        padding: 19px 0 23px;
+        border-bottom: 1px solid #ffffff19;
+        gap: 18px;
+      }
+      .latch-metrics div {
+        display: flex;
+        gap: 10px;
+        align-items: baseline;
+      }
+      .latch-metrics strong {
+        font: 500 18px var(--heading);
+        color: #d7e6dc;
+      }
+      .latch-metrics span {
+        font: 9px var(--mono);
+        color: #8da5a7;
+        letter-spacing: 0.65px;
+      }
+      .latch-about {
+        display: grid;
+        grid-template-columns: 0.95fr 1.05fr;
+        gap: 70px;
+        padding: 48px 0 55px;
+      }
+      .latch-about h2 {
+        font: 500 34px/1.15 var(--heading);
+        letter-spacing: -1.5px;
+        margin: 13px 0 16px;
+      }
+      .latch-about p {
+        max-width: 440px;
+        color: #9db2b5;
+        font-size: 13px;
+        line-height: 1.8;
+      }
+      .latch-links {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 19px;
+        margin-top: 23px;
+      }
+      .latch-download {
+        border: 1px solid #ceb98570;
+        background: #ebcc9110;
+        color: #ead29f;
+        padding: 12px 15px;
+        border-radius: 5px;
+        font-size: 12px;
+      }
+      .latch-links a:last-child {
+        font-size: 12px;
+        color: #c8d7cd;
+      }
+      .latch-code {
+        align-self: center;
+        background: #122025;
+        border: 1px solid #30464b;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .latch-code div {
+        border-bottom: 1px solid #30464b;
+        padding: 13px 19px;
+        font: 10px var(--mono);
+        color: #8ba9aa;
+        display: flex;
+        justify-content: space-between;
+      }
+      .latch-code pre {
+        padding: 20px;
+        margin: 0;
+        font: 12px/1.9 var(--mono);
+        color: #c3ddcd;
+        overflow: auto;
+      }
+      .latch-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 24px 3.4%;
+        font-size: 11px;
+        color: #8ca3a5;
+        border-top: 1px solid #ffffff19;
+        gap: 16px;
+      }
+      .latch-footer a {
+        color: #c7d7ca;
+      }
+      @media (min-width: 1550px) {
+        .latch-view {
+          height: 760px;
+        }
+      }
+      @media (max-width: 1100px) {
+        .latch-lab {
+          grid-template-columns: minmax(0, 1fr) 280px;
+        }
+        .latch-panel {
+          padding: 23px 18px;
+        }
+        .latch-caption h2 {
+          font-size: 27px;
+        }
+        .latch-metrics div {
+          flex-direction: column;
+          gap: 4px;
+        }
+        .latch-about {
+          gap: 30px;
+        }
+      }
+      @media (max-width: 800px) {
+        .latch-lab {
+          grid-template-columns: 1fr;
+        }
+        .latch-view {
+          height: 610px;
+          min-height: 610px;
+        }
+        .latch-panel {
+          border-left: 0;
+          border-top: 1px solid #385054;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 0 23px;
+        }
+        .panel-title {
+          grid-column: 1/-1;
+        }
+        .mission {
+          padding-bottom: 17px;
+        }
+        .station-list {
+          grid-row: span 2;
+          margin-top: 22px;
+        }
+        .station-help {
+          grid-column: 2;
+          padding-top: 8px;
+        }
+        .world-options {
+          grid-column: 1;
+          grid-row: 3;
+          border-bottom: 0;
+        }
+        .log-wrap {
+          grid-column: 1/-1;
+          border-top: 1px solid #dcebe41a;
+        }
+        #event-log {
+          min-height: 55px;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 0 22px;
+        }
+        .latch-heading p {
+          max-width: 270px;
+          font-size: 12px;
+        }
+        .latch-heading h1 {
+          font-size: 35px;
+        }
+        .latch-about h2 {
+          font-size: 29px;
+        }
+        .latch-nav {
+          gap: 16px;
+        }
+      }
+      @media (max-width: 540px) {
+        .latch-header {
+          padding: 19px 15px;
+        }
+        .latch-header .brand-sub,
+        .latch-nav .current {
+          display: none;
+        }
+        .latch-nav {
+          font-size: 11px;
+          gap: 14px;
+        }
+        .latch-heading {
+          display: block;
+          padding: 27px 0 23px;
+        }
+        .latch-heading h1 {
+          font-size: 34px;
+          letter-spacing: -1.5px;
+        }
+        .latch-heading p {
+          max-width: 100%;
+          margin-top: 12px;
+        }
+        .latch-view {
+          min-height: 550px;
+          height: 550px;
+        }
+        .latch-caption {
+          top: 22px;
+          left: 19px;
+        }
+        .latch-caption h2 {
+          font-size: 25px;
+        }
+        .latch-caption p {
+          font-size: 10px;
+          max-width: 195px;
+        }
+        .latch-scene-tools {
+          right: 12px;
+          top: 19px;
+          flex-direction: column;
+          gap: 6px;
+        }
+        .latch-scene-tools button {
+          font-size: 10px;
+          padding: 7px 9px;
+        }
+        .latch-legend {
+          display: none;
+        }
+        .latch-prompt {
+          bottom: 51px;
+          width: calc(100% - 28px);
+          padding: 13px;
+          gap: 12px;
+        }
+        #interact {
+          width: 49px;
+          height: 49px;
+          flex-basis: 49px;
+          font-size: 19px;
+        }
+        #prompt-label {
+          font-size: 15px;
+        }
+        #prompt-reason {
+          font-size: 10px;
+        }
+        .latch-hint {
+          font-size: 8px;
+          letter-spacing: 0;
+          bottom: 20px;
+        }
+        .latch-panel {
+          grid-template-columns: 1fr;
+          padding: 19px;
+        }
+        .panel-title,
+        .station-list,
+        .station-help,
+        .world-options,
+        .log-wrap {
+          grid-column: 1;
+          grid-row: auto;
+        }
+        .station-list {
+          margin-top: 0;
+        }
+        .station-help {
+          padding: 10px 0 15px;
+        }
+        .mission h3 {
+          font-size: 23px;
+          margin: 7px 0;
+        }
+        .mission {
+          padding-top: 17px;
+        }
+        .latch-metrics {
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
+          padding: 20px 3px;
+        }
+        .latch-metrics strong {
+          font-size: 16px;
+        }
+        .latch-about {
+          grid-template-columns: 1fr;
+          padding: 33px 0;
+          gap: 27px;
+        }
+        .latch-about h2 {
+          font-size: 29px;
+        }
+        .latch-code pre {
+          font-size: 10px;
+          padding: 16px;
+        }
+        .latch-footer {
+          padding: 21px 16px;
+          flex-wrap: wrap;
+          font-size: 10px;
+        }
+      }
+    </style>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "/vendor/three/build/three.module.js",
+          "three/addons/": "/vendor/three/addons/",
+          "@cranberry-forge/latch": "/packages/latch/index.js"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <header class="latch-header">
+      <a class="brand" href="/catalog.html" aria-label="Cranberry Forge home"
+        ><span class="brand-symbol">✳</span> Cranberry
+        <span class="brand-sub">FORGE</span></a
+      >
+      <nav class="latch-nav" aria-label="Main navigation">
+        <a href="/catalog.html">All tools ↗</a
+        ><a href="/play.html">Playground</a
+        ><span class="current">Latch / 07</span>
+      </nav>
+    </header>
+    <main>
+      <div class="latch-heading">
+        <div>
+          <div class="eyebrow">LATCH · CONTEXTUAL INTERACTIONS</div>
+          <h1>Make the world <em>answer.</em></h1>
+        </div>
+        <p>
+          Pick something up. Wind something forward. Give every little action a
+          place in your world.
+        </p>
+      </div>
+      <section class="latch-lab" aria-label="Playable Latch showcase">
+        <div class="latch-view" id="viewport">
+          <canvas
+            id="scene"
+            tabindex="0"
+            aria-label="Clockwork observatory. Aim with your pointer, use E to interact, WASD to walk. Station buttons also move and aim for you."
+          ></canvas>
+          <div class="latch-caption">
+            <div class="small-label">INTERACTION STUDY / 001</div>
+            <h2>The Meridian<br />Observatory</h2>
+            <p>
+              A keeper, a dormant machine,<br />and the last light before dawn.
+            </p>
+          </div>
+          <div class="latch-legend"><span></span> ACTOR REACH · 3.1 M</div>
+          <div class="latch-scene-tools">
+            <button id="pause" type="button" aria-pressed="false">Pause</button
+            ><button id="reset" type="button">Restart ↺</button>
+          </div>
+          <div class="latch-prompt" id="prompt" data-available="true">
+            <button
+              id="interact"
+              type="button"
+              aria-label="Interact; press or hold as prompted"
+              aria-describedby="prompt-label prompt-reason"
+            >
+              E
+            </button>
+            <div class="prompt-copy">
+              <div id="prompt-label">Take the aether fuse</div>
+              <p id="prompt-reason">Press E or tap the key to collect.</p>
+              <div
+                class="hold-track"
+                role="progressbar"
+                aria-label="Interaction hold progress"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="0"
+                id="hold-track"
+              >
+                <div id="hold-progress"></div>
+              </div>
+            </div>
+          </div>
+          <div class="latch-hint">
+            POINTER · AIM &nbsp; / &nbsp; E · INTERACT &nbsp; / &nbsp; WASD ·
+            WALK &nbsp; / &nbsp; DRAG · ORBIT
+          </div>
+          <div id="loading" class="loading">
+            <span></span>Opening the observatory
+          </div>
+          <div id="error" class="scene-error" role="alert" hidden></div>
+        </div>
+        <aside class="latch-panel" aria-label="Observatory controls">
+          <div class="panel-title">
+            <h2>The keeper’s notebook</h2>
+            <span class="status-chip" id="mission-count">0 / 3</span>
+          </div>
+          <div class="mission">
+            <div class="small-label">YOUR OBJECTIVE</div>
+            <h3 id="objective-title">Bring back the light.</h3>
+            <p id="objective-copy" aria-live="polite">
+              Collect the aether fuse, wind the meridian crank, then wake the
+              dawn beacon.
+            </p>
+          </div>
+          <div class="station-list" aria-label="Walk to and aim at a station">
+            <button
+              type="button"
+              class="station selected"
+              data-station="fuse"
+              aria-pressed="true"
+            >
+              <span class="station-number">01</span
+              ><span class="station-copy"
+                ><strong>Aether fuse</strong
+                ><small>Walk here · press to collect</small></span
+              ><span class="station-check" id="fuse-check">↗</span>
+            </button>
+            <button
+              type="button"
+              class="station"
+              data-station="crank"
+              aria-pressed="false"
+            >
+              <span class="station-number">02</span
+              ><span class="station-copy"
+                ><strong>Meridian crank</strong
+                ><small>Walk here · hold for 1.8 seconds</small></span
+              ><span class="station-check" id="crank-check">↗</span>
+            </button>
+            <button
+              type="button"
+              class="station"
+              data-station="beacon"
+              aria-pressed="false"
+            >
+              <span class="station-number">03</span
+              ><span class="station-copy"
+                ><strong>Dawn beacon</strong
+                ><small>Walk here · press to ignite</small></span
+              ><span class="station-check" id="beacon-check">↗</span>
+            </button>
+          </div>
+          <p class="station-help">
+            Choose a station to walk and aim automatically. Use the gold key in
+            the scene to interact on touch screens.
+          </p>
+          <div class="world-options">
+            <label for="shutter"
+              >Raise the crank shutter <input id="shutter" type="checkbox"
+            /></label>
+            <p>
+              A physical barrier blocks the aim ray and the keeper’s line of
+              reach.
+            </p>
+          </div>
+          <div class="log-wrap">
+            <div class="log-heading">
+              <span>INTERACTION EVENTS</span><span>LIVE</span>
+            </div>
+            <ol id="event-log" aria-label="Recent interaction events"></ol>
+          </div>
+        </aside>
+      </section>
+      <div class="latch-metrics" aria-label="Live interaction state">
+        <div>
+          <strong id="focus-metric">aether fuse</strong
+          ><span>FOCUSED ROOT</span>
+        </div>
+        <div>
+          <strong id="reach-metric">—</strong><span>ACTOR DISTANCE</span>
+        </div>
+        <div>
+          <strong id="mode-metric">press</strong><span>INPUT MODE</span>
+        </div>
+        <div><strong>0.1.0</strong><span>INDEPENDENT PACKAGE</span></div>
+      </div>
+      <section class="latch-about" aria-label="About the Latch toolkit">
+        <div>
+          <div class="eyebrow">SMALL TOOL. TANGIBLE WORLDS.</div>
+          <h2>From a raycast<br />to a reason to stay.</h2>
+          <p>
+            Latch adds actor reach, clear blocked reasons, and deliberate press
+            or hold actions to native Three.js objects. Your game owns input,
+            inventory, and consequences. Latch returns the events.
+          </p>
+          <div class="latch-links">
+            <a
+              class="latch-download"
+              href="/downloads/cranberry-forge-latch-0.1.0.tgz"
+              download
+              >Download package ↓</a
+            ><a href="/packages/latch/README.md">API & tutorial ↗</a>
+          </div>
+        </div>
+        <div class="latch-code">
+          <div>
+            <span>@cranberry-forge/latch</span><span>THREE.JS · MIT</span>
+          </div>
+          <pre><code>const latch = new Latch({ reach: 3.1 });
+
+latch.register({
+  id: 'crank', root: crank,
+  mode: 'hold', holdDuration: 1.8,
+  condition: () =&gt; hasFuse || 'Find the fuse',
+});
+
+const { focus, progress, events } = latch.update({
+  dt, aimRay, actorPosition, pressed,
+});
+// Apply game changes after update returns.</code></pre>
+        </div>
+      </section>
+    </main>
+    <footer class="latch-footer">
+      <span>CRANBERRY FORGE / LATCH</span
+      ><span>Original procedural scene · Native Three.js</span
+      ><a href="/catalog.html">Explore all tools ↗</a>
+    </footer>
+    <noscript
+      ><p class="noscript">
+        JavaScript is needed to play the observatory. The
+        <a href="/packages/latch/README.md">Latch API and tutorial</a> are
+        available as plain text.
+      </p></noscript
+    >
+    <script type="module" src="/latch-app.js"></script>
+  </body>
+</html>

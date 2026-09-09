@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#121c20" />
+    <meta
+      name="description"
+      content="Shape a floating canyon railway with Loom: independent spline ribbons, rails, and placement frames for Three.js."
+    />
+    <title>Loom — Cloudline Railway · Cranberry Forge</title>
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/loom.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "/vendor/three/build/three.module.js",
+          "three/addons/": "/vendor/three/addons/",
+          "@cranberry-forge/loom": "/packages/loom/index.js"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <header class="loom-header">
+      <a href="/catalog.html" class="brand" aria-label="Cranberry Forge"
+        ><span class="brand-symbol">✳</span> Cranberry
+        <span class="brand-sub">FORGE</span></a
+      >
+      <nav aria-label="Main navigation">
+        <a href="/catalog.html">All tools ↗</a
+        ><a href="/play.html">Playground</a><span>Loom / 0.1</span>
+      </nav>
+    </header>
+    <main>
+      <div class="loom-heading">
+        <div>
+          <div class="eyebrow">LOOM / THE SPLINE WORKSHOP</div>
+          <h1>Take the <em>scenic route.</em></h1>
+        </div>
+        <p>
+          A ribbon through the clouds.<br />A railway that follows your lead.
+        </p>
+      </div>
+      <section class="loom-workspace" aria-label="Interactive railway workshop">
+        <div class="loom-view" id="viewport">
+          <canvas
+            id="scene"
+            tabindex="0"
+            aria-label="Three-dimensional floating canyon railway. Drag to orbit and scroll or pinch to zoom. Use workshop controls to change the route."
+          ></canvas>
+          <div class="loom-caption">
+            <div class="small-label">A PROCEDURAL TRAVEL STUDY</div>
+            <h2>Cloudline<br />Railway</h2>
+            <p id="scene-subtitle">A long way around, above it all.</p>
+          </div>
+          <div class="loom-view-tools">
+            <button type="button" id="play-toggle" aria-pressed="true">
+              Pause train Ⅱ</button
+            ><button type="button" id="frame-route">Frame route ↗</button>
+          </div>
+          <div class="rail-ticket">
+            <span class="ticket-symbol">↝</span>
+            <div>
+              <span class="ticket-kicker">NOW DEPARTING</span
+              ><strong id="route-name">The cloudline</strong
+              ><small id="route-kind">LOOP SERVICE · 7 WAYPOINTS</small>
+            </div>
+            <div class="ticket-stamp">CL<br /><span>001</span></div>
+          </div>
+          <div class="loom-orbit-hint">
+            DRAG TO ORBIT &nbsp; / &nbsp; SCROLL OR PINCH TO EXPLORE
+          </div>
+          <div class="loading" id="loading">
+            <span></span>Preparing the cloudline
+          </div>
+          <div id="error" class="scene-error" role="alert" hidden></div>
+        </div>
+        <aside class="loom-panel" aria-label="Route workshop controls">
+          <div class="loom-panel-heading">
+            <h2>Route workshop</h2>
+            <span class="live-label">LIVE</span>
+          </div>
+          <div class="loom-control-section">
+            <div class="control-kicker">01 / CHOOSE A JOURNEY</div>
+            <div class="route-presets">
+              <button
+                type="button"
+                class="route-preset selected"
+                data-preset="skyloop"
+                aria-pressed="true"
+              >
+                <span class="preset-path">◯</span
+                ><span
+                  ><strong>The cloudline</strong
+                  ><small>A sweeping island loop</small></span
+                ><b>01</b>
+              </button>
+              <button
+                type="button"
+                class="route-preset"
+                data-preset="switchback"
+                aria-pressed="false"
+              >
+                <span class="preset-path">∿</span
+                ><span
+                  ><strong>Canyon crossing</strong
+                  ><small>A winding shuttle route</small></span
+                ><b>02</b>
+              </button>
+              <button
+                type="button"
+                class="route-preset"
+                data-preset="overpass"
+                aria-pressed="false"
+              >
+                <span class="preset-path">∞</span
+                ><span
+                  ><strong>The figure eight</strong
+                  ><small>A crossing at two heights</small></span
+                ><b>03</b>
+              </button>
+            </div>
+          </div>
+          <div class="loom-control-section">
+            <div class="control-kicker">02 / SHAPE THE TRACK</div>
+            <label class="loom-range" for="width"
+              ><span
+                >Track width
+                <output id="width-value" for="width">1.40 m</output></span
+              ><input
+                id="width"
+                type="range"
+                min="0.8"
+                max="2.8"
+                step="0.05"
+                value="1.4"
+            /></label>
+            <label class="loom-range" for="bank"
+              ><span
+                >Bank through curves
+                <output id="bank-value" for="bank">0°</output></span
+              ><input
+                id="bank"
+                type="range"
+                min="-25"
+                max="25"
+                step="1"
+                value="0"
+            /></label>
+            <label class="loom-range" for="segments"
+              ><span
+                >Curve segments
+                <output id="segments-value" for="segments">160</output></span
+              ><input
+                id="segments"
+                type="range"
+                min="32"
+                max="384"
+                step="16"
+                value="160"
+            /></label>
+            <label class="loom-check" for="variable-width"
+              ><span>Vary width along the route</span
+              ><input id="variable-width" type="checkbox"
+            /></label>
+            <label class="loom-check" for="rails"
+              ><span>Raised edge rails</span
+              ><input id="rails" type="checkbox" checked
+            /></label>
+          </div>
+          <div class="loom-control-section">
+            <div class="control-kicker">03 / SEND IT ON ITS WAY</div>
+            <label class="loom-range" for="speed"
+              ><span
+                >Train speed
+                <output id="speed-value" for="speed">2.2 m/s</output></span
+              ><input
+                id="speed"
+                type="range"
+                min="0.5"
+                max="5"
+                step="0.1"
+                value="2.2"
+            /></label>
+            <p class="loom-helper">
+              The train, sleepers, and trestles all use the same public sampling
+              API.
+            </p>
+          </div>
+          <div class="loom-recipe-actions">
+            <button id="export-recipe" type="button">Export recipe ↓</button
+            ><button id="import-recipe" type="button">Import ↑</button
+            ><input
+              id="recipe-file"
+              type="file"
+              accept=".json,application/json"
+              hidden
+            />
+          </div>
+          <p id="status" class="loom-status" role="status" aria-live="polite">
+            Your next departure is ready.
+          </p>
+        </aside>
+      </section>
+      <div class="loom-metrics" aria-label="Route statistics">
+        <div>
+          <strong id="metric-length">—</strong><span>METRES OF TRACK</span>
+        </div>
+        <div>
+          <strong id="metric-segments">160</strong
+          ><span>EVENLY SPACED SEGMENTS</span>
+        </div>
+        <div>
+          <strong id="metric-vertices">—</strong><span>SURFACE VERTICES</span>
+        </div>
+        <div><strong>+Z</strong><span>PUBLIC FORWARD FRAME</span></div>
+      </div>
+      <section class="loom-intro" aria-label="Loom package introduction">
+        <div>
+          <div class="eyebrow">A PATH. A PROFILE. A PLACE TO GO.</div>
+          <h2>One continuous thread.<br />A world of possibilities.</h2>
+          <p>
+            Make roads, ribbons, and raised borders from a handful of points.
+            Loom gives your Three.js scene a distance-based route and a matching
+            frame for everything that travels along it.
+          </p>
+          <div class="loom-links">
+            <a
+              href="/downloads/cranberry-forge-loom-0.1.0.tgz"
+              download
+              class="loom-download"
+              >Download Loom ↓</a
+            ><a href="/packages/loom/README.md">API & tutorial ↗</a>
+          </div>
+        </div>
+        <div class="loom-code">
+          <div>
+            <span>@cranberry-forge/loom</span><span>THREE.JS / MIT</span>
+          </div>
+          <pre><code>const track = new Loom({
+  points, closed: true, width: 1.4,
+  bank: 0.12, borderHeight: 0.11,
+});
+scene.add(track);
+
+const frame = track.sampleDistance(distance);
+train.position.copy(frame.position);
+train.quaternion.copy(frame.quaternion);
+
+const recipe = track.toRecipe();</code></pre>
+        </div>
+      </section>
+    </main>
+    <footer class="loom-footer">
+      <span>CRANBERRY FORGE / LOOM</span
+      ><span>Original procedural geometry · No external art assets</span
+      ><a href="/catalog.html">Explore all tools ↗</a>
+    </footer>
+    <noscript
+      ><p class="noscript">
+        Enable JavaScript to explore Cloudline Railway, or read the
+        <a href="/packages/loom/README.md">Loom API and tutorial</a>.
+      </p></noscript
+    >
+    <script type="module" src="/loom-app.js"></script>
+  </body>
+</html>

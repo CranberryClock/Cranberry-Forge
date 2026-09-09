@@ -1,0 +1,337 @@
+.catalog {
+  background: #101c22;
+  --accent: #dfcb9b;
+}
+.catalog-header {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 28px 5%;
+  border-bottom: 1px solid #314149;
+}
+.catalog-header > a:last-child {
+  margin-left: auto;
+  color: #bdcbc8;
+  font-size: 13px;
+  text-decoration: none;
+}
+.catalog-label {
+  color: #809698;
+  font-size: 10px;
+  letter-spacing: 1.6px;
+}
+.catalog main {
+  max-width: 1560px;
+  margin: auto;
+  padding: 64px 5%;
+}
+.catalog-intro {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  align-items: end;
+  gap: 70px;
+  margin-bottom: 48px;
+}
+.catalog h1 {
+  font: 500 clamp(40px, 5.3vw, 78px) / 1.08 var(--heading);
+  letter-spacing: -3px;
+  margin: 20px 0 0;
+}
+.catalog h1 span {
+  color: #a9c2b4;
+  display: inline;
+  font: inherit;
+}
+.catalog-intro > p {
+  max-width: 45ch;
+  color: #a9bdbd;
+  line-height: 1.7;
+  margin: 0;
+  font-size: 15px;
+}
+.featured-template {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  border: 1px solid #364a51;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #1a2b31;
+}
+.featured-image {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+}
+.featured-template + .featured-template {
+  margin-top: 24px;
+}
+.featured-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.image-tag {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  background: #10202ae6;
+  padding: 10px 14px;
+  border-radius: 24px;
+  color: #dec995;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+.featured-copy {
+  padding: 48px 40px;
+  align-self: center;
+}
+.featured-copy h2 {
+  font: 500 clamp(30px, 3.2vw, 48px) / 1.12 var(--heading);
+  letter-spacing: -1.4px;
+  margin: 20px 0;
+}
+.featured-copy p {
+  color: #c1ccc6;
+  line-height: 1.7;
+  font-size: 14px;
+}
+.featured-copy .feature-detail {
+  color: #889e9f;
+  font-size: 12px;
+  margin: 22px 0;
+}
+.featured-copy .primary-button {
+  display: flex;
+  justify-content: space-between;
+  text-decoration: none;
+  margin: 24px 0 16px;
+}
+.download-template {
+  font-size: 12px;
+  color: #c4cfca;
+  text-decoration: none;
+}
+.collection-heading {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  margin: 62px 0 25px;
+}
+.collection-heading h2 {
+  font: 400 27px var(--heading);
+  letter-spacing: -0.7px;
+}
+.collection-heading > span {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: #93a8a8;
+}
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+.tool-card {
+  border: 1px solid #30434a;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #16262c;
+  transition:
+    border-color 0.2s,
+    transform 0.2s;
+}
+.tool-card:hover {
+  border-color: #76918d;
+  transform: translateY(-3px);
+}
+.tool-card > a {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 1.6;
+}
+.tool-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.card-copy {
+  padding: 27px 30px;
+}
+.card-copy .eyebrow {
+  color: #859e99;
+  font-size: 10px;
+}
+.card-copy h3 {
+  font: 500 31px var(--heading);
+  margin: 13px 0;
+  display: flex;
+  justify-content: space-between;
+}
+.card-copy h3 span {
+  font-size: 20px;
+  color: #99b39e;
+}
+.card-copy p {
+  font-size: 14px;
+  color: #adbfba;
+  line-height: 1.65;
+  max-width: 49ch;
+  min-height: 47px;
+}
+.card-links {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 17px;
+  margin-top: 23px;
+  border-top: 1px solid #30434a;
+}
+.card-links a {
+  color: #e0cda0;
+  font-size: 12px;
+  text-decoration: none;
+}
+.card-links a:last-child {
+  color: #8ea5a4;
+}
+.collection-note {
+  padding: 48px;
+  border-radius: 16px;
+  border: 1px solid #56614c;
+  background: #263a35;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.collection-note .brand-symbol {
+  font-size: 52px;
+  color: #d4d69d;
+}
+.collection-note h3 {
+  font: 500 50px/1.08 var(--heading);
+  letter-spacing: -2px;
+  margin: 28px 0;
+}
+.collection-note p {
+  color: #b8cbbd;
+  line-height: 1.75;
+  max-width: 38ch;
+}
+.collection-note > a {
+  color: #dfd5ad;
+  font-size: 14px;
+  text-decoration: none;
+  margin-top: 28px;
+}
+.gallery-note {
+  font-size: 11px;
+  color: #7f9899;
+  text-align: center;
+  margin: 28px 0 0;
+  line-height: 1.6;
+}
+.catalog footer {
+  padding: 30px 5%;
+}
+@media (min-width: 1450px) {
+  .tool-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .collection-note {
+    grid-column: span 2;
+  }
+}
+@media (max-width: 850px) {
+  .catalog-label {
+    display: none;
+  }
+  .catalog-intro {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .catalog-intro > p {
+    max-width: 60ch;
+  }
+  .featured-template {
+    grid-template-columns: 1fr;
+  }
+  .featured-image {
+    aspect-ratio: 1.6;
+  }
+  .featured-copy {
+    padding: 30px;
+  }
+  .tool-grid {
+    gap: 16px;
+  }
+  .card-copy {
+    padding: 22px;
+  }
+  .card-links {
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 540px) {
+  .catalog-header {
+    gap: 12px;
+  }
+  .catalog-header .brand-sub {
+    display: none;
+  }
+  .catalog-header > a:last-child {
+    font-size: 11px;
+  }
+  .catalog main {
+    padding-top: 40px;
+  }
+  .catalog h1 {
+    letter-spacing: -1.5px;
+  }
+  .collection-heading {
+    align-items: start;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 36px;
+  }
+  .collection-heading h2 {
+    font-size: 25px;
+    margin-bottom: 12px;
+  }
+  .tool-grid {
+    grid-template-columns: 1fr;
+  }
+  .collection-note {
+    padding: 32px;
+  }
+  .collection-note h3 {
+    font-size: 42px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tool-card {
+    transition: none;
+  }
+  .tool-card:hover {
+    transform: none;
+  }
+}
+
+.collection-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 28px;
+  margin: 0 0 32px;
+  padding: 18px 0;
+  border-block: 1px solid #314149;
+}
+.collection-jump a {
+  color: #dfcb9b;
+  font-size: 14px;
+  text-decoration: none;
+}
+.collection-note {
+  grid-column: 1 / -1;
+}
