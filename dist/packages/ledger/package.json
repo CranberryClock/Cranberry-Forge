@@ -1,0 +1,37 @@
+{
+  "name": "@cranberry-forge/ledger",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Explainable headless stats, equipment modifiers and loadout comparisons",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js"
+    }
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "README.md",
+    "TUTORIAL.md",
+    "LICENSE",
+    "examples"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "keywords": [
+    "threejs",
+    "game-development",
+    "headless",
+    "ledger"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CranberryClock/Cranberry-Forge.git",
+    "directory": "dist/packages/ledger"
+  }
+}

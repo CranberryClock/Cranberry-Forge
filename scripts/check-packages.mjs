@@ -4,6 +4,11 @@ import { resolve, join } from "node:path";
 import { execFileSync } from "node:child_process";
 
 const extraSmokes = {
+  ledger:
+    "import {evaluateStats} from '@cranberry-forge/ledger';if(evaluateStats({base:{x:3}}).values.x!==3)throw Error('stats failed');",
+  keepsake:
+    "import {createSave,migrateSave} from '@cranberry-forge/keepsake';if(!migrateSave(createSave('test',0,{}),{format:'test',targetVersion:0,validators:{0:()=>true}}).ok)throw Error('save failed');",
+  sift: "import {auditAssets} from '@cranberry-forge/sift';import {auditFiles} from '@cranberry-forge/sift/node';if(!auditAssets({manifest:[]}).ok||!(await auditFiles({manifest:[]})).ok)throw Error('audit failed');",
   tempo:
     "import {Tempo} from '@cranberry-forge/tempo';const t=new Tempo([{id:'dash',charges:2,recharge:1}]);if(!t.tryUse('dash').ok)throw Error('clock failed');t.tick(1);",
   loom: "import {Loom} from '@cranberry-forge/loom';const l=new Loom({points:[[0,0,0],[5,0,0],[10,0,0]]});if(!l.sample(0.5).position.isVector3)throw Error('sample failed');l.dispose();",
@@ -72,6 +77,11 @@ for (const name of (await readdir("dist/packages")).sort()) {
     cwd: app,
     stdio: "pipe",
   });
+  if (name === "sift")
+    execFileSync(join(app, "node_modules/.bin/sift"), ["--help"], {
+      cwd: app,
+      stdio: "pipe",
+    });
   console.log(
     `${name}: standalone install and public API passed (${packed.size} bytes packed)`,
   );

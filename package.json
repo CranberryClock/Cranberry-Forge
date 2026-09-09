@@ -18,14 +18,15 @@
     "test": "node --test tests/*.test.mjs",
     "check": "npm run build && npm test && npm run typecheck",
     "typecheck": "tsc --noEmit",
-    "samples": "node scripts/render-samples.mjs && node scripts/render-game-samples.mjs && node scripts/render-objective-samples.mjs && node scripts/render-afterglow-sample.mjs && node scripts/render-expansion-samples.mjs",
+    "samples": "node scripts/render-samples.mjs && node scripts/render-game-samples.mjs && node scripts/render-objective-samples.mjs && node scripts/render-afterglow-sample.mjs && node scripts/render-expansion-samples.mjs && node scripts/render-pipeline-samples.mjs",
     "samples:games": "node scripts/render-game-samples.mjs",
     "test:packages": "node scripts/check-packages.mjs",
     "test:template": "node scripts/check-template.mjs",
     "test:site": "node scripts/check-site.mjs",
     "test:privacy": "node scripts/check-privacy.mjs",
     "format": "prettier --write dist/*.js dist/*.css dist/*.html dist/kits/*.js dist/packages/*/*.js dist/packages/*/*.d.ts dist/templates/*/*.js dist/templates/*/*.mjs dist/templates/*/*.html dist/templates/*/*.css scripts/*.mjs tests/*.mjs",
-    "samples:expansion": "node scripts/render-expansion-samples.mjs"
+    "samples:expansion": "node scripts/render-expansion-samples.mjs",
+    "samples:pipeline": "node scripts/render-pipeline-samples.mjs"
   },
   "dependencies": {
     "three": "0.180.0"

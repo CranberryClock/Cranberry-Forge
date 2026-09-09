@@ -11,6 +11,7 @@ for (const template of [
   {
     id: "mothlight",
     assets: [
+      "lib/assets/branding/cranberryclock.webp",
       "assets/items/mira.png",
       "assets/items/lantern.png",
       "packages/chatter/dom.d.ts",
@@ -24,6 +25,7 @@ for (const template of [
   {
     id: "afterglow",
     assets: [
+      "lib/assets/branding/cranberryclock.webp",
       "scene.js",
       "packages/flux/index.d.ts",
       "packages/signal/index.d.ts",

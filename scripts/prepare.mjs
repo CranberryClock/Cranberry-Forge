@@ -47,13 +47,13 @@ for (const config of [
   {
     id: "mothlight",
     libraries: ["satchel", "chatter"],
-    helpers: ["scene.js", "camp-scene.js", "kit-ui.js"],
+    helpers: ["scene.js", "cranberryclock.js", "camp-scene.js", "kit-ui.js"],
     items: true,
   },
   {
     id: "afterglow",
     libraries: ["signal", "flux"],
-    helpers: ["scene.js"],
+    helpers: ["scene.js", "cranberryclock.js"],
     items: false,
   },
 ]) {
@@ -61,6 +61,9 @@ for (const config of [
   await mkdir(`${template}/lib`, { recursive: true });
   for (const name of config.helpers)
     await cp(`dist/${name}`, `${template}/lib/${name}`);
+  await cp("dist/assets/branding", `${template}/lib/assets/branding`, {
+    recursive: true,
+  });
   await cp("dist/vendor", `${template}/vendor`, { recursive: true });
   if (config.items)
     await cp("dist/assets/items", `${template}/assets/items`, {

@@ -1,0 +1,47 @@
+{
+  "name": "@cranberry-forge/sift",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Headless asset manifest budgets, dependency checks and local-file preflight CLI",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js"
+    },
+    "./node": {
+      "types": "./node.d.ts",
+      "import": "./node.js"
+    }
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "README.md",
+    "TUTORIAL.md",
+    "LICENSE",
+    "examples",
+    "node.js",
+    "node.d.ts",
+    "cli.mjs"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "keywords": [
+    "threejs",
+    "game-development",
+    "headless",
+    "sift"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CranberryClock/Cranberry-Forge.git",
+    "directory": "dist/packages/sift"
+  },
+  "bin": {
+    "sift": "./cli.mjs"
+  }
+}

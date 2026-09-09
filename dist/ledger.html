@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#121d29" />
+    <meta
+      name="description"
+      content="Equip a little machine. See exactly where its power comes from. Independent headless tooling with a Three.js showcase."
+    />
+    <title>Ledger · Cranberry Forge</title>
+    <link rel="stylesheet" href="./pipeline.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./vendor/three/build/three.module.js",
+          "three/addons/": "./vendor/three/addons/"
+        }
+      }
+    </script>
+  </head>
+  <body data-tool="ledger">
+    <header class="masthead">
+      <a class="brand" href="./catalog.html">CRANBERRY <b>FORGE</b></a>
+      <nav aria-label="Tool navigation">
+        <a href="./ledger.html" aria-current="page">Ledger</a
+        ><a href="./keepsake.html">Keepsake</a><a href="./sift.html">Sift</a>
+      </nav>
+      <a class="collection" href="./catalog.html">All tools ↗</a>
+    </header>
+    <main>
+      <section class="heading">
+        <div>
+          <p class="eyebrow">LEDGER / STATS & LOADOUTS</p>
+          <h1>The Clockwork<br /><em>Proving Ground.</em></h1>
+        </div>
+        <p class="intro">
+          Equip a little machine. See exactly where its power comes from.
+        </p>
+      </section>
+      <section class="workbench" aria-label="ledger interactive workbench">
+        <div class="viewport">
+          <canvas
+            id="scene"
+            tabindex="0"
+            aria-label="Three.js ledger demonstration. Drag to orbit and scroll to zoom; all tool controls are available beside the scene."
+          ></canvas>
+          <div class="scene-note">
+            <span>CRANBERRY FORGE / STUDY 013</span>
+            <h2>Every bonus leaves a receipt.</h2>
+          </div>
+          <div class="scene-tools">
+            <button id="pause" aria-pressed="false">Pause motion</button
+            ><button id="camera">Reset view</button>
+          </div>
+          <div id="error" role="alert" hidden></div>
+        </div>
+        <aside class="desk" aria-label="Tool controls">
+          <div class="desk-title">
+            <h2>Tune the machine</h2>
+            <span>HEADLESS CORE</span>
+          </div>
+          <label
+            >Equipment recipe<select id="preset">
+              <option value="scout">Courier · light and quick</option>
+              <option value="knight">Sentinel · heavy hitter</option>
+              <option value="mage">Arcanist · extended reach</option>
+            </select></label
+          ><label
+            >Rally bonus <output id="buff-label">0%</output
+            ><input
+              id="buff"
+              type="range"
+              min="0"
+              max="75"
+              step="5"
+              value="0" /></label
+          ><label>Remove equipment source<select id="source"></select></label
+          ><button id="remove-source">Unequip source</button
+          ><button id="reset-loadout">Restore recipe</button>
+          <div id="metrics" class="metrics"></div>
+          <label
+            >Explain a stat<select id="stat">
+              <option value="attack">Attack</option>
+              <option value="speed">Speed</option>
+              <option value="reach">Reach</option>
+            </select></label
+          >
+          <div id="receipt" class="receipt"></div>
+          <p id="notice" role="status" aria-live="polite"></p>
+          <button id="download">Download result JSON</button>
+        </aside>
+      </section>
+      <section class="explanation">
+        <div>
+          <p class="eyebrow">THE DATA BEHIND THE SCENE</p>
+          <h2>Loadout comparison</h2>
+          <p>
+            These numbers come from the same headless evaluation used by the
+            scene. Movement uses speed; the luminous radius uses reach; target
+            response illustrates attack strength. This is a stat workbench, not
+            a combat simulator.
+          </p>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Recipe</th>
+                  <th>Attack</th>
+                  <th>Speed</th>
+                  <th>Reach</th>
+                </tr>
+              </thead>
+              <tbody id="comparison"></tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <p class="eyebrow">USE IT IN YOUR GAME</p>
+          <pre><code>const stats = evaluateStats({ base, modifiers });
+player.speed = stats.values.speed;
+console.log(stats.explanations.attack);</code></pre>
+          <div class="links">
+            <a href="./downloads/cranberry-forge-ledger-0.1.0.tgz" download
+              >Download package ↗</a
+            ><a href="./packages/ledger/TUTORIAL.md">Integration tutorial ↗</a
+            ><a href="./packages/ledger/README.md">API reference ↗</a>
+          </div>
+          <details>
+            <summary>Live JSON output</summary>
+            <pre id="json" tabindex="0"></pre>
+          </details>
+        </div>
+      </section>
+      <footer>
+        Independent JavaScript. Real Three.js. A little CranberryClock.<a
+          href="./catalog.html"
+          >Explore the collection ↗</a
+        >
+      </footer>
+    </main>
+    <script type="module" src="./pipeline-app.js"></script>
+  </body>
+</html>

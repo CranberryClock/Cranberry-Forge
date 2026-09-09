@@ -3523,6 +3523,544 @@
           }
         }
       }
+    },
+    "/api/v1/ledger/evaluate": {
+      "post": {
+        "summary": "Evaluate explainable stats",
+        "description": "Optional stateless local endpoint. application/json up to 2 MiB. No asset file I/O or untrusted JavaScript execution over HTTP.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "base"
+                ],
+                "properties": {
+                  "base": {
+                    "type": "object",
+                    "maxProperties": 256,
+                    "additionalProperties": {
+                      "type": "number"
+                    }
+                  },
+                  "modifiers": {
+                    "type": "array",
+                    "maxItems": 2048,
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "id",
+                        "source",
+                        "stat",
+                        "kind",
+                        "value"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "source": {
+                          "type": "string"
+                        },
+                        "stat": {
+                          "type": "string"
+                        },
+                        "kind": {
+                          "enum": [
+                            "flat",
+                            "additivePercent",
+                            "multiplier"
+                          ]
+                        },
+                        "value": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  },
+                  "bounds": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "object",
+                      "properties": {
+                        "min": {
+                          "type": "number"
+                        },
+                        "max": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  },
+                  "rounding": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": 0,
+                    "maximum": 10
+                  }
+                }
+              },
+              "examples": {
+                "basic": {
+                  "value": {
+                    "base": {
+                      "attack": 50,
+                      "speed": 3
+                    },
+                    "modifiers": [
+                      {
+                        "id": "sword",
+                        "source": "sword",
+                        "stat": "attack",
+                        "kind": "flat",
+                        "value": 10
+                      }
+                    ],
+                    "rounding": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Evaluation result. Inspect ok for Sift and Keepsake domain failures.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "examples": {
+                  "basic": {
+                    "value": {
+                      "values": {
+                        "attack": 60,
+                        "speed": 3
+                      },
+                      "explanations": {
+                        "attack": {
+                          "base": 50,
+                          "flat": 10,
+                          "additivePercent": 0,
+                          "multiplier": 1,
+                          "afterFlat": 60,
+                          "afterAdditive": 60,
+                          "raw": 60,
+                          "clamped": 60,
+                          "value": 60,
+                          "sources": [
+                            {
+                              "id": "sword",
+                              "source": "sword",
+                              "stat": "attack",
+                              "kind": "flat",
+                              "value": 10
+                            }
+                          ]
+                        },
+                        "speed": {
+                          "base": 3,
+                          "flat": 0,
+                          "additivePercent": 0,
+                          "multiplier": 1,
+                          "afterFlat": 3,
+                          "afterAdditive": 3,
+                          "raw": 3,
+                          "clamped": 3,
+                          "value": 3,
+                          "sources": []
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON"
+          },
+          "413": {
+            "description": "Body too large"
+          },
+          "415": {
+            "description": "Content-Type must be application/json"
+          },
+          "422": {
+            "description": "Invalid input or request limit exceeded"
+          }
+        }
+      }
+    },
+    "/api/v1/keepsake/migrate": {
+      "post": {
+        "summary": "Migrate an observatory example save",
+        "description": "Optional stateless local endpoint. application/json up to 2 MiB. No asset file I/O or untrusted JavaScript execution over HTTP.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "profile",
+                  "save"
+                ],
+                "properties": {
+                  "profile": {
+                    "const": "observatory"
+                  },
+                  "save": {
+                    "description": "Save JSON string or envelope. Only the registered observatory schema is supported by this example route.",
+                    "oneOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "object",
+                        "required": [
+                          "format",
+                          "version",
+                          "payload"
+                        ],
+                        "properties": {
+                          "format": {
+                            "type": "string"
+                          },
+                          "version": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "payload": {}
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "basic": {
+                  "value": {
+                    "profile": "observatory",
+                    "save": {
+                      "format": "forge.observatory",
+                      "version": 0,
+                      "payload": {
+                        "coins": 125,
+                        "islands": 2
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Evaluation result. Inspect ok for Sift and Keepsake domain failures.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "examples": {
+                  "basic": {
+                    "value": {
+                      "ok": true,
+                      "save": {
+                        "format": "forge.observatory",
+                        "version": 2,
+                        "payload": {
+                          "wallet": {
+                            "gold": 125
+                          },
+                          "world": {
+                            "islands": 2,
+                            "sky": "dusk"
+                          }
+                        }
+                      },
+                      "fromVersion": 0,
+                      "trace": [
+                        {
+                          "from": 0,
+                          "to": 1
+                        },
+                        {
+                          "from": 1,
+                          "to": 2
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON"
+          },
+          "413": {
+            "description": "Body too large"
+          },
+          "415": {
+            "description": "Content-Type must be application/json"
+          },
+          "422": {
+            "description": "Invalid input or request limit exceeded"
+          }
+        }
+      }
+    },
+    "/api/v1/sift/audit": {
+      "post": {
+        "summary": "Audit supplied asset metrics and manifest policies",
+        "description": "Optional stateless local endpoint. application/json up to 2 MiB. No asset file I/O or untrusted JavaScript execution over HTTP.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "manifest"
+                ],
+                "properties": {
+                  "manifest": {
+                    "type": "array",
+                    "maxItems": 10000,
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "id"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "path": {
+                          "type": "string"
+                        },
+                        "dependencies": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "requiredExtensions": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "metrics": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "bytes": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "triangles": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "textureWidth": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        },
+                        "textureHeight": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 9007199254740991
+                        }
+                      }
+                    }
+                  },
+                  "policy": {
+                    "type": "object",
+                    "properties": {
+                      "budgets": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "bytes": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "triangles": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "textureWidth": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          },
+                          "textureHeight": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 9007199254740991
+                          }
+                        }
+                      },
+                      "allowedExtensions": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "missingMetrics": {
+                        "enum": [
+                          "error",
+                          "warning"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "basic": {
+                  "value": {
+                    "manifest": [
+                      {
+                        "id": "clockwork-scout",
+                        "dependencies": [
+                          "brass-atlas"
+                        ],
+                        "requiredExtensions": []
+                      },
+                      {
+                        "id": "brass-atlas",
+                        "requiredExtensions": []
+                      },
+                      {
+                        "id": "memory-gate",
+                        "dependencies": [
+                          "lost-atlas"
+                        ],
+                        "requiredExtensions": [
+                          "EXT_future_shader"
+                        ]
+                      }
+                    ],
+                    "metrics": {
+                      "clockwork-scout": {
+                        "bytes": 125000,
+                        "triangles": 1800
+                      },
+                      "brass-atlas": {
+                        "bytes": 24000,
+                        "triangles": 0
+                      },
+                      "memory-gate": {
+                        "bytes": 64000,
+                        "triangles": 9800
+                      }
+                    },
+                    "policy": {
+                      "budgets": {
+                        "bytes": 80000,
+                        "triangles": 5000
+                      },
+                      "allowedExtensions": [],
+                      "missingMetrics": "error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Evaluation result. Inspect ok for Sift and Keepsake domain failures.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "examples": {
+                  "basic": {
+                    "value": {
+                      "ok": false,
+                      "findings": [
+                        {
+                          "assetId": "clockwork-scout",
+                          "code": "BUDGET_EXCEEDED",
+                          "field": "bytes",
+                          "actual": 125000,
+                          "expected": 80000,
+                          "severity": "error"
+                        },
+                        {
+                          "assetId": "memory-gate",
+                          "code": "BUDGET_EXCEEDED",
+                          "field": "triangles",
+                          "actual": 9800,
+                          "expected": 5000,
+                          "severity": "error"
+                        },
+                        {
+                          "assetId": "memory-gate",
+                          "code": "MISSING_REFERENCE",
+                          "field": "dependencies",
+                          "actual": "lost-atlas",
+                          "expected": "declared asset",
+                          "severity": "error"
+                        },
+                        {
+                          "assetId": "memory-gate",
+                          "code": "UNSUPPORTED_EXTENSION",
+                          "field": "requiredExtensions",
+                          "actual": "EXT_future_shader",
+                          "expected": [],
+                          "severity": "error"
+                        }
+                      ],
+                      "summary": {
+                        "assets": 3,
+                        "errors": 4,
+                        "warnings": 0
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON"
+          },
+          "413": {
+            "description": "Body too large"
+          },
+          "415": {
+            "description": "Content-Type must be application/json"
+          },
+          "422": {
+            "description": "Invalid input or request limit exceeded"
+          }
+        }
+      }
     }
   },
   "components": {

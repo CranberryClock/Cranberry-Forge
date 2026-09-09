@@ -1,4 +1,5 @@
 import { expansionPaths, expansionRequest } from "./expansion-api.mjs";
+import { pipelinePaths, pipelineRequest } from "./pipeline-api.mjs";
 import { createServer } from "node:http";
 import { readFile, stat } from "node:fs/promises";
 import { resolve, extname, sep } from "node:path";
@@ -25,6 +26,7 @@ const mime = {
   ".svg": "image/svg+xml",
   ".woff2": "font/woff2",
   ".png": "image/png",
+  ".webp": "image/webp",
   ".glb": "model/gltf-binary",
   ".md": "text/plain; charset=utf-8",
 };
@@ -113,12 +115,17 @@ export function createAppServer({ root = resolve("dist") } = {}) {
             spring: { action: "step" },
             parcel: { action: "open" },
             tempo: { action: "step" },
+            ledger: { action: "evaluate", maxStats: 256, maxModifiers: 2048 },
+            keepsake: { action: "migrate", profiles: ["observatory"] },
+            sift: { action: "audit", maxAssets: 10000 },
             documentation: "/api-reference.json",
           });
         if (req.method !== "POST")
           return json(res, 405, { error: "Method not allowed" });
         if (expansionPaths.includes(pathname))
           return json(res, 200, expansionRequest(pathname, await body(req)));
+        if (pipelinePaths.includes(pathname))
+          return json(res, 200, pipelineRequest(pathname, await body(req)));
         if (pathname === "/api/v1/trailmark/step") {
           const data = requestObject(await body(req));
           for (const field of Object.keys(data))

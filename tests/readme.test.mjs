@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readFile, access } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
 
-test("README local documentation and all fourteen gallery images resolve", async () => {
+test("README local documentation and all seventeen gallery images resolve", async () => {
   const readme = await readFile("README.md", "utf8");
   const targets = [...readme.matchAll(/\]\(([^)]+)\)/g)].map(
     (match) => match[1],
@@ -17,7 +17,7 @@ test("README local documentation and all fourteen gallery images resolve", async
       (target) => target.startsWith("docs/images/") && target.endsWith(".png"),
     ),
   );
-  assert.equal(gallery.size, 14);
+  assert.equal(gallery.size, 17);
   assert.ok(readme.startsWith("# Cranberry Forge\n"));
 });
 

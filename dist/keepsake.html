@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#121d29" />
+    <meta
+      name="description"
+      content="An older save. A newer world. Bring the memories along. Independent headless tooling with a Three.js showcase."
+    />
+    <title>Keepsake · Cranberry Forge</title>
+    <link rel="stylesheet" href="./pipeline.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./vendor/three/build/three.module.js",
+          "three/addons/": "./vendor/three/addons/"
+        }
+      }
+    </script>
+  </head>
+  <body data-tool="keepsake">
+    <header class="masthead">
+      <a class="brand" href="./catalog.html">CRANBERRY <b>FORGE</b></a>
+      <nav aria-label="Tool navigation">
+        <a href="./ledger.html">Ledger</a
+        ><a href="./keepsake.html" aria-current="page">Keepsake</a
+        ><a href="./sift.html">Sift</a>
+      </nav>
+      <a class="collection" href="./catalog.html">All tools ↗</a>
+    </header>
+    <main>
+      <section class="heading">
+        <div>
+          <p class="eyebrow">KEEPSAKE / SAVE MIGRATION</p>
+          <h1>The Memory<br /><em>Observatory.</em></h1>
+        </div>
+        <p class="intro">
+          An older save. A newer world. Bring the memories along.
+        </p>
+      </section>
+      <section class="workbench" aria-label="keepsake interactive workbench">
+        <div class="viewport">
+          <canvas
+            id="scene"
+            tabindex="0"
+            aria-label="Three.js keepsake demonstration. Drag to orbit and scroll to zoom; all tool controls are available beside the scene."
+          ></canvas>
+          <div class="scene-note">
+            <span>CRANBERRY FORGE / STUDY 014</span>
+            <h2>Progress deserves a future.</h2>
+          </div>
+          <div class="scene-tools">
+            <button id="pause" aria-pressed="false">Pause motion</button
+            ><button id="camera">Reset view</button>
+          </div>
+          <div id="error" role="alert" hidden></div>
+        </div>
+        <aside class="desk" aria-label="Tool controls">
+          <div class="desk-title">
+            <h2>Open the archive</h2>
+            <span>HEADLESS CORE</span>
+          </div>
+          <label
+            >Open a memory<select id="memory">
+              <option value="first">First camp · schema 0</option>
+              <option value="expedition">Expedition · schema 1</option>
+              <option value="current">Current save · schema 2</option>
+              <option value="broken">Damaged payload</option>
+              <option value="future">Future-version save</option>
+            </select></label
+          >
+          <div id="metrics" class="metrics"></div>
+          <div class="button-row">
+            <button id="preview" class="primary">Preview migration</button
+            ><button id="apply" disabled>Restore candidate</button>
+          </div>
+          <p id="migration-status" role="status"></p>
+          <ol id="steps" class="steps"></ol>
+          <label
+            >Save JSON<textarea
+              id="save-input"
+              rows="9"
+              spellcheck="false"
+              aria-describedby="save-help"
+            ></textarea>
+          </label>
+          <p id="save-help" class="hint">
+            Local preview only. Nothing is uploaded or automatically saved.
+          </p>
+          <button id="import">Import JSON file</button
+          ><input
+            id="file"
+            type="file"
+            accept=".json,application/json"
+            hidden
+          />
+          <p id="notice" role="status" aria-live="polite"></p>
+          <button id="download">Download active save</button>
+        </aside>
+      </section>
+      <section class="explanation">
+        <div>
+          <p class="eyebrow">THE DATA BEHIND THE SCENE</p>
+          <h2>What changed?</h2>
+          <p>
+            Each migration receives an isolated copy. Every schema version is
+            validated. Restore only becomes available after the entire chain
+            succeeds; rejected saves leave the active world intact.
+          </p>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>JSON path</th>
+                  <th>Before</th>
+                  <th>After</th>
+                </tr>
+              </thead>
+              <tbody id="changes"></tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <p class="eyebrow">USE IT IN YOUR GAME</p>
+          <pre><code>const result = migrateSave(oldSave, config);
+if (result.ok) {
+  // Your game owns applying and storing the candidate.
+  restoreWorld(result.save.payload);
+}</code></pre>
+          <div class="links">
+            <a href="./downloads/cranberry-forge-keepsake-0.1.0.tgz" download
+              >Download package ↗</a
+            ><a href="./packages/keepsake/TUTORIAL.md"
+              >Integration tutorial ↗</a
+            ><a href="./packages/keepsake/README.md">API reference ↗</a>
+          </div>
+          <details>
+            <summary>Live JSON output</summary>
+            <pre id="json" tabindex="0"></pre>
+          </details>
+        </div>
+      </section>
+      <footer>
+        Independent JavaScript. Real Three.js. A little CranberryClock.<a
+          href="./catalog.html"
+          >Explore the collection ↗</a
+        >
+      </footer>
+    </main>
+    <script type="module" src="./pipeline-app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "manifest": [
+    { "id": "hero", "path": "hero.glb", "dependencies": ["atlas"] },
+    { "id": "atlas", "path": "atlas.png" }
+  ],
+  "metrics": {
+    "hero": { "bytes": 40000, "triangles": 1800 },
+    "atlas": { "bytes": 24000, "triangles": 0 }
+  },
+  "policy": {
+    "budgets": { "bytes": 80000, "triangles": 5000 },
+    "allowedExtensions": [],
+    "missingMetrics": "error"
+  }
+}

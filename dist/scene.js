@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { mountClockSignature } from "./cranberryclock.js";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
@@ -6,6 +7,7 @@ import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js"
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 
 export function createStage(canvas) {
+  const removeSignature = mountClockSignature(canvas);
   const renderer = new THREE.WebGLRenderer({
     canvas,
     antialias: true,
@@ -104,6 +106,7 @@ export function createStage(canvas) {
       active = next;
     },
     dispose() {
+      removeSignature();
       running = false;
       cancelAnimationFrame(raf);
       active?.dispose();

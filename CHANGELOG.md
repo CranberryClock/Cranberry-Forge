@@ -1,5 +1,13 @@
 # Changelog
 
+## Pipeline tools — 2026-09-09
+
+- Added Ledger for explainable stats and loadout comparisons, Keepsake for validated save migrations, and Sift for asset preflight checks and a local CLI.
+- Added three Three.js showcases, preview images, tutorials, TypeScript declarations, runnable examples, and companion API endpoints.
+- Added CranberryClock cameos and fixed Sift root containment on Windows.
+- Preserved the public README's hosted gallery links and expanded it to fifteen tools. The three new demos are available locally pending the hosted gallery update.
+- Validated with 166 runtime tests, TypeScript, isolated package installation, portable templates, and static delivery checks.
+
 ## 0.1.0 — 2026-09-09
 
 First public source release. Packages use the `@cranberry-forge/*` scope and can be installed from locally built archives; they are not published to the npm registry.

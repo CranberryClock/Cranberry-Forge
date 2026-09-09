@@ -8,7 +8,7 @@ Independent Three.js game-development tools, interactive workbenches, and playab
 [![Three.js r180](https://img.shields.io/badge/Three.js-r180-20232a)](https://threejs.org/)
 [![MIT license](https://img.shields.io/badge/license-MIT-b9395b)](LICENSE)
 
-[Live showcases](https://cranberryclock.com/forge/) · [Quick start](#quick-start) · [12 tools](#toolbox) · [2 game templates](#game-templates) · [Documentation](#documentation)
+[Live showcases](https://cranberryclock.com/forge/) · [Quick start](#quick-start) · [15 tools](#toolbox) · [2 game templates](#game-templates) · [Documentation](#documentation)
 
 ![Afterglow: a sun-temple arena with a combat warning and luminous dash trail](docs/images/afterglow-sample.png)
 
@@ -37,6 +37,8 @@ The hosted demos run in your browser with no local installation. A modern WebGL2
 | Mothlight game template | [Launch demo](https://cranberryclock.com/forge/showcase/templates/mothlight/) |
 | Afterglow game template | [Launch demo](https://cranberryclock.com/forge/showcase/templates/afterglow/) |
 
+Ledger, Keepsake, and Sift are also included in the source release. Run them locally at `/ledger.html`, `/keepsake.html`, and `/sift.html` after following Quick start below. Their hosted demos will become available when the portfolio gallery is updated.
+
 The hosted gallery identifies its source revision. It may lag the latest changes on `main` while a new showcase build is being prepared.
 
 ## Quick start
@@ -51,7 +53,7 @@ npm run build
 npm run dev
 ```
 
-Open **http://127.0.0.1:4173/catalog.html** to explore all 12 workbenches and both games. Each showcase includes controls, an integration guide, and package downloads.
+Open **http://127.0.0.1:4173/catalog.html** to explore all 15 workbenches and both games. Each showcase includes controls, an integration guide, and package downloads.
 
 ### Install just one tool
 
@@ -98,6 +100,10 @@ scene.add(grove); // Use your existing lit Three.js scene and matching terrain.
 | [Parcel](dist/packages/parcel/README.md) | Seeded weighted loot, inspectable odds, and explicit hard pity | Headless |
 | [Tempo](dist/packages/tempo/README.md) | Host-clocked ability charges, sequential recharge, and global cooldowns | Headless |
 
+| [Ledger](dist/packages/ledger/README.md) | Equipment stats with modifier explanations, bounds, and loadout comparisons | Headless |
+| [Keepsake](dist/packages/keepsake/README.md) | Validated save migrations that preserve the original input, with before-and-after diffs | Headless |
+| [Sift](dist/packages/sift/README.md) | Asset manifest checks, budget reports, and a local-file preflight CLI | Headless |
+
 ### See them in action
 
 Each image links to its tool's guide. Run the local catalog to interact with the corresponding scene.
@@ -110,6 +116,14 @@ Each image links to its tool's guide. Run the local catalog to interact with the
 | [![Parcel — explainable loot chest](docs/images/parcel-sample.png)](dist/packages/parcel/README.md) **Parcel · Open starlight salvage** | [![Tempo — charged spell garden](docs/images/tempo-sample.png)](dist/packages/tempo/README.md) **Tempo · Give every spell its moment** |
 | [![Satchel — grid inventory camp](docs/images/satchel-sample.png)](dist/packages/satchel/README.md) **Satchel · Everything in its place** | [![Chatter — branching dialogue scene](docs/images/chatter-sample.png)](dist/packages/chatter/README.md) **Chatter · Someone worth listening to** |
 | [![Latch — clockwork interaction observatory](docs/images/latch-sample.png)](dist/packages/latch/README.md) **Latch · Make a small action feel right** | [![Trailmark — objective-driven harbor](docs/images/trailmark-sample.png)](dist/packages/trailmark/README.md) **Trailmark · Every task leads somewhere** |
+
+| Pipeline tools | Showcase |
+| --- | --- |
+| [![Ledger — mechanical fighter and equipment stats](docs/images/ledger-sample.png)](dist/packages/ledger/README.md) | **Ledger · Clockwork Proving Ground** — change equipment and see where each stat comes from. |
+| [![Keepsake — miniature worlds in a memory observatory](docs/images/keepsake-sample.png)](dist/packages/keepsake/README.md) | **Keepsake · Memory Observatory** — upgrade an older save and inspect what changed. |
+| [![Sift — cargo inspection dock](docs/images/sift-sample.png)](dist/packages/sift/README.md) | **Sift · Cargo Inspection Dock** — inspect asset failures and their exact causes. |
+
+These three tools have no runtime dependencies. Each includes a runnable example, TypeScript declarations, and an integration tutorial. Look for a small CranberryClock cameo in the new showcases.
 
 Gallery images are reproducible offline renders of the project's actual geometry and runtime state, **not browser screenshots**. Three.js SVGRenderer simplifies materials and does not reproduce browser bloom, charge shaders, or shadows. [Image methodology](docs/images/README.md).
 

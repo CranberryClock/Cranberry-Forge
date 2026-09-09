@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#121d29" />
+    <meta
+      name="description"
+      content="Catch broken references and oversized assets before they leave the dock. Independent headless tooling with a Three.js showcase."
+    />
+    <title>Sift · Cranberry Forge</title>
+    <link rel="stylesheet" href="./pipeline.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./vendor/three/build/three.module.js",
+          "three/addons/": "./vendor/three/addons/"
+        }
+      }
+    </script>
+  </head>
+  <body data-tool="sift">
+    <header class="masthead">
+      <a class="brand" href="./catalog.html">CRANBERRY <b>FORGE</b></a>
+      <nav aria-label="Tool navigation">
+        <a href="./ledger.html">Ledger</a><a href="./keepsake.html">Keepsake</a
+        ><a href="./sift.html" aria-current="page">Sift</a>
+      </nav>
+      <a class="collection" href="./catalog.html">All tools ↗</a>
+    </header>
+    <main>
+      <section class="heading">
+        <div>
+          <p class="eyebrow">SIFT / ASSET PREFLIGHT</p>
+          <h1>The Cargo<br /><em>Inspection Dock.</em></h1>
+        </div>
+        <p class="intro">
+          Catch broken references and oversized assets before they leave the
+          dock.
+        </p>
+      </section>
+      <section class="workbench" aria-label="sift interactive workbench">
+        <div class="viewport">
+          <canvas
+            id="scene"
+            tabindex="0"
+            aria-label="Three.js sift demonstration. Drag to orbit and scroll to zoom; all tool controls are available beside the scene."
+          ></canvas>
+          <div class="scene-note">
+            <span>CRANBERRY FORGE / STUDY 015</span>
+            <h2>A build gate you can see.</h2>
+          </div>
+          <div class="scene-tools">
+            <button id="pause" aria-pressed="false">Pause motion</button
+            ><button id="camera">Reset view</button>
+          </div>
+          <div id="error" role="alert" hidden></div>
+        </div>
+        <aside class="desk" aria-label="Tool controls">
+          <div class="desk-title">
+            <h2>Check the shipment</h2>
+            <span>HEADLESS CORE</span>
+          </div>
+          <div class="button-row">
+            <button id="original" class="primary">Problem cargo</button
+            ><button id="corrected">Corrected cargo</button>
+          </div>
+          <label
+            >File budget <output id="budget-label">80,000 bytes</output
+            ><input
+              id="budget"
+              type="range"
+              min="16000"
+              max="160000"
+              step="8000"
+              value="80000" /></label
+          ><label
+            >Inspect a crate<select id="asset">
+              <option value="clockwork-scout">Clockwork scout</option>
+              <option value="brass-atlas">Brass atlas</option>
+              <option value="memory-gate">Memory gate</option>
+            </select></label
+          >
+          <div id="metrics" class="metrics"></div>
+          <div id="findings" class="receipt"></div>
+          <details>
+            <summary>Edit the manifest & policies</summary>
+            <label
+              >Audit input<textarea
+                id="audit-input"
+                rows="10"
+                spellcheck="false"
+              ></textarea></label
+            ><button id="audit">Run audit</button
+            ><button id="import">Import JSON file</button
+            ><input
+              id="file"
+              type="file"
+              accept=".json,application/json"
+              hidden
+            />
+          </details>
+          <p class="hint">
+            Illustrative asset metrics supplied by the demo fixture. The CLI can
+            measure local file bytes; geometry metrics come from your inspector.
+          </p>
+          <p id="notice" role="status" aria-live="polite"></p>
+          <button id="download">Download result JSON</button>
+        </aside>
+      </section>
+      <section class="explanation">
+        <div>
+          <p class="eyebrow">THE DATA BEHIND THE SCENE</p>
+          <h2>The build report</h2>
+          <p>
+            Red crates have errors in the actual audit result. Missing
+            measurements are reported explicitly. Try the corrected manifest or
+            change a budget, then download the same JSON report your CI can
+            consume.
+          </p>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Asset</th>
+                  <th>Finding</th>
+                  <th>Actual</th>
+                  <th>Expected</th>
+                </tr>
+              </thead>
+              <tbody id="report-rows"></tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <p class="eyebrow">USE IT IN YOUR GAME</p>
+          <pre><code>const report = auditAssets({ manifest, metrics, policy });
+if (!report.ok) process.exitCode = 1;
+// Or: sift audit.json --root ./game-assets</code></pre>
+          <div class="links">
+            <a href="./downloads/cranberry-forge-sift-0.1.0.tgz" download
+              >Download package ↗</a
+            ><a href="./packages/sift/TUTORIAL.md">Integration tutorial ↗</a
+            ><a href="./packages/sift/README.md">API reference ↗</a>
+          </div>
+          <details>
+            <summary>Live JSON output</summary>
+            <pre id="json" tabindex="0"></pre>
+          </details>
+        </div>
+      </section>
+      <footer>
+        Independent JavaScript. Real Three.js. A little CranberryClock.<a
+          href="./catalog.html"
+          >Explore the collection ↗</a
+        >
+      </footer>
+    </main>
+    <script type="module" src="./pipeline-app.js"></script>
+  </body>
+</html>
