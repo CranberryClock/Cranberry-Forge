@@ -8,11 +8,36 @@ Independent Three.js game-development tools, interactive workbenches, and playab
 [![Three.js r180](https://img.shields.io/badge/Three.js-r180-20232a)](https://threejs.org/)
 [![MIT license](https://img.shields.io/badge/license-MIT-b9395b)](LICENSE)
 
-[Quick start](#quick-start) · [12 tools](#toolbox) · [2 game templates](#game-templates) · [Documentation](#documentation)
+[Live showcases](https://cranberryclock.com/forge/) · [Quick start](#quick-start) · [12 tools](#toolbox) · [2 game templates](#game-templates) · [Documentation](#documentation)
 
 ![Afterglow: a sun-temple arena with a combat warning and luminous dash trail](docs/images/afterglow-sample.png)
 
 Build landscapes, readable combat, responsive motion, and the systems that make a game feel complete. Choose one package or compose several: **no tool requires another Forge tool**, and every package includes ES modules, TypeScript declarations, tests, and an integration guide.
+
+## Try the demos
+
+Explore **[Cranberry Forge on CranberryClock](https://cranberryclock.com/forge/)** for interactive showcases, playable templates, and package downloads. The gallery is part of the CranberryClock portfolio; this public repository is the home for source, documentation, and issues.
+
+The hosted demos run in your browser with no local installation. A modern WebGL2-capable browser is needed for the 3D scenes. Node.js is used for local development and the optional companion API, not by the static host.
+
+| Showcase | Open in your browser |
+| --- | --- |
+| Biome | [Launch demo](https://cranberryclock.com/forge/showcase/index.html#biome) |
+| Flux | [Launch demo](https://cranberryclock.com/forge/showcase/index.html#flux) |
+| Signal | [Launch demo](https://cranberryclock.com/forge/showcase/signal.html) |
+| Latch | [Launch demo](https://cranberryclock.com/forge/showcase/latch.html) |
+| Loom | [Launch demo](https://cranberryclock.com/forge/showcase/loom.html) |
+| Satchel | [Launch demo](https://cranberryclock.com/forge/showcase/play.html?kit=satchel) |
+| Chatter | [Launch demo](https://cranberryclock.com/forge/showcase/play.html?kit=chatter) |
+| Trailmark | [Launch demo](https://cranberryclock.com/forge/showcase/trailmark.html) |
+| Wayfinder | [Launch demo](https://cranberryclock.com/forge/showcase/wayfinder.html) |
+| Spring | [Launch demo](https://cranberryclock.com/forge/showcase/spring.html) |
+| Parcel | [Launch demo](https://cranberryclock.com/forge/showcase/parcel.html) |
+| Tempo | [Launch demo](https://cranberryclock.com/forge/showcase/tempo.html) |
+| Mothlight game template | [Launch demo](https://cranberryclock.com/forge/showcase/templates/mothlight/) |
+| Afterglow game template | [Launch demo](https://cranberryclock.com/forge/showcase/templates/afterglow/) |
+
+The hosted gallery identifies its source revision. It may lag the latest changes on `main` while a new showcase build is being prepared.
 
 ## Quick start
 
