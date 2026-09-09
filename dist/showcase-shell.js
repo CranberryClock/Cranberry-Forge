@@ -28,8 +28,6 @@
   document.addEventListener("click", (event) => {
     if (!picker.contains(event.target) || event.target.closest("a"))
       picker.open = false;
-    // Biome/Flux's existing tabs use history.replaceState, without hashchange.
-    if (event.target.closest("[data-tool]")) requestAnimationFrame(update);
   });
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && picker.open) {

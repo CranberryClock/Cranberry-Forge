@@ -7,7 +7,6 @@ const kit =
   new URLSearchParams(location.search).get("kit") === "chatter"
     ? "chatter"
     : "satchel";
-document.querySelector(`[data-kit="${kit}"]`).classList.add("active");
 let stage, world, ui;
 try {
   stage = createStage($("#kit-canvas"));

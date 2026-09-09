@@ -206,10 +206,6 @@ function switchTool(next) {
       : createFluxScene(stage, flux, stats);
   stage.setActive(active);
   stage.reset(mode);
-  document.querySelectorAll("[data-tool]").forEach((b) => {
-    b.classList.toggle("active", b.dataset.tool === mode);
-    b.setAttribute("aria-current", b.dataset.tool === mode ? "page" : "false");
-  });
   $("#tool-category").textContent =
     mode === "biome" ? "ENVIRONMENT TOOLKIT" : "MOTION TOOLKIT";
   $("#tool-title").innerHTML =
@@ -318,12 +314,6 @@ async function init() {
   switchTool(location.hash.slice(1));
   $("#loading").hidden = true;
   $("#orbit").classList.toggle("active", stage.controls.autoRotate);
-  document.querySelectorAll("[data-tool]").forEach(
-    (b) =>
-      (b.onclick = () => {
-        if (b.dataset.tool !== mode) switchTool(b.dataset.tool);
-      }),
-  );
   window.addEventListener("hashchange", () => {
     if (location.hash.slice(1) !== mode) switchTool(location.hash.slice(1));
   });

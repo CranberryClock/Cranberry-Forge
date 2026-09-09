@@ -12,6 +12,11 @@ test("every showcase exposes all tools and games with valid destinations", async
     const dom = new JSDOM(await readFile(file, "utf8"));
     const nav = dom.window.document.querySelector(".forge-explorer");
     assert.ok(nav, id);
+    assert.equal(dom.window.document.querySelectorAll('.forge-explorer').length, 1);
+    assert.equal(dom.window.document.querySelectorAll('header [data-tool], header [data-kit]').length, 0);
+    for (const link of dom.window.document.querySelectorAll('header nav a')) {
+      assert.match(link.getAttribute('href'), /\/(packages|downloads)\//, `${id}: only resource actions belong in the header`);
+    }
     const links = [...nav.querySelectorAll("[data-forge-link]")];
     assert.equal(links.length, 17, id);
     assert.equal(new Set(links.map((a) => a.dataset.forgeLink)).size, 17);

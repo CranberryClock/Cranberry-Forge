@@ -1,5 +1,6 @@
 import { readFile, writeFile, mkdir, copyFile } from "node:fs/promises";
 import { systems } from "./showcase-catalog.mjs";
+import { JSDOM } from "jsdom";
 
 // Generate static, keyboard-accessible navigation before packing the templates.
 const pages = new Map(
@@ -39,6 +40,27 @@ for (let [path, id] of pages) {
 </nav>
 <!-- forge-shell:end -->`;
   let html = await readFile(`dist/${path}`, "utf8");
+  // The collection switcher owns system navigation. Headers retain identity
+  // and resource actions, without the original release-specific tab groups.
+  html = html.replace(/<header\b[\s\S]*?<\/header>/g, (markup) => {
+    const dom = new JSDOM(markup);
+    const header = dom.window.document.querySelector("header");
+    for (const nav of header.querySelectorAll("nav")) {
+      const resources = [...nav.querySelectorAll("a")].filter((link) =>
+        /\/(packages|downloads)\//.test(link.getAttribute("href")),
+      );
+      if (resources.length) {
+        nav.replaceChildren(...resources);
+        nav.setAttribute("aria-label", "Showcase resources");
+      } else nav.remove();
+    }
+    for (const link of header.querySelectorAll("a")) {
+      if (/^(All tools|Game kits)/i.test(link.textContent.trim())) link.remove();
+    }
+    const result = header.outerHTML;
+    dom.window.close();
+    return result;
+  });
   html = html.replace(/<nav class="collection-nav"[\s\S]*?<\/nav>/g, "");
   html = html
     .replace(
